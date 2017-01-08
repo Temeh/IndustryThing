@@ -1,0 +1,7 @@
+c:\users\pcpcpc\documents\visual studio 2010\Projects\IndustryThing\IndustryThing\obj\x86\Debug\IndustryThing.Properties.Resources.resources
+c:\users\pcpcpc\documents\visual studio 2010\Projects\IndustryThing\IndustryThing\obj\x86\Debug\IndustryThing.csproj.GenerateResource.Cache
+c:\users\pcpcpc\documents\visual studio 2010\Projects\IndustryThing\IndustryThing\bin\Debug\IndustryThing.exe
+c:\users\pcpcpc\documents\visual studio 2010\Projects\IndustryThing\IndustryThing\bin\Debug\IndustryThing.pdb
+c:\users\pcpcpc\documents\visual studio 2010\Projects\IndustryThing\IndustryThing\obj\x86\Debug\IndustryThing.exe
+c:\users\pcpcpc\documents\visual studio 2010\Projects\IndustryThing\IndustryThing\obj\x86\Debug\IndustryThing.pdb
+C:\Users\PCPCPC\Documents\Visual Studio 2010\Projects\IndustryThing\IndustryThing\obj\x86\Debug\IndustryThing.csprojResolveAssemblyReference.cache

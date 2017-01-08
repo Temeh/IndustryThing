@@ -1,0 +1,12 @@
+Industry:5
+AdvancedIndustry:5
+ScienceSkillOne:5
+ScienceSkillTwo:5
+buildtime:28
+facility:Sotiyo
+location:null
+moduleRig:2
+componentRig:1
+shipRig:1
+bpoME:10
+bpoTE:20

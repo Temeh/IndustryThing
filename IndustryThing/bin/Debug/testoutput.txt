@@ -1,0 +1,115 @@
+Morphite	1562342
+Plasma Thruster	15393
+Ion Thruster	38481
+R.A.M.- Armor/Hull Tech	30320
+10MN Afterburner I	3032
+Antimatter Reactor Unit	20523
+1200mm Artillery Cannon I	2021
+Robotics	313630
+Thermonuclear Trigger Unit	206922
+R.A.M.- Weapon Tech	60638
+Superconductor Rails	119161
+150mm Railgun I	6064
+250mm Light Artillery Cannon I	6064
+350mm Railgun I	2021
+650mm Artillery Cannon I	3032
+Hypersynaptic Fibers	3327078
+R.A.M.- Electronics	296662
+Arkonor Mining Crystal I	29566
+Bistot Mining Crystal I	29566
+Oscillator Capacitor Unit	21457
+Co-Processor I	6064
+Miniature Electronics	574649
+Photon Microprocessor	64135
+Crokite Mining Crystal I	29566
+Mechanical Parts	274962
+Plasma Pulse Generator	42735
+Construction Blocks	15393
+Fernite Carbide Composite Armor Plate	42914
+Quantum Microprocessor	226688
+Damage Control I	6064
+Dual 650mm Repeating Cannon I	2021
+Laser Focusing Crystals	278215
+Dual Light Beam Laser I	6064
+Particle Accelerator Unit	191892
+Electron Blaster Cannon I	2021
+Energized Armor Layering Membrane I	6064
+Tesseract Capacitor Unit	211299
+Tungsten Carbide Armor Plate	15393
+Titanium Diborite Armor Plate	30786
+Energized Kinetic Membrane I	6064
+Crystalline Carbonide Armor Plate	30786
+Tungsten Carbide	2175180
+Fullerides	1975494
+R.A.M.- Ammunition Tech	22167
+Gravimetric Sensor Cluster	266801
+Transmitter	182146
+Gravimetric ECM I	3032
+Gyrostabilizer I	6064
+Nanomechanical Microprocessor	190764
+Fernite Carbide	1500632
+Hammerhead I	9460
+Guidance Systems	72035
+R.A.M.- Robotics	18919
+Nanoelectrical Microprocessor	210364
+Heat Sink I	6064
+Heavy Beam Laser I	3032
+Heavy Electron Blaster I	3032
+Phenolic Composites	586740
+Rocket Fuel	1582653
+Ion Blaster Cannon I	2021
+Jaspet Mining Crystal I	29566
+Sustained Shield Emitter	82094
+Superconductors	271237
+Kinetic Deflection Amplifier I	3032
+R.A.M.- Shield Tech	36384
+Large Shield Booster I	3032
+Pulse Shield Emitter	143662
+Light Electron Blaster I	6064
+Magnetic Field Stabilizer I	6064
+Medium Armor Repairer I	3032
+Medium Cap Battery I	3032
+R.A.M.- Energy Tech	53316
+Medium Capacitor Booster I	3032
+Medium Energy Nosferatu I	3032
+Medium Proton Smartbomb I	3032
+Nuclear Pulse Generator	55788
+Medium Shield Booster I	6064
+Medium Shield Extender I	6064
+Hydrogen Batteries	46178
+Mega Beam Laser I	2021
+Miner I	6064
+EM Pulse Generator	42453
+Mobile Small Warp Disruptor I	1892
+Electronic Parts	6404
+Graviton Pulse Generator	95365
+Graviton Reactor Unit	9606
+Ogre I	3153
+Omber Mining Crystal I	29566
+Plagioclase Mining Crystal I	29566
+Power Diagnostic System I	6064
+Praetor I	3153
+Rapid Light Missile Launcher I	3032
+Reactor Control Unit I	6064
+Remote Sensor Dampener I	3032
+Ladar Sensor Cluster	20523
+Remote Tracking Computer I	3032
+Sensor Booster I	3032
+Shield Boost Amplifier I	3032
+Signal Amplifier I	30320
+Small Cap Battery I	6064
+Small Capacitor Booster I	6064
+Small EMP Smartbomb I	6064
+Small Focused Beam Laser I	6064
+Small Focused Pulse Laser I	6064
+Small Shield Booster I	6064
+Small Shield Extender I	6064
+Titanium Carbide	2000420
+Spodumain Mining Crystal I	29566
+Thermal Dissipation Field I	3032
+Thermal Plating I	6064
+Tracking Computer I	3032
+Magnetometric Sensor Cluster	15393
+Tracking Disruptor I	3032
+Tracking Enhancer I	12128
+Wasp I	3153

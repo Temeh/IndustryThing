@@ -1,0 +1,85 @@
+12059	10MN Afterburner II	
+2866	1200mm Artillery Cannon II	
+3075	150mm Railgun II	
+2906	250mm Light Artillery Cannon II	
+12357	350mm Railgun II	
+2922	650mm Artillery Cannon II	
+18591	Arkonor Mining Crystal II	
+18593	Bistot Mining Crystal II	
+11747	Co-Processor II	
+18595	Crokite Mining Crystal II	
+2049	Damage Control II	
+2954	Dual 650mm Repeating Cannon II	
+2994	Dual Light Beam Laser II	
+3123	Electron Blaster Cannon II	
+11240	Energized Armor Layering Membrane II	
+11250	Energized Kinetic Membrane II	
+12829	Gleam L	
+11787	Gravimetric ECM II	
+1095	Gyrostabilizer II	
+12778	Hail M	
+2186	Hammerhead II
+2186	Hammerhead II
+11795	Heat Sink II	
+3026	Heavy Beam Laser II	
+3131	Heavy Electron Blaster II	
+2638	Inferno Precision Cruise Missile	
+2812	Inferno Rage Torpedo	
+3155	Ion Blaster Cannon II	
+18605	Jaspet Mining Crystal II	
+2548	Kinetic Deflection Amplifier II	
+10859	Large Shield Booster II	
+3163	Light Electron Blaster II	
+10191	Magnetic Field Stabilizer II	
+3531	Medium Armor Repairer II	
+3497	Medium Cap Battery II	
+2025	Medium Capacitor Booster II	
+12260	Medium Energy Nosferatu II	
+3940	Medium Proton Smartbomb II	
+10851	Medium Shield Booster II	
+3832	Medium Shield Extender II	
+3050	Mega Beam Laser II	
+784	Miner II	
+24536	Mjolnir Fury Cruise Missile	
+26893	Mobile Small Warp Disruptor II
+26893	Mobile Small Warp Disruptor II
+2802	Nova Javelin Torpedo	
+2447	Ogre II	
+18611	Omber Mining Crystal II	
+18613	Plagioclase Mining Crystal II	
+1542	Power Diagnostic System II	
+2196	Praetor II	
+1878	Rapid Light Missile Launcher II	
+1356	Reactor Control Unit II	
+11804	Remote Sensor Dampener II	
+11851	Remote Tracking Computer II	
+24534	Scourge Fury Cruise Missile	
+24496	Scourge Fury Light Missile	
+24542	Scourge Precision Cruise Missile	
+24502	Scourge Precision Light Missile	
+24522	Scourge Rage Torpedo	
+11808	Sensor Booster II	
+24444	Shield Boost Amplifier II	
+11812	Signal Amplifier II
+11812	Signal Amplifier II
+11812	Signal Amplifier II
+11812	Signal Amplifier II
+11812	Signal Amplifier II	
+3489	Small Cap Battery II	
+3569	Small Capacitor Booster II	
+1566	Small EMP Smartbomb II	
+3034	Small Focused Beam Laser II	
+3042	Small Focused Pulse Laser II	
+1033	Small Shield Booster II	
+1013	Small Shield Extender II	
+12808	Spike L	
+12619	Spike S
+12619	Spike S
+18625	Spodumain Mining Crystal II	
+2304	Thermal Dissipation Field II	
+1297	Thermal Plating II	
+11840	Tracking Computer II	
+11844	Tracking Disruptor II	
+11848	Tracking Enhancer II	
+11848	Tracking Enhancer II
+2437	Wasp II	
