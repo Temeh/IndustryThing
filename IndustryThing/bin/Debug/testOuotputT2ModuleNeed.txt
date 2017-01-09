@@ -1,34 +1,3 @@
-Morphite	1562342
-Plasma Thruster	15393
-Ion Thruster	38481
-R.A.M.- Armor/Hull Tech	30320
-10MN Afterburner I	3032
-Antimatter Reactor Unit	20523
-1200mm Artillery Cannon I	2021
-Robotics	313630
-Thermonuclear Trigger Unit	206922
-R.A.M.- Weapon Tech	60638
-Superconductor Rails	119161
-150mm Railgun I	6064
-250mm Light Artillery Cannon I	6064
-350mm Railgun I	2021
-650mm Artillery Cannon I	3032
-Hypersynaptic Fibers	3327078
-R.A.M.- Electronics	296662
-Arkonor Mining Crystal I	29566
-Bistot Mining Crystal I	29566
-Oscillator Capacitor Unit	21457
-Co-Processor I	6064
-Miniature Electronics	574649
-Photon Microprocessor	64135
-Crokite Mining Crystal I	29566
-Mechanical Parts	274962
-Plasma Pulse Generator	42735
-Construction Blocks	15393
-Fernite Carbide Composite Armor Plate	42914
-Quantum Microprocessor	226688
-Damage Control I	6064
-Dual 650mm Repeating Cannon I	2021
 Laser Focusing Crystals	278215
 Dual Light Beam Laser I	6064
 Particle Accelerator Unit	191892

@@ -15,73 +15,43 @@ namespace IndustryThing.calculator
         int[,] tools;
         int[,] minerals;
         int[,] constructionComponents;
+        int[,] compopsites; //advanced materials
 
         public Calculator()
         {
             T2mods t2mods = new T2mods(dataBase);
-
             SortMaterials(t2mods.TotalModuleMats);
+            IntermediateBuilds t2Components = new IntermediateBuilds(constructionComponents, dataBase, "component");
+            IntermediateBuilds t1Mods = new IntermediateBuilds(t1Modules, dataBase, "module");
+            IntermediateBuilds toolmaker = new IntermediateBuilds(tools, dataBase, "component");
+            int[][,] temp = new int[][,] { minerals, compopsites, planetaryComodities,t2Components.TotalModuleMats, t1Mods.TotalModuleMats, toolmaker.TotalModuleMats };
+            ProductionMethods merger = new ProductionMethods();
 
-            StreamWriter sw = new StreamWriter("testoutput.txt");
+            StreamWriter sw = new StreamWriter("totalshitneed.txt");
             int i = 0;
-            while (i < t2mods.TotalModuleMats.Length / 2)
+            int[,] temp2 = merger.TotalModuleMaterials(temp);
+            while (i < temp2.Length / 2)
+            {
+                sw.WriteLine(dataBase.types.TypeName(temp2[i, 0]) + "	" + temp2[i, 1]);
+                i++;
+            }
+            sw.Close();
+             sw = new StreamWriter("testT2ModuleOutput.txt");
+        
+            while (i < t2mods. / 2)
             {
                 sw.WriteLine(dataBase.types.TypeName(t2mods.TotalModuleMats[i, 0]) + "	" + t2mods.TotalModuleMats[i, 1]);
                 i++;
             }
             sw.Close();
-
-
-
-
-
-         
-            
-
-          //  int i=0;
-            sw.WriteLine("t1modules");
-            while (i < t1Modules.Length / 2)
+            sw = new StreamWriter("testT2Components.txt");
+            i = 0;
+            while (i < planetaryComodities.Length / 2)
             {
-                sw.WriteLine(dataBase.types.TypeName(t1Modules[i, 0]) + "	" + t1Modules[i, 1]);
+                sw.WriteLine(dataBase.types.TypeName(planetaryComodities[i, 0]) + "	" + planetaryComodities[i, 1]);
                 i++;
             }
-             i = 0;
-             sw.WriteLine("t1Ships");
-             while (i < t1ships.Length / 2)
-            {
-                sw.WriteLine(dataBase.types.TypeName(t1ships[i, 0]) + "	" + t1ships[i, 1]);
-                i++;
-            }
-             i = 0;
-             sw.WriteLine("planetaryComodities");
-             while (i < planetaryComodities.Length / 2)
-             {
-                 sw.WriteLine(dataBase.types.TypeName(planetaryComodities[i, 0]) + "	" + planetaryComodities[i, 1]);
-                 i++;
-             }
-             i = 0;
-             sw.WriteLine("tools");
-             while (i < tools.Length / 2)
-             {
-                 sw.WriteLine(dataBase.types.TypeName(tools[i, 0]) + "	" + tools[i, 1]);
-                 i++;
-             }
-             i = 0;
-             sw.WriteLine("minerals");
-             while (i < minerals.Length / 2)
-             {
-                 sw.WriteLine(dataBase.types.TypeName(minerals[i, 0]) + "	" + minerals[i, 1]);
-                 i++;
-             }
-             i = 0;
-             sw.WriteLine("constructionComponents");
-             while (i < constructionComponents.Length / 2)
-             {
-                 sw.WriteLine(dataBase.types.TypeName(constructionComponents[i, 0]) + "	" + constructionComponents[i, 1]);
-                 i++;
-             }
             sw.Close();
-        
         }
         /// <summary>
         /// Sorts the materials needed for t2 into their respective groups
@@ -89,12 +59,13 @@ namespace IndustryThing.calculator
         void SortMaterials(int[,] totalMats)
         {
 
-           t1Modules = new int[256, 2]; int t1ModulesCount = 0;// categoryid=7
-          t1ships = new int[256, 2]; int t1shipsCount = 0;// categoryid=6
-           planetaryComodities = new int[256, 2]; int planetaryComoditiesCount = 0;// categoryid=43
-          tools = new int[256, 2]; int toolsCount = 0;// groupid=332
-           minerals = new int[256, 2]; int mineralsCount = 0;// groupid=18
-           constructionComponents = new int[256, 2]; int constructionComponentsCount = 0;// groupid=334
+            t1Modules = new int[256, 2]; int t1ModulesCount = 0;// categoryid=7
+            t1ships = new int[256, 2]; int t1shipsCount = 0;// categoryid=6
+            planetaryComodities = new int[256, 2]; int planetaryComoditiesCount = 0;// categoryid=43
+            tools = new int[256, 2]; int toolsCount = 0;// groupid=332
+            minerals = new int[256, 2]; int mineralsCount = 0;// groupid=18
+            constructionComponents = new int[256, 2]; int constructionComponentsCount = 0;// groupid=334
+            compopsites = new int[256, 2]; int compopsitesCount = 0; // groupip=429
             int i = 0;
             while (i < totalMats.Length / 2)
             {
@@ -134,6 +105,12 @@ namespace IndustryThing.calculator
                     constructionComponents[constructionComponentsCount, 0] = totalMats[i, 0];
                     constructionComponents[constructionComponentsCount, 1] = totalMats[i, 1];
                     constructionComponentsCount++;
+                }
+                if (dataBase.types.GroupID(id) == 429)
+                {
+                    compopsites[compopsitesCount, 0] = totalMats[i, 0];
+                    compopsites[compopsitesCount, 1] = totalMats[i, 1];
+                    compopsitesCount++;
                 }
                 i++;
             }

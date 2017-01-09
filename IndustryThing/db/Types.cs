@@ -9,23 +9,23 @@ namespace IndustryThing.db
     class Types
     {
         static int highestExpectedTypeid = 500000;
-        bool[] typeId = new bool[highestExpectedTypeid];
-       private int[] groupId = new int[highestExpectedTypeid];
+        private bool[] typeId = new bool[highestExpectedTypeid];
+        private int[] groupId = new int[highestExpectedTypeid];
         public int GroupID(int i) { return groupId[i]; }
-        string[] typeName = new string[highestExpectedTypeid];
+        private string[] typeName = new string[highestExpectedTypeid];
         public string TypeName(int id) { return typeName[id]; }
-        string[] description = new string[highestExpectedTypeid];
-        string[] mass = new string[highestExpectedTypeid];
-        string[] volume = new string[highestExpectedTypeid];
-        decimal[] capacity = new decimal[highestExpectedTypeid];
-        int[] PortionSize = new int[highestExpectedTypeid];
-        int[] raceId = new int[highestExpectedTypeid];
-        decimal[] basePrice = new decimal[highestExpectedTypeid];
-        int[] published = new int[highestExpectedTypeid];
-        int[] marketGroupId = new int[highestExpectedTypeid];
-        int[] iconId = new int[highestExpectedTypeid];
-        int[] soundId = new int[highestExpectedTypeid];
-        int[] graphicId = new int[highestExpectedTypeid];
+        private string[] description = new string[highestExpectedTypeid];
+        private string[] mass = new string[highestExpectedTypeid];
+        private string[] volume = new string[highestExpectedTypeid];
+        private decimal[] capacity = new decimal[highestExpectedTypeid];
+        private int[] PortionSize = new int[highestExpectedTypeid];
+        private int[] raceId = new int[highestExpectedTypeid];
+        private decimal[] basePrice = new decimal[highestExpectedTypeid];
+        private int[] published = new int[highestExpectedTypeid];
+        private int[] marketGroupId = new int[highestExpectedTypeid];
+        private int[] iconId = new int[highestExpectedTypeid];
+        private int[] soundId = new int[highestExpectedTypeid];
+        private int[] graphicId = new int[highestExpectedTypeid];
 
         public Types()
         {
@@ -63,7 +63,6 @@ namespace IndustryThing.db
                 line = line.Substring(line.IndexOf("	") + 1);
                 line = sr.ReadLine();
             }
-
         }
     }
 }

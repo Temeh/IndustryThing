@@ -48,7 +48,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="calculator\Calculator.cs" />
-    <Compile Include="calculator\T1mods.cs" />
+    <Compile Include="calculator\ProductionMethods.cs" />
+    <Compile Include="calculator\IntermediateBuilds.cs" />
     <Compile Include="calculator\T2mods.cs" />
     <Compile Include="db\Bpo.cs" />
     <Compile Include="db\CategoryIDs.cs" />

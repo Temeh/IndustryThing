@@ -8,9 +8,9 @@ namespace IndustryThing.db
 {
     class GroupIDs : Misc.UsefullMethods
     {
-        static int highestExpectedIDs = 500000;
-        bool[] anchorable = new bool[highestExpectedIDs];
-        bool[] anchored = new bool[highestExpectedIDs];
+        private static int highestExpectedIDs = 500000;
+        private bool[] anchorable = new bool[highestExpectedIDs];
+        private bool[] anchored = new bool[highestExpectedIDs];
         private int[] categoryID = new int[highestExpectedIDs];
         /// <summary>
         /// takes the groupID and finds the items Category ID
@@ -18,16 +18,16 @@ namespace IndustryThing.db
         /// <param name="id"></param>
         /// <returns></returns>
         public int CategoryID(int id) { return categoryID[id]; }
-        bool[] fittableNonSingleton = new bool[highestExpectedIDs];
-        string[][] name = new string[highestExpectedIDs][];
+        private bool[] fittableNonSingleton = new bool[highestExpectedIDs];
+        private string[][] name = new string[highestExpectedIDs][];
         /// <summary>
         /// Shows the name of the group
         /// input one = groupID
         /// input two = language: 0=en, 1=de, 2=fr, 3=ja, 4=ru, 5=zh
         /// </summary>
-       public string Name(int groupID, int language) { return name[groupID][language]; }
-        bool[] published = new bool[highestExpectedIDs];
-        bool[] useBasePrice = new bool[highestExpectedIDs];
+        public string Name(int groupID, int language) { return name[groupID][language]; }
+        private bool[] published = new bool[highestExpectedIDs];
+        private bool[] useBasePrice = new bool[highestExpectedIDs];
 
         public GroupIDs()
         {

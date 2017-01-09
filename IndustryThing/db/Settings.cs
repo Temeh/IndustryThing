@@ -27,21 +27,27 @@ namespace IndustryThing.db
         public decimal FacilityMaterialModifier { get { return facilityMaterialModifier; } }
 
         private decimal locationModifier;
-
         private decimal moduleRigSpeedBonus;
-        public decimal ModuleRigSpeedModifier { get { return 1 - (moduleRigSpeedBonus * locationModifier); } }
         private decimal moduleRigMaterialBonus;
-        public decimal ModuleRigMaterialModifier { get { return 1 - (moduleRigMaterialBonus * locationModifier); } }
-
         private decimal componentRigSpeedBonus;
-        public decimal ComponentRigSpeedModifier { get { return 1 - (componentRigSpeedBonus * locationModifier); } }
         private decimal componentRigMaterialBonus;
-        public decimal ComponentRigMaterialModifier { get { return 1 - (componentRigMaterialBonus * locationModifier); } }
-
         private decimal shipRigSpeedBonus;
-        public decimal ShipRigSpeedModifier { get { return 1 - (shipRigSpeedBonus * locationModifier); } }
         private decimal shipRigMaterialBonus;
-        public decimal ShipRigMaterialModifier { get { return 1 - (shipRigMaterialBonus * locationModifier); } }
+        public decimal RigSpeedModifier(string rig) 
+        {
+            if (rig == "module") return 1 - (moduleRigSpeedBonus * locationModifier);
+            else if (rig == "component") return 1 - (componentRigSpeedBonus * locationModifier);
+            else if (rig == "ship") return 1 - (shipRigSpeedBonus * locationModifier);
+            else return 1;
+        }
+    
+        public decimal RigMaterialModifier(string rig) 
+        {
+            if (rig == "module") return 1 - (moduleRigMaterialBonus * locationModifier);
+            else if (rig == "component") return 1 - (componentRigMaterialBonus * locationModifier);
+            else if (rig == "ship") return 1 - (shipRigMaterialBonus * locationModifier);
+            else return 1;
+        }
 
         private decimal materialEfficiency;
         public decimal MaterialEfficiencyModifier { get { return 1 - (materialEfficiency / 100); } }

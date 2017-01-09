@@ -9,18 +9,18 @@ namespace IndustryThing.db
 {
     class Bpo : Misc.UsefullMethods
     {
-        static int highestItemId = 50000; //highest expected itemId to be found in the file
+       private static int highestItemId = 500000; //highest expected itemId to be found in the file
 
-        string[] itemName = new string[highestItemId];
+       private string[] itemName = new string[highestItemId];
 
-        int[][,] copyMats = new int[highestItemId][,];
-        int[][,] copySkills = new int[highestItemId][,];
-        int[] copyTime = new int[highestItemId];
+       private int[][,] copyMats = new int[highestItemId][,];
+       private int[][,] copySkills = new int[highestItemId][,];
+       private int[] copyTime = new int[highestItemId];
 
-        int[][,] inventionMats = new int[highestItemId][,];
-        int[][,] inventionOutput = new int[highestItemId][,];
-        int[][,] inventionSkills = new int[highestItemId][,];
-        int[] inventionTime = new int[highestItemId];
+       private int[][,] inventionMats = new int[highestItemId][,];
+       private int[][,] inventionOutput = new int[highestItemId][,];
+       private int[][,] inventionSkills = new int[highestItemId][,];
+       private int[] inventionTime = new int[highestItemId];
 
         private int[][,] manufacturingMats = new int[highestItemId][,];
         public int[,] ManufacturingMats(int id) { return manufacturingMats[id].Clone() as int[,]; }
@@ -30,17 +30,17 @@ namespace IndustryThing.db
         private int[] manufacturingTime = new int[highestItemId];
         public int ManufacturingTime(int id) { return manufacturingTime[id]; }
 
-        int[][,] researchMEMats = new int[highestItemId][,];
-        int[][,] researchMESkills = new int[highestItemId][,];
-        int[] researchMETime = new int[highestItemId];
+        private int[][,] researchMEMats = new int[highestItemId][,];
+        private int[][,] researchMESkills = new int[highestItemId][,];
+        private int[] researchMETime = new int[highestItemId];
 
-        int[][,] researchTEMats = new int[highestItemId][,];
-        int[][,] researchTESkills = new int[highestItemId][,];
-        int[] researchTETime = new int[highestItemId];
+        private int[][,] researchTEMats = new int[highestItemId][,];
+        private int[][,] researchTESkills = new int[highestItemId][,];
+        private int[] researchTETime = new int[highestItemId];
 
-        static public int[] maxProductionLimit = new int[highestItemId];
-        string line;
-        StreamReader sr = new StreamReader("blueprints.yaml");
+        static private int[] maxProductionLimit = new int[highestItemId];
+        private string line;
+        private StreamReader sr = new StreamReader("blueprints.yaml");
 
         public Bpo()
         {

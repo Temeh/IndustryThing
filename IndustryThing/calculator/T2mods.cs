@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO; // debugger
 
 namespace IndustryThing.calculator
 {
@@ -22,10 +23,6 @@ namespace IndustryThing.calculator
             int i = 0;
             while (i < dataBase.t2bpoOwned.Index()) // adds amounts
             {
-                if (i == 20)// test code
-                {
-                    string test = "hjh";
-                }
                 int bpoid = dataBase.t2bpoOwned.Bpo(i);
                 moduleAmounts[i] = GetBuildAmount(bpoid);
                 moduleMats[i] = dataBase.bpo.ManufacturingMats(bpoid);
@@ -53,7 +50,7 @@ namespace IndustryThing.calculator
             decimal advIndustry = 1 - Convert.ToDecimal(0.03) * dataBase.settings.AdvancedIndustryLevel;
             decimal scienceSkillOne = 1 - Convert.ToDecimal(0.01) * dataBase.settings.ScienceSkillOneLevel;
             decimal scienceSkillTwo = 1 - Convert.ToDecimal(0.01) * dataBase.settings.ScienceSkillTwoLevel;
-            decimal rigModifier = dataBase.settings.ModuleRigSpeedModifier;
+            decimal rigModifier = dataBase.settings.RigSpeedModifier("module");
             decimal facilityBonus = dataBase.settings.FacilitySpeedModifier;
             decimal timeEfficiency = dataBase.settings.TimeEfficiencyModifier;
 
@@ -66,7 +63,7 @@ namespace IndustryThing.calculator
         }
         decimal MaterialModifier()
         {
-            return dataBase.settings.FacilityMaterialModifier * dataBase.settings.ModuleRigMaterialModifier * dataBase.settings.MaterialEfficiencyModifier;
+            return dataBase.settings.FacilityMaterialModifier * dataBase.settings.RigMaterialModifier("module") * dataBase.settings.MaterialEfficiencyModifier;
         }
 
         void TotalModuleMaterials()
@@ -79,13 +76,7 @@ namespace IndustryThing.calculator
                 int j = 0;
                 while (j < moduleMats[i].Length / 2)
                 {
-                    if (CheckForExistingItem(moduleMats[i][j, 0])) { 
-                        if(moduleMats[i][j, 0]==11399)// test code please delete
-                        {
-                            int test = moduleMats[i][j, 1];
-                        }
-                        totalModuleMats[FindItemLocation(moduleMats[i][j, 0]), 1] += moduleMats[i][j, 1]; 
-                    }
+                    if (CheckForExistingItem(moduleMats[i][j, 0])) { totalModuleMats[FindItemLocation(moduleMats[i][j, 0]), 1] += moduleMats[i][j, 1]; }
                     else { totalModuleMats[count, 0] = moduleMats[i][j, 0]; totalModuleMats[count, 1] = moduleMats[i][j, 1]; count++; }
                     j++;
                 }
@@ -139,9 +130,9 @@ namespace IndustryThing.calculator
         /// <param name="i"></param>
         void FindCategoryForBlueprintsOutputItem(int i)
         {
-           // int outputItemId = dataBase.bpo.manufacturingOutput[i][0, 0];
-           // int outputsGroup = dataBase.types.GroupID(outputItemId);
-          //  string categoryname = dataBase.categoryIDs.Name(dataBase.groupIDs.CategoryID(dataBase.types.GroupID(outputItemId)), 0);
+            //  int outputItemId = dataBase.bpo.manufacturingOutput[i][0, 0];
+            //  int outputsGroup = dataBase.types.GroupID(outputItemId);
+            //   string categoryname = dataBase.categoryIDs.Name(dataBase.groupIDs.CategoryID(dataBase.types.GroupID(outputItemId)), 0);
         }
     }
 }

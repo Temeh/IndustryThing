@@ -8,13 +8,13 @@ namespace IndustryThing.db
 {
     class CategoryIDs : Misc.UsefullMethods
     {
-        static int highestExpectedIDs = 500000;
+        private static int highestExpectedIDs = 500000;
         /// <summary>
         /// 0=en, 1=de, 2=fr, 3=ja, 4=ru, 5=zh
         /// </summary>
         private string[][] name = new string[highestExpectedIDs][];
         public string Name(int id, int language) { return name[id][language]; }
-        bool[] published = new bool[highestExpectedIDs];
+        private bool[] published = new bool[highestExpectedIDs];
 
         public CategoryIDs()
         {
