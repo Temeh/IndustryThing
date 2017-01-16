@@ -1,8 +1,0 @@
-Robotics	313630
-Miniature Electronics	574649
-Mechanical Parts	274962
-Construction Blocks	15393
-Transmitter	182146
-Guidance Systems	72035
-Rocket Fuel	1582653
-Superconductors	271237

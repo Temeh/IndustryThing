@@ -11,10 +11,13 @@ namespace IndustryThing.calculator
     /// </summary>
     class ProductionMethods
     {
+        Market.Market market;
+        db.Db dataBase;
 
-        public ProductionMethods()
+        public ProductionMethods(Market.Market market, db.Db dataBase)
         {
-
+            this.dataBase = dataBase;
+            this.market = market;
         }
 
         /// <summary>
@@ -33,7 +36,7 @@ namespace IndustryThing.calculator
                 {
                     if (CheckForExistingItem(moduleMats[i][j, 0], totalModuleMats))
                     {
-                        totalModuleMats[FindItemLocation(moduleMats[i][j, 0],totalModuleMats), 1] += moduleMats[i][j, 1];
+                        totalModuleMats[FindItemLocation(moduleMats[i][j, 0], totalModuleMats), 1] += moduleMats[i][j, 1];
                     }
                     else { totalModuleMats[count, 0] = moduleMats[i][j, 0]; totalModuleMats[count, 1] = moduleMats[i][j, 1]; count++; }
                     j++;
@@ -56,7 +59,7 @@ namespace IndustryThing.calculator
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        private bool CheckForExistingItem(int id, int[,]totalModuleMats)
+        private bool CheckForExistingItem(int id, int[,] totalModuleMats)
         {
             int i = 0;
             while (i < (totalModuleMats.Length / 2))
@@ -82,5 +85,41 @@ namespace IndustryThing.calculator
             }
             return -1;// this is probably bad code but should never be triggered!
         }
+
+        protected decimal FindCosts(int[,] materials)
+        {
+            int i = 0; decimal cost = 0;
+            while (i < materials.Length / 2)
+            {
+                decimal temp = market.FindPrice(dataBase.settings.MarketRegion, "buy", materials[i, 0]) * materials[i, 1];
+                cost += market.FindPrice(dataBase.settings.MarketRegion, "buy", materials[i, 0]) * materials[i, 1];
+                i++;
+            }
+            return cost;
+        }
+
+        /// <summary>
+        /// Takes a bpoID and finds the install cost for one run.
+        /// </summary>
+        /// <param name="mats">the bpoID</param>
+        /// <returns>The install cost</returns>
+        protected decimal FindInstallCost(int bpoID)
+        {
+            //finds baseCost of an item
+            decimal baseCost = 0;
+            int[,] mats = dataBase.bpo.ManufacturingMats(bpoID);
+            int i = 0;
+            while (i < mats.Length / 2)
+            {
+                baseCost += market.FindAdjustedPrice(mats[i, 0]) * mats[i, 1];
+                i++;
+            }
+            // .95 modifier comes from sotiyo bonus
+            decimal installCost = baseCost * Convert.ToDecimal(0.95)*market.FindSystemIndexManufacturing();
+            installCost = installCost * ((100 + dataBase.settings.FacilityTax) / 100);
+
+            return installCost;
+        }
+
     }
 }

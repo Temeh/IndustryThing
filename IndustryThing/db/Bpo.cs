@@ -24,8 +24,15 @@ namespace IndustryThing.db
 
         private int[][,] manufacturingMats = new int[highestItemId][,];
         public int[,] ManufacturingMats(int id) { return manufacturingMats[id].Clone() as int[,]; }
+        /// <summary>
+        /// [][,0] = typeID, [][,1] = quantity
+        /// </summary>
         private int[][,] manufacturingOutput = new int[highestItemId][,];
-        public int[,] ManufacturingOutput(int id) { return manufacturingOutput[id]; }
+        public int[,] ManufacturingOutput(int id)
+        {
+            if (manufacturingOutput[id] == null) return null;
+            return manufacturingOutput[id].Clone() as int[,]; ;
+        }
         int[][,] manufacturingSkills = new int[highestItemId][,];
         private int[] manufacturingTime = new int[highestItemId];
         public int ManufacturingTime(int id) { return manufacturingTime[id]; }

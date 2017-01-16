@@ -5,18 +5,24 @@ using System.Text;
 
 namespace IndustryThing.calculator
 {
-    class IntermediateBuilds:ProductionMethods
+    class IntermediateBuilder:ProductionMethods
     {
         private db.Db dataBase;
+        private Market.Market market;
         private int[][,] moduleMats;
-        private int[,] totalModuleMats;
-        public int[,] TotalModuleMats { get { return totalModuleMats; } }
+        private int[,] totalMats;
+        public int[,] TotalMats { get { return totalMats; } }
         private int[] moduleAmounts;
         private decimal materialModifier;
         private string rigTypeUsed;
+        private decimal costOfMats;
+        public decimal CostOfMats { get { return costOfMats; } }
+        private decimal installCost;
+        public decimal InstallCost { get { return installCost; } }
 
-        public IntermediateBuilds(int[,] buildlist, db.Db data, string rigGroup)
+        public IntermediateBuilder(int[,] buildlist, db.Db data, string rigGroup, Market.Market market):base(market, data)
         {
+            this.market = market;
             rigTypeUsed = rigGroup;
             dataBase = data;
             int i = 0;
@@ -27,7 +33,8 @@ namespace IndustryThing.calculator
                 i++;
             }
             moduleMats = GetMaterialBill(buildlist);
-            totalModuleMats = TotalModuleMaterials(moduleMats);
+            totalMats = TotalModuleMaterials(moduleMats);
+            costOfMats = FindCosts(totalMats);
         }
 
         /// <summary>
@@ -48,10 +55,11 @@ namespace IndustryThing.calculator
                 while (j < (moduleMats[i].Length / 2))
                 {
                     if (moduleMats[i][j, 1] == 1) moduleMats[i][j, 1] = Convert.ToInt32(Math.Ceiling(moduleMats[i][j, 1] * moduleAmounts[i] * 1.0));
-
                     else moduleMats[i][j, 1] = Convert.ToInt32(Math.Ceiling(moduleMats[i][j, 1] * moduleAmounts[i] * MaterialModifier()));
                     j++;
                 }
+                installCost += FindInstallCost(bpoid) * moduleAmounts[i];
+
                 i++;
             }
             return moduleMats;
@@ -80,6 +88,7 @@ namespace IndustryThing.calculator
                 i++;
             }
         }
+
 
     }
 }

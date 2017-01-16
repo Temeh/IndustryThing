@@ -54,6 +54,12 @@ namespace IndustryThing.db
         private decimal timeEfficiency;
         public decimal TimeEfficiencyModifier { get { return 1 - (timeEfficiency / 100); } }
 
+        private string marketRegion;
+        public string MarketRegion { get { return marketRegion; } }
+        private int productionSystem;
+        public int ProductionSystem { get { return productionSystem; } }
+        private decimal facilityTax;
+        public decimal FacilityTax { get { return facilityTax; } }
 
         public Settings()
         {
@@ -100,6 +106,9 @@ namespace IndustryThing.db
                 }
                 else if (line.Substring(0, line.IndexOf(":")) == "bpoME") materialEfficiency = Convert.ToInt32(line.Substring(line.IndexOf(":") + 1));
                 else if (line.Substring(0, line.IndexOf(":")) == "bpoTE") timeEfficiency = Convert.ToInt32(line.Substring(line.IndexOf(":") + 1));
+                else if (line.Substring(0, line.IndexOf(":")) == "marketRegion") marketRegion=line.Substring(line.IndexOf(":") + 1);
+                else if (line.Substring(0, line.IndexOf(":")) == "productionSystem") productionSystem =Convert.ToInt32( line.Substring(line.IndexOf(":") + 1));
+                else if (line.Substring(0, line.IndexOf(":")) == "facilityTax") facilityTax = Convert.ToDecimal(line.Substring(line.IndexOf(":") + 1));
             }
         }
     }

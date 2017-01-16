@@ -49,8 +49,11 @@
   <ItemGroup>
     <Compile Include="calculator\Calculator.cs" />
     <Compile Include="calculator\ProductionMethods.cs" />
-    <Compile Include="calculator\IntermediateBuilds.cs" />
-    <Compile Include="calculator\T2mods.cs" />
+    <Compile Include="calculator\IntermediateBuilder.cs" />
+    <Compile Include="calculator\T2Builder.cs" />
+    <Compile Include="Market\CostIndices.cs" />
+    <Compile Include="Market\ItemValues.cs" />
+    <Compile Include="Market\Market.cs" />
     <Compile Include="db\Bpo.cs" />
     <Compile Include="db\CategoryIDs.cs" />
     <Compile Include="db\Db.cs" />
@@ -59,6 +62,8 @@
     <Compile Include="db\Settings.cs" />
     <Compile Include="db\T2ModBpoOwned.cs" />
     <Compile Include="db\Types.cs" />
+    <Compile Include="Market\MarketPrices.cs" />
+    <Compile Include="Market\Region.cs" />
     <Compile Include="Misc\UsefullMethods.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -66,6 +71,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Output\Output.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -86,15 +92,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Resources\blueprints.yaml" />
-    <None Include="Resources\categoryIDs.yaml" />
-    <None Include="Resources\groupIDs.yaml" />
-    <None Include="Resources\invTypeMaterials.yaml" />
+    <None Include="db\Resources\blueprints.yaml" />
+    <None Include="db\Resources\categoryIDs.yaml" />
+    <None Include="db\Resources\groupIDs.yaml" />
+    <None Include="db\Resources\invTypeMaterials.yaml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\invTypes.txt" />
-    <Content Include="Resources\settings.txt" />
-    <Content Include="Resources\t2ModBpoOwned.txt" />
+    <Content Include="db\Resources\invTypes.txt" />
+    <Content Include="db\Resources\settings.txt" />
+    <Content Include="db\Resources\t2ModBpoOwned.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

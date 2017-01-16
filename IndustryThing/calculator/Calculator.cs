@@ -8,7 +8,8 @@ namespace IndustryThing.calculator
 {
     class Calculator
     {
-        db.Db dataBase = new db.Db();
+        db.Db dataBase;
+        Market.Market market;
         int[,] t1Modules;
         int[,] t1ships;
         int[,] planetaryComodities;
@@ -19,46 +20,18 @@ namespace IndustryThing.calculator
 
         public Calculator()
         {
-            T2mods t2mods = new T2mods(dataBase);
-            SortMaterials(t2mods.TotalModuleMats);
-            IntermediateBuilds t2Components = new IntermediateBuilds(constructionComponents, dataBase, "component");
-            IntermediateBuilds t1Mods = new IntermediateBuilds(t1Modules, dataBase, "module");
-            IntermediateBuilds toolmaker = new IntermediateBuilds(tools, dataBase, "component");
-            int[][,] temp = new int[][,] { minerals, compopsites, planetaryComodities,t2Components.TotalModuleMats, t1Mods.TotalModuleMats, toolmaker.TotalModuleMats };
-            ProductionMethods merger = new ProductionMethods();
-
-            StreamWriter sw = new StreamWriter("totalshitneed.txt");
-            int i = 0;
-            int[,] temp2 = merger.TotalModuleMaterials(temp);
-            while (i < temp2.Length / 2)
-            {
-                sw.WriteLine(dataBase.types.TypeName(temp2[i, 0]) + "	" + temp2[i, 1]);
-                i++;
-            }
-            sw.Close();
-             sw = new StreamWriter("testT2ModuleOutput.txt");
-        
-            while (i < t2mods. / 2)
-            {
-                sw.WriteLine(dataBase.types.TypeName(t2mods.TotalModuleMats[i, 0]) + "	" + t2mods.TotalModuleMats[i, 1]);
-                i++;
-            }
-            sw.Close();
-            sw = new StreamWriter("testT2Components.txt");
-            i = 0;
-            while (i < planetaryComodities.Length / 2)
-            {
-                sw.WriteLine(dataBase.types.TypeName(planetaryComodities[i, 0]) + "	" + planetaryComodities[i, 1]);
-                i++;
-            }
-            sw.Close();
+            dataBase = new db.Db();
+            market = new Market.Market(dataBase);
+            T2Builder t2mods = new T2Builder(dataBase, market);
+            Output.Output output = new Output.Output(t2mods.OutputName, t2mods.Output,t2mods.OutputTotalCost, t2mods.OutputTotalValue);
+           
         }
-        /// <summary>
-        /// Sorts the materials needed for t2 into their respective groups
+        /// <summary>//this is on the way to removal?
+        /// Takes a 2D array that contains all the items needed for building t2 items, and distributes them over several 2d arrays indicating 
         /// </summary>
+        /// <param name="totalMats">first dimension is the item, second dimension is 0=ItemID, 1=amount</param>
         void SortMaterials(int[,] totalMats)
         {
-
             t1Modules = new int[256, 2]; int t1ModulesCount = 0;// categoryid=7
             t1ships = new int[256, 2]; int t1shipsCount = 0;// categoryid=6
             planetaryComodities = new int[256, 2]; int planetaryComoditiesCount = 0;// categoryid=43
@@ -122,11 +95,11 @@ namespace IndustryThing.calculator
             constructionComponents = itemArrayCleanup(constructionComponents, constructionComponentsCount);
         }
 
-        /// <summary>
+        /// <summary>//also on the way to removal?
         /// Reduses the size of an array with empty space to a proper size
         /// </summary>
-        /// <param name="mats"></param>
-        /// <param name="count"></param>
+        /// <param name="mats">2d int array containing TypeID and amount</param>
+        /// <param name="count">int to spesify size of new array</param>
         /// <returns></returns>
         int[,] itemArrayCleanup(int[,] mats, int count)
         {

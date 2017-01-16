@@ -10,3 +10,6 @@ componentRig:1
 shipRig:1
 bpoME:10
 bpoTE:20
+marketRegion:the forge
+productionSystem:30004734
+facilityTax:4
