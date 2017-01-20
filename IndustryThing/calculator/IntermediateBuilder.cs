@@ -5,13 +5,13 @@ using System.Text;
 
 namespace IndustryThing.calculator
 {
-    class IntermediateBuilder:ProductionMethods
+    class IntermediateBuilder : ProductionMethods
     {
         private db.Db dataBase;
         private Market.Market market;
-        private int[][,] moduleMats;
-        private int[,] totalMats;
-        public int[,] TotalMats { get { return totalMats; } }
+        private long[][,] moduleMats;
+        private long[,] totalMats;
+        public long[,] TotalMats { get { return totalMats; } }
         private int[] moduleAmounts;
         private decimal materialModifier;
         private string rigTypeUsed;
@@ -20,16 +20,17 @@ namespace IndustryThing.calculator
         private decimal installCost;
         public decimal InstallCost { get { return installCost; } }
 
-        public IntermediateBuilder(int[,] buildlist, db.Db data, string rigGroup, Market.Market market):base(market, data)
+        public IntermediateBuilder(long[,] buildlist, db.Db data, string rigGroup, Market.Market market)
+            : base(market, data)
         {
             this.market = market;
             rigTypeUsed = rigGroup;
             dataBase = data;
             int i = 0;
-            moduleMats = new int[buildlist.Length/2][,];
+            moduleMats = new long[buildlist.Length / 2][,];
             while (i < (buildlist.Length / 2))
             {
-                buildlist[i, 0] = FindBpoTypeIdForItem(buildlist[i, 0]);
+                buildlist[i, 0] = FindBpoTypeIdForItem(Convert.ToInt32(buildlist[i, 0]));
                 i++;
             }
             moduleMats = GetMaterialBill(buildlist);
@@ -41,16 +42,22 @@ namespace IndustryThing.calculator
         /// takes a 2d int with bpoID's and amount of units needed and produces a list of materials needed
         /// </summary>
         /// <returns></returns>
-        protected int[][,] GetMaterialBill(int[,] buildList)
+        protected long[][,] GetMaterialBill(long[,] buildList)
         {
             int i = 0;
             int[] moduleAmounts = new int[buildList.Length / 2];
-            int[][,] moduleMats = new int[buildList.Length / 2][,];
+            long[][,] moduleMats = new long[buildList.Length / 2][,];
             while (i < buildList.Length / 2) // adds amounts
             {
-                int bpoid = buildList[i, 0];
-                moduleAmounts[i] = buildList[i, 1];
-                moduleMats[i] = dataBase.bpo.ManufacturingMats(bpoid);
+                int bpoid = Convert.ToInt32(buildList[i, 0]);
+                moduleAmounts[i] = Convert.ToInt32(buildList[i, 1]);
+                int[,] temp = dataBase.bpo.ManufacturingMats(bpoid);
+                moduleMats[i] = new long[temp.Length / 2, 2];
+                for (int k = 0; k < temp.Length/2; k++)
+                {
+                    moduleMats[i][k, 0] = temp[k, 0];
+                    moduleMats[i][k, 1] = temp[k, 1];
+                }
                 int j = 0;
                 while (j < (moduleMats[i].Length / 2))
                 {
@@ -59,7 +66,6 @@ namespace IndustryThing.calculator
                     j++;
                 }
                 installCost += FindInstallCost(bpoid) * moduleAmounts[i];
-
                 i++;
             }
             return moduleMats;

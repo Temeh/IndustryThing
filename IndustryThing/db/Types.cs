@@ -8,15 +8,16 @@ namespace IndustryThing.db
 {
     class Types
     {
-        static int highestExpectedTypeid = 500000;
+        static long highestExpectedTypeid = 500000;
         private bool[] typeId = new bool[highestExpectedTypeid];
         private int[] groupId = new int[highestExpectedTypeid];
         public int GroupID(int i) { return groupId[i]; }
         private string[] typeName = new string[highestExpectedTypeid];
-        public string TypeName(int id) { return typeName[id]; }
+        public string TypeName(long id) { return typeName[id]; }
         private string[] description = new string[highestExpectedTypeid];
         private string[] mass = new string[highestExpectedTypeid];
-        private string[] volume = new string[highestExpectedTypeid];
+        private decimal[] volume = new decimal[highestExpectedTypeid];
+        public decimal Volume(int id) {  return volume[id];  }
         private decimal[] capacity = new decimal[highestExpectedTypeid];
         private int[] PortionSize = new int[highestExpectedTypeid];
         private int[] raceId = new int[highestExpectedTypeid];
@@ -44,7 +45,7 @@ namespace IndustryThing.db
                     else line = line + sr.ReadLine();
                 }
                 mass[id] = line.Substring(0, line.IndexOf("	")); line = line.Substring(line.IndexOf("	") + 1);
-                volume[id] = line.Substring(0, line.IndexOf("	")); line = line.Substring(line.IndexOf("	") + 1);
+                volume[id] =Convert.ToDecimal( line.Substring(0, line.IndexOf("	"))); line = line.Substring(line.IndexOf("	") + 1);
                 capacity[id] = Convert.ToDecimal(line.Substring(0, line.IndexOf("	"))); line = line.Substring(line.IndexOf("	") + 1);
                 PortionSize[id] = Convert.ToInt32(line.Substring(0, line.IndexOf("	"))); line = line.Substring(line.IndexOf("	") + 1);
                 if (line.IndexOf("	") > 0) raceId[id] = Convert.ToInt32(line.Substring(0, line.IndexOf("	")));

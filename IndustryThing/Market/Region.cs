@@ -21,7 +21,7 @@ namespace IndustryThing.Market
 
         }
 
-        public decimal GetPrice(int typeID, string orderType)
+        public decimal GetPrice(long typeID, string orderType)
         {
             int i=0;
             while (i < count)

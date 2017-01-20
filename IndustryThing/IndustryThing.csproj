@@ -47,6 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\ApiImport.cs" />
+    <Compile Include="Assets\Assets.cs" />
     <Compile Include="calculator\Calculator.cs" />
     <Compile Include="calculator\ProductionMethods.cs" />
     <Compile Include="calculator\IntermediateBuilder.cs" />
@@ -71,7 +73,10 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Output\IntermediaryTableBuilder.cs" />
     <Compile Include="Output\Output.cs" />
+    <Compile Include="Output\OutputTableBuilder.cs" />
+    <Compile Include="Output\RawMaterialTableBuilder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

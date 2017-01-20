@@ -23,7 +23,7 @@ namespace IndustryThing.calculator
             dataBase = new db.Db();
             market = new Market.Market(dataBase);
             T2Builder t2mods = new T2Builder(dataBase, market);
-            Output.Output output = new Output.Output(t2mods.OutputName, t2mods.Output,t2mods.OutputTotalCost, t2mods.OutputTotalValue);
+            Output.Output output = new Output.Output(t2mods, dataBase, market);
            
         }
         /// <summary>//this is on the way to removal?

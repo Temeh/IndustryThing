@@ -9,8 +9,8 @@ namespace IndustryThing.Market
 {
     class ItemValues
     {
-        private int typeID;
-        public int TypeID { get { return typeID; } }
+        private long typeID;
+        public long TypeID { get { return typeID; } }
         private int regionID;
         private decimal sellPrice;
         public decimal SellPrice { get { return sellPrice; } }
@@ -20,7 +20,7 @@ namespace IndustryThing.Market
         Orders orders;
 
 
-        public ItemValues(int id, int regionID)
+        public ItemValues(long id, int regionID)
         {
             typeID = id;
             this.regionID = regionID;
@@ -34,7 +34,7 @@ namespace IndustryThing.Market
     class Orders
     {
         long[] orderId;
-        int[] typeId;
+        long[] typeId;
         long[] locationId;
         int[] volumeTotal;
         int[] volumeRemain;
@@ -48,7 +48,7 @@ namespace IndustryThing.Market
         int regionID;
         int page = 1; // 1 is deafult value for now as its not really used yet!
 
-        public Orders(int typeID_, int regionID_)
+        public Orders(long typeID_, int regionID_)
         {
             regionID = regionID_;
 
@@ -58,7 +58,7 @@ namespace IndustryThing.Market
             string text = objReader.ReadLine();
             int i = text.Count(f => f == '{');
             orderId = new long[i];
-            typeId = new int[i];
+            typeId = new long[i];
             locationId = new long[i];
             volumeTotal = new int[i];
             volumeRemain = new int[i];
@@ -106,7 +106,7 @@ namespace IndustryThing.Market
         /// <param name="ordertype">"buy"/"sell" string</param>
         /// <param name="typeID">the lookup's type ID</param>
         /// <returns>Full url for gathering market data of the item</returns>
-        string BuildUrl(int typeID)
+        string BuildUrl(long typeID)
         {
             return "https://esi.tech.ccp.is/latest/markets/" + regionID + "/orders/?type_id=" + typeID + "&page=" + page + "&datasource=tranquility";
         }

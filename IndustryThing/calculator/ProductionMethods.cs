@@ -14,6 +14,14 @@ namespace IndustryThing.calculator
         Market.Market market;
         db.Db dataBase;
 
+      protected long[,] t1Modules;
+      protected long[,] t1ships;
+      protected long[,] planetaryComodities;
+      protected long[,] tools;
+      protected long[,] minerals;
+      protected long[,] constructionComponents;
+      protected long[,] compopsites; //advanced materials
+
         public ProductionMethods(Market.Market market, db.Db dataBase)
         {
             this.dataBase = dataBase;
@@ -24,9 +32,9 @@ namespace IndustryThing.calculator
         /// Takes an array of 2d arrays containing materials bill for each bpo and compiles a single list of mats needed.
         /// </summary>
         /// <param name="moduleMats"></param>
-        public int[,] TotalModuleMaterials(int[][,] moduleMats)
+        public long[,] TotalModuleMaterials(long[][,] moduleMats)
         {
-            int[,] totalModuleMats = new int[256, 2];
+            long[,] totalModuleMats = new long[256, 2];
             int count = 0;
             int i = 0; // variable showing what bpo we are adding
             while (i < moduleMats.Length)
@@ -34,16 +42,16 @@ namespace IndustryThing.calculator
                 int j = 0;
                 while (j < moduleMats[i].Length / 2)
                 {
-                    if (CheckForExistingItem(moduleMats[i][j, 0], totalModuleMats))
+                    if (CheckForExistingItem(Convert.ToInt32(moduleMats[i][j, 0]), totalModuleMats))
                     {
-                        totalModuleMats[FindItemLocation(moduleMats[i][j, 0], totalModuleMats), 1] += moduleMats[i][j, 1];
+                        totalModuleMats[FindItemLocation(Convert.ToInt32(moduleMats[i][j, 0]), totalModuleMats), 1] += moduleMats[i][j, 1];
                     }
                     else { totalModuleMats[count, 0] = moduleMats[i][j, 0]; totalModuleMats[count, 1] = moduleMats[i][j, 1]; count++; }
                     j++;
                 }
                 i++;
             }
-            int[,] temp = new int[count, 2];
+            long[,] temp = new long[count, 2];
             i = 0;
             while (i < count)
             {
@@ -59,7 +67,7 @@ namespace IndustryThing.calculator
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        private bool CheckForExistingItem(int id, int[,] totalModuleMats)
+        private bool CheckForExistingItem(int id, long[,] totalModuleMats)
         {
             int i = 0;
             while (i < (totalModuleMats.Length / 2))
@@ -75,7 +83,7 @@ namespace IndustryThing.calculator
         /// Finds an items location in the totalModuleMats array
         /// </summary>
         /// <returns></returns>
-        private int FindItemLocation(int id, int[,] totalModuleMats)
+        private int FindItemLocation(int id, long[,] totalModuleMats)
         {
             int i = 0;
             while (i < (totalModuleMats.Length / 2))
@@ -86,7 +94,7 @@ namespace IndustryThing.calculator
             return -1;// this is probably bad code but should never be triggered!
         }
 
-        protected decimal FindCosts(int[,] materials)
+        protected decimal FindCosts(long[,] materials)
         {
             int i = 0; decimal cost = 0;
             while (i < materials.Length / 2)
@@ -121,5 +129,20 @@ namespace IndustryThing.calculator
             return installCost;
         }
 
+        /// <summary>
+        /// Returns an array containing a spesific group in materials
+        /// </summary>
+        /// <param name="i">0=t1modules, 1=t1ships, 2=planetaryComodities, 3=tools, 4=minerals, 5=constructionComponents, 6=composites</param>
+        /// <returns></returns>
+        public long[,] GetGroup(long i)
+        {
+            if (i == 0) return t1Modules;
+            else if (i == 1) return t1ships;
+            else if (i == 2) return planetaryComodities;
+            else if (i == 3) return tools;
+            else if (i == 4) return minerals;
+            else if (i == 5) return constructionComponents;
+            else return compopsites;
+        }
     }
 }

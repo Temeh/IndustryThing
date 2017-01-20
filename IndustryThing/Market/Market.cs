@@ -30,7 +30,7 @@ namespace IndustryThing.Market
         /// <param name="order_type">"buy"/"sell"</param>
         /// <param name="typeID">The typeID</param>
         /// <returns></returns>
-        public decimal FindPrice(string regionName, string order_type, int typeID)
+        public decimal FindPrice(string regionName, string order_type, long typeID)
         {
             if (regionName == "the forge") return region[0].GetPrice(typeID, order_type);
             if (regionName == "delve") return region[1].GetPrice(typeID, order_type);

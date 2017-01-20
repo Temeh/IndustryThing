@@ -28,25 +28,19 @@ namespace IndustryThing.calculator
         private decimal[] outputTotalCost;
         public decimal[] OutputTotalCost { get { return outputTotalCost; } }
 
-        int[,] t1Modules;
-        int[,] t1ships;
-        int[,] planetaryComodities;
-        int[,] tools;
-        int[,] minerals;
-        int[,] constructionComponents;
-        int[,] compopsites; //advanced materials
+
 
         public T2Builder(db.Db dataBase_, Market.Market market)
             : base(market, dataBase_)
         {
             this.market = market;
-            t1Modules = new int[256, 2]; // categoryid=7
-            t1ships = new int[256, 2]; // categoryid=6
-            planetaryComodities = new int[256, 2]; // categoryid=43
-            tools = new int[256, 2]; // groupid=332
-            minerals = new int[256, 2]; // groupid=18
-            constructionComponents = new int[256, 2]; // groupid=334
-            compopsites = new int[256, 2]; // groupip=429
+            t1Modules = new long[256, 2]; // categoryid=7
+            t1ships = new long[256, 2]; // categoryid=6
+            planetaryComodities = new long[256, 2]; // categoryid=43
+            tools = new long[256, 2]; // groupid=332
+            minerals = new long[256, 2]; // groupid=18
+            constructionComponents = new long[256, 2]; // groupid=334
+            compopsites = new long[256, 2]; // groupip=429
 
             dataBase = dataBase_;
             moduleMats = new int[dataBase.t2bpoOwned.Index()][,];
@@ -62,6 +56,7 @@ namespace IndustryThing.calculator
             {
                 int bpoid = dataBase.t2bpoOwned.Bpo(i);
                 moduleAmounts[i] = GetBuildAmount(bpoid);
+
                 moduleMats[i] = dataBase.bpo.ManufacturingMats(bpoid);
                 materialModifier = MaterialModifier();
 
@@ -78,7 +73,7 @@ namespace IndustryThing.calculator
                 }
                 //test variable
                 decimal installcost = FindInstallCost(bpoid) * moduleAmounts[i];
-                outputTotalCost[i] = SortMaterials(moduleMats[i])+installcost;
+                outputTotalCost[i] = SortMaterials(moduleMats[i]) + installcost;
                 i++;
             }
             TotalModuleMaterials();
@@ -177,13 +172,13 @@ namespace IndustryThing.calculator
         decimal SortMaterials(int[,] totalMats)
         {
             decimal cost = 0;
-            t1Modules = new int[256, 2]; int t1ModulesCount = 0;// categoryid=7
-            t1ships = new int[256, 2]; int t1shipsCount = 0;// categoryid=6
-            planetaryComodities = new int[256, 2]; int planetaryComoditiesCount = 0;// categoryid=43
-            tools = new int[256, 2]; int toolsCount = 0;// groupid=332
-            minerals = new int[256, 2]; int mineralsCount = 0;// groupid=18
-            constructionComponents = new int[256, 2]; int constructionComponentsCount = 0;// groupid=334
-            compopsites = new int[256, 2]; int compopsitesCount = 0; // groupip=429 (advanced materials)
+            long[,] t1Modules = new long[256, 2]; int t1ModulesCount = 0;// categoryid=7
+            long[,] t1ships = new long[256, 2]; int t1shipsCount = 0;// categoryid=6
+            long[,] planetaryComodities = new long[256, 2]; int planetaryComoditiesCount = 0;// categoryid=43
+            long[,] tools = new long[256, 2]; int toolsCount = 0;// groupid=332
+            long[,] minerals = new long[256, 2]; int mineralsCount = 0;// groupid=18
+            long[,] constructionComponents = new long[256, 2]; int constructionComponentsCount = 0;// groupid=334
+            long[,] compopsites = new long[256, 2]; int compopsitesCount = 0; // groupip=429 (advanced materials)
             int i = 0;
             while (i < totalMats.Length / 2)
             {
@@ -214,9 +209,7 @@ namespace IndustryThing.calculator
                 }
                 if (dataBase.types.GroupID(id) == 429)
                 {
-                    compopsites[compopsitesCount, 0] = totalMats[i, 0];
-                    compopsites[compopsitesCount, 1] = totalMats[i, 1];
-                    compopsitesCount++;
+                    compopsites[compopsitesCount, 0] = totalMats[i, 0]; compopsites[compopsitesCount, 1] = totalMats[i, 1]; compopsitesCount++;
                 }
                 i++;
             }
@@ -229,10 +222,26 @@ namespace IndustryThing.calculator
             IntermediateBuilder t2Components = new IntermediateBuilder(constructionComponents, dataBase, "component", market);
             cost = t2Components.CostOfMats; cost += t2Components.InstallCost;
             IntermediateBuilder t1Mods = new IntermediateBuilder(t1Modules, dataBase, "module", market);
-            cost += t1Mods.CostOfMats;cost+= t1Mods.InstallCost;
+            cost += t1Mods.CostOfMats; cost += t1Mods.InstallCost;
+            IntermediateBuilder t1Shipsthing = new IntermediateBuilder(t1ships, dataBase, "ship", market);
+            cost += t1Shipsthing.CostOfMats; cost += t1Shipsthing.InstallCost;
             IntermediateBuilder toolmaker = new IntermediateBuilder(tools, dataBase, "component", market);
             cost += toolmaker.CostOfMats; cost += toolmaker.InstallCost;
-            cost = cost+ FindCosts(planetaryComodities) + FindCosts(minerals) + FindCosts(compopsites);
+            cost = cost + FindCosts(planetaryComodities) + FindCosts(minerals) + FindCosts(compopsites);
+
+            compopsites = TotalModuleMaterials(new long[2][,] { compopsites, t2Components.TotalMats });
+            minerals = TotalModuleMaterials(new long[2][,] { minerals, t1Mods.TotalMats });
+            minerals = TotalModuleMaterials(new long[2][,] { minerals, t1Shipsthing.TotalMats });
+            minerals = TotalModuleMaterials(new long[2][,] { minerals, toolmaker.TotalMats });
+
+            this.t1Modules =TotalModuleMaterials(new long[2][,] { this.t1Modules, t1Modules });
+            this.t1ships = TotalModuleMaterials(new long[2][,] { this.t1ships, t1ships });
+            this.planetaryComodities = TotalModuleMaterials(new long[2][,] { this.planetaryComodities, planetaryComodities });
+            this.tools = TotalModuleMaterials(new long[2][,] { this.tools, tools });
+            this.minerals = TotalModuleMaterials(new long[2][,] { this.minerals, minerals });
+            this.constructionComponents = TotalModuleMaterials(new long[2][,] { this.constructionComponents, constructionComponents });
+            this.compopsites = TotalModuleMaterials(new long[2][,] { this.compopsites, compopsites });
+
             return cost;
         }
 
@@ -242,9 +251,9 @@ namespace IndustryThing.calculator
         /// <param name="mats">2d int array containing TypeID and amount</param>
         /// <param name="count">int to spesify size of new array</param>
         /// <returns></returns>
-        int[,] itemArrayCleanup(int[,] mats, int count)
+        long[,] itemArrayCleanup(long[,] mats, int count)
         {
-            int[,] temp = new int[count, 2];
+            long[,] temp = new long[count, 2];
             int i = 0;
             while (i < count)
             {
