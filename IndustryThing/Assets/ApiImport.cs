@@ -5,28 +5,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace IndustryThing
+namespace IndustryThing.ApiImport
 {
     class MainImport
     {
         int keyID;
         string vCode;
         string apiDomain;
+        db.Db dataBase;
         public POS pos;
         public POSDetail posDetail;
         public Assets assets;
+        public IndustryJobs jobs;
 
-        public MainImport()
+        public MainImport(db.Db dataBase)
         {
+            this.dataBase=dataBase;
             keyID = 5876307;
             vCode = "upgTNmAAgyGzXjLfLOeKapcBiuZckZIUdBdvbBSG0HyyWXyFVToCSDoZNJwUNv0T";
             apiDomain = "https://api.eveonline.com//";
 
           //  StarbaseListImport();
             AssetImport();
+            IndustryJobsImport();
         }
 
-        public void StarbaseListImport()///Gets The StarbaseList xml details
+         void StarbaseListImport()///Gets The StarbaseList xml details
         {
             //makes the url, and gets the xml file
             string url = apiDomain + "corp/StarbaseList.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode;
@@ -64,7 +68,7 @@ namespace IndustryThing
             StarbaseDetailImport();
         }
 
-        public void StarbaseDetailImport() //Gets the StarbaseDetail xml details
+         void StarbaseDetailImport() //Gets the StarbaseDetail xml details
         {
             int i = 0;
             while (i < pos.posCount)
@@ -78,7 +82,7 @@ namespace IndustryThing
 
         }
 
-        public void AssetImport()
+         void AssetImport()
         {
             string api;
             WebRequest wrGetXml;
@@ -90,6 +94,17 @@ namespace IndustryThing
             api = objReader.ReadToEnd();
             assets = new Assets(api);
         }
+
+         void IndustryJobsImport()
+         {
+             WebRequest wrGetXml;
+             string temp = apiDomain + "corp/IndustryJobs.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode;
+             wrGetXml = WebRequest.Create(apiDomain + "corp/IndustryJobs.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode);
+             Stream objStream;
+             objStream = wrGetXml.GetResponse().GetResponseStream();
+             StreamReader objReader = new StreamReader(objStream);
+             jobs = new IndustryJobs(objReader,dataBase);
+         }
 
         string RemoveSpaceFromStartOfLine(string line) // Clears the start of a line of empty spaces to make it easier to read
         {

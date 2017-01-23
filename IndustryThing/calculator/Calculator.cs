@@ -10,6 +10,7 @@ namespace IndustryThing.calculator
     {
         db.Db dataBase;
         Market.Market market;
+        ApiImport.MainImport apiImports;
         int[,] t1Modules;
         int[,] t1ships;
         int[,] planetaryComodities;
@@ -21,9 +22,11 @@ namespace IndustryThing.calculator
         public Calculator()
         {
             dataBase = new db.Db();
+            apiImports = new ApiImport.MainImport(dataBase);
             market = new Market.Market(dataBase);
             T2Builder t2mods = new T2Builder(dataBase, market);
-            Output.Output output = new Output.Output(t2mods, dataBase, market);
+
+            Output.Output output = new Output.Output(t2mods, dataBase, market,apiImports);
            
         }
         /// <summary>//this is on the way to removal?

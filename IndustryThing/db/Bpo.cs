@@ -156,5 +156,24 @@ namespace IndustryThing.db
                 }
             }
         }
+
+        /// <summary>
+        /// Takes an item's TypeID and returns the TypeID of the bpo that can build this item.
+        /// </summary>
+        /// <param name="itemID">the typeID of the item being buildt</param>
+        /// <returns>Total amount of items being output by all existing jobs</returns>
+        public int FindBpoTypeIdForItem(int itemID)
+        {
+            int i = 0;
+            while (true)
+            {
+                int[,] temp = ManufacturingOutput(i);
+                if (!(temp == null)) if (itemID == temp[0, 0])
+                    {
+                        return i;
+                    }
+                i++;
+            }
+        }
     }
 }

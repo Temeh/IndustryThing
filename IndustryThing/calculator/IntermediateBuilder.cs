@@ -30,7 +30,7 @@ namespace IndustryThing.calculator
             moduleMats = new long[buildlist.Length / 2][,];
             while (i < (buildlist.Length / 2))
             {
-                buildlist[i, 0] = FindBpoTypeIdForItem(Convert.ToInt32(buildlist[i, 0]));
+              //  buildlist[i, 0] = FindBpoTypeIdForItem(Convert.ToInt32(buildlist[i, 0]));
                 i++;
             }
             moduleMats = GetMaterialBill(buildlist);
@@ -49,7 +49,7 @@ namespace IndustryThing.calculator
             long[][,] moduleMats = new long[buildList.Length / 2][,];
             while (i < buildList.Length / 2) // adds amounts
             {
-                int bpoid = Convert.ToInt32(buildList[i, 0]);
+                int bpoid =dataBase.bpo. FindBpoTypeIdForItem(Convert.ToInt32(buildList[i, 0]));
                 moduleAmounts[i] = Convert.ToInt32(buildList[i, 1]);
                 int[,] temp = dataBase.bpo.ManufacturingMats(bpoid);
                 moduleMats[i] = new long[temp.Length / 2, 2];
@@ -75,26 +75,5 @@ namespace IndustryThing.calculator
         {
             return dataBase.settings.FacilityMaterialModifier * dataBase.settings.RigMaterialModifier(rigTypeUsed) * dataBase.settings.MaterialEfficiencyModifier;
         }
-
-        /// <summary>
-        /// Takes an item's TypeID and returns the TypeID of the bpo that can build this item.
-        /// </summary>
-        /// <param name="itemID"></param>
-        /// <returns></returns>
-        protected int FindBpoTypeIdForItem(int itemID)
-        {
-            int i = 0;
-            while (true)
-            {
-                int[,] temp = dataBase.bpo.ManufacturingOutput(i);
-                if (!(temp == null)) if (itemID == temp[0, 0])
-                    {
-                        return i;
-                    }
-                i++;
-            }
-        }
-
-
     }
 }

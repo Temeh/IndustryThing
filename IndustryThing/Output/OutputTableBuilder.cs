@@ -22,9 +22,14 @@ namespace IndustryThing.Output
             while (i < name.Length)
             {
                 decimal profit = totalValue[i] - totalCost[i];
-                decimal profitRatio = profit / (dataBase.types.Volume(output[i, 0]) * output[i, 1]);
-                sw.WriteLine("<tr><td>" + string.Format("{0:n0}", name[i]) + "</td><td>" + string.Format("{0:n0}", output[i, 1]) + "</td><td>" +
-                    string.Format("{0:n0}", totalValue[i]) + "</td><td>" + string.Format("{0:n0}", totalCost[i]) + "</td><td>" + string.Format("{0:n0}", profit) + "</td><td>" + string.Format("{0:n0}", profitRatio) + "</td></tr>");
+                decimal profitRatio = profit / (dataBase.types.GetRepackagedVolume(output[i, 0]) * output[i, 1]);
+                sw.WriteLine("<tr><td>" + 
+                    string.Format("{0:n0}", name[i]) + "</td><td>" +
+                    string.Format("{0:n0}", output[i, 1]) + "</td><td>" +
+                    string.Format("{0:n0}", totalValue[i]) + "</td><td>" +
+                    string.Format("{0:n0}", totalCost[i]) + "</td><td>" +
+                    string.Format("{0:n0}", profit) + "</td><td>" +
+                    string.Format("{0:n0}", profitRatio) + "</td></tr>");
                 i++;
             }
             decimal valueSum = totalValue.Sum();
@@ -37,6 +42,7 @@ namespace IndustryThing.Output
                 i++;
             }
             sw.WriteLine("<tr><td><b>Sum</b></td><td></td><td><b>" + string.Format("{0:n0}", valueSum) + "</b></td><td><b>" + string.Format("{0:n0}", costSum) + "</b></td><td><b>" + string.Format("{0:n0}", profitSum) + "</b></td></b><td></td></tr>");
+            sw.WriteLine("</table>");
         }
     }
 }

@@ -78,6 +78,7 @@ namespace IndustryThing.calculator
             }
             TotalModuleMaterials();
         }
+
         /// <summary>
         /// Takes the typeID of a bpo and returns the amount that can be built in a spesific timeframe with available bonuses
         /// </summary>
@@ -172,7 +173,7 @@ namespace IndustryThing.calculator
         decimal SortMaterials(int[,] totalMats)
         {
             decimal cost = 0;
-            long[,] t1Modules = new long[256, 2]; int t1ModulesCount = 0;// categoryid=7
+            long[,] t1Modules = new long[256, 2]; int t1ModulesCount = 0;// categoryid=7(mods), categoryid=8(charges), categoryid=18(drones), categoryid=22(deployables)
             long[,] t1ships = new long[256, 2]; int t1shipsCount = 0;// categoryid=6
             long[,] planetaryComodities = new long[256, 2]; int planetaryComoditiesCount = 0;// categoryid=43
             long[,] tools = new long[256, 2]; int toolsCount = 0;// groupid=332
@@ -183,7 +184,8 @@ namespace IndustryThing.calculator
             while (i < totalMats.Length / 2)
             {
                 int id = totalMats[i, 0];
-                if (dataBase.groupIDs.CategoryID(dataBase.types.GroupID(id)) == 7)
+                int categoryID = dataBase.groupIDs.CategoryID(dataBase.types.GroupID(id));
+                if ((categoryID == 7) || (categoryID == 8) || (categoryID == 18) || (categoryID == 22))
                 {
                     t1Modules[t1ModulesCount, 0] = totalMats[i, 0]; t1Modules[t1ModulesCount, 1] = totalMats[i, 1]; t1ModulesCount++;
                 }

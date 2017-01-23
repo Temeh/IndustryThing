@@ -2,7 +2,7 @@ Industry:5
 AdvancedIndustry:5
 ScienceSkillOne:5
 ScienceSkillTwo:5
-buildtime:28
+buildtime:14
 facility:Sotiyo
 location:null
 moduleRig:2

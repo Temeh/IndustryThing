@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Assets\ApiImport.cs" />
     <Compile Include="Assets\Assets.cs" />
+    <Compile Include="Assets\IndustryJobs.cs" />
     <Compile Include="calculator\Calculator.cs" />
     <Compile Include="calculator\ProductionMethods.cs" />
     <Compile Include="calculator\IntermediateBuilder.cs" />

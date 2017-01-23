@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace IndustryThing
+namespace IndustryThing.ApiImport
 {
     class Assets : Misc.UsefullMethods
     {
@@ -151,12 +151,12 @@ namespace IndustryThing
 
         public long FindItem(int typeID)
         {
-            int[] items = new int[100];
+            long[] items = new long[100];
             int itemsCount = 0;
             int i = 0;
             while (i < assetCount)
             {
-                if (Convert.ToString(typeID) == assetList[i][columnList.IndexOf("itemID")])
+                if (Convert.ToString(typeID) == assetList[i][columnList.IndexOf("typeID")])
                 {
                  items[itemsCount]=  Convert.ToInt32( assetList[i][columnList.IndexOf("quantity")]);
                  itemsCount++;
@@ -164,7 +164,6 @@ namespace IndustryThing
                     i++;
             }
             return items.Sum();
-
         }
     }
 }
