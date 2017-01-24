@@ -61,6 +61,12 @@ namespace IndustryThing.db
         private decimal facilityTax;
         public decimal FacilityTax { get { return facilityTax; } }
 
+        private string[] buildCorpApi;
+        /// <summary>
+        /// First entry is key ID, second entry is vCode
+        /// </summary>
+        public string[] BuildCorpApi { get { return buildCorpApi; } }
+
         public Settings()
         {
             StreamReader sr = new StreamReader("settings.txt");
@@ -109,6 +115,13 @@ namespace IndustryThing.db
                 else if (line.Substring(0, line.IndexOf(":")) == "marketRegion") marketRegion=line.Substring(line.IndexOf(":") + 1);
                 else if (line.Substring(0, line.IndexOf(":")) == "productionSystem") productionSystem =Convert.ToInt32( line.Substring(line.IndexOf(":") + 1));
                 else if (line.Substring(0, line.IndexOf(":")) == "facilityTax") facilityTax = Convert.ToDecimal(line.Substring(line.IndexOf(":") + 1));
+                else if (line.Substring(0, line.IndexOf(":")) == "buildCorpApi")
+                {
+                    buildCorpApi = new string[2];
+                    line = line.Substring(line.IndexOf(":") + 1);
+                    buildCorpApi[0] = line.Substring(0,line.IndexOf(":"));
+                    buildCorpApi[1] = line.Substring(line.IndexOf(":")+1);
+                }
             }
         }
     }

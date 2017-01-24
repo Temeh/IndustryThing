@@ -63,8 +63,7 @@ namespace IndustryThing.Market
             int i = 0;
             while (true)
             {
-                if (typeId[i] == null) return 0;
-                else if (typeId[i] == ID) return adjustedPrice[i];
+                 if (typeId[i] == ID) return adjustedPrice[i];
                 i++;
             }
         }
@@ -79,8 +78,7 @@ namespace IndustryThing.Market
             int i = 0;
             while (true)
             {
-                if (typeId[i] == null) return 0;
-                else if (typeId[i] == ID) return adjustedPrice[i];
+                 if (typeId[i] == ID) return adjustedPrice[i];
                 i++;
             }
         }

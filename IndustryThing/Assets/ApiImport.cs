@@ -21,8 +21,9 @@ namespace IndustryThing.ApiImport
         public MainImport(db.Db dataBase)
         {
             this.dataBase=dataBase;
-            keyID = 5876307;
-            vCode = "upgTNmAAgyGzXjLfLOeKapcBiuZckZIUdBdvbBSG0HyyWXyFVToCSDoZNJwUNv0T";
+            string[] api = dataBase.settings.BuildCorpApi;
+            keyID = Convert.ToInt32(api[0]);
+            vCode = api[1];
             apiDomain = "https://api.eveonline.com//";
 
           //  StarbaseListImport();
