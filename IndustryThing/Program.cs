@@ -19,4 +19,10 @@ namespace IndustryThing
             Application.Run(new Form1());
         }
     }
+
+    public static class staticInfo
+    {
+       public const string installDir = "E:/C#/Industrything/";
+    }
+
 }

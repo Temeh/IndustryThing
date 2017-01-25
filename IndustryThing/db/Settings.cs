@@ -69,7 +69,7 @@ namespace IndustryThing.db
 
         public Settings()
         {
-            StreamReader sr = new StreamReader("settings.txt");
+            StreamReader sr = new StreamReader(staticInfo.installDir+"settings.txt");
             while (!sr.EndOfStream)
             {
                 string line = sr.ReadLine();

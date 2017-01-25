@@ -31,7 +31,7 @@ namespace IndustryThing.db
 
         public Types()
         {
-            StreamReader sr = new StreamReader("invTypes.txt");
+            StreamReader sr = new StreamReader(staticInfo.installDir+"\\files\\invTypes.txt");
             string line = sr.ReadLine();
             line = sr.ReadLine();
             while (!sr.EndOfStream)
@@ -98,7 +98,7 @@ namespace IndustryThing.db
         {
             groupID = new int[100];
             volume = new decimal[100];
-            StreamReader sr = new StreamReader("ItemPackagedVolume.txt");
+            StreamReader sr = new StreamReader(staticInfo.installDir+"\\files\\ItemPackagedVolume.txt");
             string line = sr.ReadLine();
             line = sr.ReadLine();
             int i = 0;

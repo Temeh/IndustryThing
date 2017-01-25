@@ -13,11 +13,11 @@ namespace IndustryThing.Output
         {
 
 
-            StreamWriter sw = new StreamWriter("moduleNumbers.html");
-            StreamReader sr = new StreamReader("htmloutputone.txt");
+            StreamWriter sw = new StreamWriter(staticInfo.installDir + "\\moduleNumbers.html");
+            StreamReader sr = new StreamReader(staticInfo.installDir + "\\files\\htmloutputone.txt");
             sw.WriteLine(sr.ReadToEnd());
             OutputTableBuilder otb = new OutputTableBuilder(dataBase, t2mods, sw, "T2Modules(and ships)");
-            IntermediaryTableBuilder itb = new IntermediaryTableBuilder(dataBase, t2mods, sw, "T2Components", import,market);
+            IntermediaryTableBuilder itb = new IntermediaryTableBuilder(dataBase, t2mods, sw, "T2Components", import, market);
             itb = new IntermediaryTableBuilder(dataBase, t2mods, sw, "T1modules", import, market);
             itb = new IntermediaryTableBuilder(dataBase, t2mods, sw, "T1ships", import, market);
             itb = new IntermediaryTableBuilder(dataBase, t2mods, sw, "Tools", import, market);
@@ -26,10 +26,11 @@ namespace IndustryThing.Output
             rmtb = new RawMaterialTableBuilder(dataBase, t2mods, market, sw, "Planetary Interaction", import);
             rmtb = new RawMaterialTableBuilder(dataBase, t2mods, market, sw, "Advanced Materials", import);
 
-            sr = new StreamReader("htmloutputtwo.txt");
+            sr = new StreamReader(staticInfo.installDir+"\\files\\htmloutputtwo.txt");
             sw.WriteLine(sr.ReadToEnd());
             sw.Close();
-            System.Diagnostics.Process.Start(@"moduleNumbers.html");
+            string openFile = staticInfo.installDir + "/files/moduleNumbers.html";
+            System.Diagnostics.Process.Start(@openFile);
         }
     }
 }
