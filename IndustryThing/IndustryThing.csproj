@@ -50,6 +50,7 @@
     <Compile Include="Assets\ApiImport.cs" />
     <Compile Include="Assets\Assets.cs" />
     <Compile Include="Assets\IndustryJobs.cs" />
+    <Compile Include="Assets\MarketOrders.cs" />
     <Compile Include="calculator\Calculator.cs" />
     <Compile Include="calculator\ProductionMethods.cs" />
     <Compile Include="calculator\IntermediateBuilder.cs" />
@@ -75,6 +76,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Output\IntermediaryTableBuilder.cs" />
+    <Compile Include="Output\MarketInfo.cs" />
     <Compile Include="Output\Output.cs" />
     <Compile Include="Output\OutputTableBuilder.cs" />
     <Compile Include="Output\RawMaterialTableBuilder.cs" />

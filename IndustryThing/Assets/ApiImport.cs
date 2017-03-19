@@ -9,103 +9,134 @@ namespace IndustryThing.ApiImport
 {
     class MainImport
     {
-        int keyID;
-        string vCode;
         string apiDomain;
         db.Db dataBase;
         public POS pos;
         public POSDetail posDetail;
-        public Assets assets;
+        public Assets buildCorpAssets;
+        public Assets empireDonkey;
+        public MarketOrders marketOrders;
         public IndustryJobs jobs;
 
         public MainImport(db.Db dataBase)
         {
-            this.dataBase=dataBase;
-            string[] api = dataBase.settings.BuildCorpApi;
-            keyID = Convert.ToInt32(api[0]);
-            vCode = api[1];
+            this.dataBase = dataBase;
+
             apiDomain = "https://api.eveonline.com//";
 
-          //  StarbaseListImport();
+            //  StarbaseListImport();
             AssetImport();
             IndustryJobsImport();
+            MarketOrdersImport();
         }
 
-         void StarbaseListImport()///Gets The StarbaseList xml details
+        /* void StarbaseListImport()///Gets The StarbaseList xml details
+       {
+           //makes the url, and gets the xml file
+           string url = apiDomain + "corp/StarbaseList.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode;
+           WebRequest wrGetXml;
+           wrGetXml = WebRequest.Create(url);
+           Stream objStream;
+           objStream = wrGetXml.GetResponse().GetResponseStream();
+           StreamReader objReader = new StreamReader(objStream);
+
+           //reads the xml file
+           pos = new POS();
+           string nextline = "not null";
+           while (true)
+           {
+               nextline = RemoveSpaceFromStartOfLine(objReader.ReadLine());
+               if (nextline.StartsWith("<eveapi")) { pos.apiVersion = nextline.Substring(17, 1); }
+               if (nextline.StartsWith("<currentTime>")) { pos.eveTimeOfApi = nextline.Substring(13, 19); }
+               if (nextline.StartsWith("<result>"))
+               {
+                   nextline = RemoveSpaceFromStartOfLine(objReader.ReadLine());
+                   if (nextline.StartsWith("<rowset"))
+                   {
+                       pos.SetColums(nextline);
+                       while (true)
+                       {
+                           nextline = RemoveSpaceFromStartOfLine(objReader.ReadLine());
+                           if (nextline.StartsWith("<row ")) pos.AddPOS(nextline);
+                           else break;
+                       }
+                   }
+               }
+               if (nextline.StartsWith("<cachedUntil>")) pos.cachedUntil = nextline.Substring(13, 19);
+               if (nextline.StartsWith("</eveapi>")) break;
+           }
+           StarbaseDetailImport();
+       }
+       */
+
+        /*  void StarbaseDetailImport() //Gets the StarbaseDetail xml details
+          {
+              int i = 0;
+              while (i < pos.posCount)
+              {
+                  //makes the url, and gets the xml file
+                  string url = apiDomain + "corp/StarbaseDetail.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode + "&itemID=" + pos.posDetails[i].itemID;
+                  posDetail = new POSDetail(pos.posCount);
+                  posDetail.GetPOSDetail(url, i);
+                  i++;
+              }
+
+          }
+       */
+
+        void AssetImport()
         {
-            //makes the url, and gets the xml file
-            string url = apiDomain + "corp/StarbaseList.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode;
-            WebRequest wrGetXml;
-            wrGetXml = WebRequest.Create(url);
-            Stream objStream;
-            objStream = wrGetXml.GetResponse().GetResponseStream();
-            StreamReader objReader = new StreamReader(objStream);
-
-            //reads the xml file
-            pos = new POS();
-            string nextline = "not null";
-            while (true)
-            {
-                nextline = RemoveSpaceFromStartOfLine(objReader.ReadLine());
-                if (nextline.StartsWith("<eveapi")) { pos.apiVersion = nextline.Substring(17, 1); }
-                if (nextline.StartsWith("<currentTime>")) { pos.eveTimeOfApi = nextline.Substring(13, 19); }
-                if (nextline.StartsWith("<result>"))
-                {
-                    nextline = RemoveSpaceFromStartOfLine(objReader.ReadLine());
-                    if (nextline.StartsWith("<rowset"))
-                    {
-                        pos.SetColums(nextline);
-                        while (true)
-                        {
-                            nextline = RemoveSpaceFromStartOfLine(objReader.ReadLine());
-                            if (nextline.StartsWith("<row ")) pos.AddPOS(nextline);
-                            else break;
-                        }
-                    }
-                }
-                if (nextline.StartsWith("<cachedUntil>")) pos.cachedUntil = nextline.Substring(13, 19);
-                if (nextline.StartsWith("</eveapi>")) break;
-            }
-            StarbaseDetailImport();
-        }
-
-         void StarbaseDetailImport() //Gets the StarbaseDetail xml details
-        {
-            int i = 0;
-            while (i < pos.posCount)
-            {
-                //makes the url, and gets the xml file
-                string url = apiDomain + "corp/StarbaseDetail.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode + "&itemID=" + pos.posDetails[i].itemID;
-                posDetail = new POSDetail(pos.posCount);
-                posDetail.GetPOSDetail(url, i);
-                i++;
-            }
-
-        }
-
-         void AssetImport()
-        {
+            string[] apiCode = dataBase.settings.BuildCorpApi;
+            string keyID = apiCode[0];
+            string vCode = apiCode[1];
             string api;
             WebRequest wrGetXml;
             string temp = apiDomain + "corp/AssetList.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode;
-            wrGetXml = WebRequest.Create(apiDomain + "corp/AssetList.xml.aspx?" + "KeyID=" + keyID + "&vCode="+vCode);
+            wrGetXml = WebRequest.Create(apiDomain + "corp/AssetList.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode);
             Stream objStream;
             objStream = wrGetXml.GetResponse().GetResponseStream();
             StreamReader objReader = new StreamReader(objStream);
             api = objReader.ReadToEnd();
-            assets = new Assets(api);
+            buildCorpAssets = new Assets(api);
+
+            apiCode = dataBase.settings.EmpireDonkey;
+            keyID = apiCode[0];
+            vCode = apiCode[1];
+            int charID = Convert.ToInt32(apiCode[2]);
+            wrGetXml = WebRequest.Create(apiDomain + "char/AssetList.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode + "&characterID=" + charID);
+            objStream = wrGetXml.GetResponse().GetResponseStream();
+            objReader = new StreamReader(objStream);
+            api = objReader.ReadToEnd();
+            empireDonkey = new Assets(api);
         }
 
-         void IndustryJobsImport()
-         {
-             WebRequest wrGetXml;
-             string temp = apiDomain + "corp/IndustryJobs.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode;
-             wrGetXml = WebRequest.Create(apiDomain + "corp/IndustryJobs.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode);
-             Stream objStream;
-             objStream = wrGetXml.GetResponse().GetResponseStream();
-             StreamReader objReader = new StreamReader(objStream);
-             jobs = new IndustryJobs(objReader,dataBase);
-         }
+        void IndustryJobsImport()
+        {
+            string[] apiCode = dataBase.settings.BuildCorpApi;
+            string keyID = apiCode[0];
+            string vCode = apiCode[1];
+            WebRequest wrGetXml;
+            string temp = apiDomain + "corp/IndustryJobs.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode;
+            wrGetXml = WebRequest.Create(apiDomain + "corp/IndustryJobs.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode);
+            Stream objStream;
+            objStream = wrGetXml.GetResponse().GetResponseStream();
+            StreamReader objReader = new StreamReader(objStream);
+            jobs = new IndustryJobs(objReader, dataBase);
+        }
+
+        void MarketOrdersImport()
+        {
+            string[] apiCode = dataBase.settings.EmpireCorpApi;
+            string keyID = apiCode[0];
+            string vCode = apiCode[1];
+            WebRequest wrGetXml;
+            string temp = apiDomain + "corp/MarketOrders.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode;
+            wrGetXml = WebRequest.Create(apiDomain + "corp/MarketOrders.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode);
+            Stream objStream;
+            objStream = wrGetXml.GetResponse().GetResponseStream();
+            StreamReader objReader = new StreamReader(objStream);
+            marketOrders = new MarketOrders(objReader);
+        }
 
         string RemoveSpaceFromStartOfLine(string line) // Clears the start of a line of empty spaces to make it easier to read
         {
@@ -341,10 +372,10 @@ namespace IndustryThing.ApiImport
                 line = GetNextLine(api); api = RemoveNextLine(api);
                 contents[i] = new string[columnList.Count];
                 int j = 0;
-                while (j < columnList.Count) 
-                { 
+                while (j < columnList.Count)
+                {
                     contents[i][j] = GetValue(line, columnList[j] + "=\"", "\"");
-                    j++; 
+                    j++;
                 }
                 i++;
             }

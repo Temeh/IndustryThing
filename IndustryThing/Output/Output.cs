@@ -13,7 +13,7 @@ namespace IndustryThing.Output
         {
 
 
-            StreamWriter sw = new StreamWriter(staticInfo.installDir + "\\moduleNumbers.html");
+            StreamWriter sw = new StreamWriter("moduleNumbers.html");
             StreamReader sr = new StreamReader(staticInfo.installDir + "\\files\\htmloutputone.txt");
             sw.WriteLine(sr.ReadToEnd());
             OutputTableBuilder otb = new OutputTableBuilder(dataBase, t2mods, sw, "T2Modules(and ships)");
@@ -29,8 +29,10 @@ namespace IndustryThing.Output
             sr = new StreamReader(staticInfo.installDir+"\\files\\htmloutputtwo.txt");
             sw.WriteLine(sr.ReadToEnd());
             sw.Close();
-            string openFile = staticInfo.installDir + "/files/moduleNumbers.html";
-            System.Diagnostics.Process.Start(@openFile);
+          
+            System.Diagnostics.Process.Start(@"moduleNumbers.html");
+
+            new MarketInfo(dataBase, t2mods, import, market);
         }
     }
 }

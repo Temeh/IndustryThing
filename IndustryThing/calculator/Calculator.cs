@@ -22,6 +22,7 @@ namespace IndustryThing.calculator
         public Calculator()
         {
             dataBase = new db.Db();
+
             apiImports = new ApiImport.MainImport(dataBase);
             market = new Market.Market(dataBase);
             T2Builder t2mods = new T2Builder(dataBase, market);

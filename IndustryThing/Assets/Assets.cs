@@ -163,7 +163,14 @@ namespace IndustryThing.ApiImport
                 }
                     i++;
             }
-            return items.Sum();
+           long totalItems = items.Sum();
+            i = 0;
+            while (i < containerCount)
+            {
+                totalItems += containers[i].FindItem(typeID);
+                i++;
+            }
+            return totalItems;
         }
     }
 }

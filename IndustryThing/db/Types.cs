@@ -99,14 +99,13 @@ namespace IndustryThing.db
             groupID = new int[100];
             volume = new decimal[100];
             StreamReader sr = new StreamReader(staticInfo.installDir+"\\files\\ItemPackagedVolume.txt");
-            string line = sr.ReadLine();
-            line = sr.ReadLine();
             int i = 0;
             while (!sr.EndOfStream)
             {
+                string line = sr.ReadLine();
                 groupID[i] = Convert.ToInt32(line.Substring(0, line.IndexOf("	")));
                 volume[i] = Convert.ToDecimal(line.Substring(line.IndexOf("	") + 1));
-                i++;                line = sr.ReadLine();
+                i++; 
             }
 
             //just fixes the size of the arrays

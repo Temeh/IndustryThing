@@ -66,6 +66,16 @@ namespace IndustryThing.db
         /// First entry is key ID, second entry is vCode
         /// </summary>
         public string[] BuildCorpApi { get { return buildCorpApi; } }
+        private string[] empireCorpApi;
+        /// <summary>
+        /// First entry is key ID, second entry is vCode
+        /// </summary>
+        public string[] EmpireCorpApi { get { return empireCorpApi; } }
+        private string[] empireDonkey;
+        /// <summary>
+        /// First entry is key ID, second entry is vCode, 3rd entry is character ID
+        /// </summary>
+        public string[] EmpireDonkey { get { return empireDonkey; } }
 
         public Settings()
         {
@@ -112,15 +122,31 @@ namespace IndustryThing.db
                 }
                 else if (line.Substring(0, line.IndexOf(":")) == "bpoME") materialEfficiency = Convert.ToInt32(line.Substring(line.IndexOf(":") + 1));
                 else if (line.Substring(0, line.IndexOf(":")) == "bpoTE") timeEfficiency = Convert.ToInt32(line.Substring(line.IndexOf(":") + 1));
-                else if (line.Substring(0, line.IndexOf(":")) == "marketRegion") marketRegion=line.Substring(line.IndexOf(":") + 1);
-                else if (line.Substring(0, line.IndexOf(":")) == "productionSystem") productionSystem =Convert.ToInt32( line.Substring(line.IndexOf(":") + 1));
+                else if (line.Substring(0, line.IndexOf(":")) == "marketRegion") marketRegion = line.Substring(line.IndexOf(":") + 1);
+                else if (line.Substring(0, line.IndexOf(":")) == "productionSystem") productionSystem = Convert.ToInt32(line.Substring(line.IndexOf(":") + 1));
                 else if (line.Substring(0, line.IndexOf(":")) == "facilityTax") facilityTax = Convert.ToDecimal(line.Substring(line.IndexOf(":") + 1));
                 else if (line.Substring(0, line.IndexOf(":")) == "buildCorpApi")
                 {
                     buildCorpApi = new string[2];
                     line = line.Substring(line.IndexOf(":") + 1);
-                    buildCorpApi[0] = line.Substring(0,line.IndexOf(":"));
-                    buildCorpApi[1] = line.Substring(line.IndexOf(":")+1);
+                    buildCorpApi[0] = line.Substring(0, line.IndexOf(":"));
+                    buildCorpApi[1] = line.Substring(line.IndexOf(":") + 1);
+                }
+                else if (line.Substring(0, line.IndexOf(":")) == "empireCorpApi")
+                {
+                    empireCorpApi = new string[2];
+                    line = line.Substring(line.IndexOf(":") + 1);
+                    empireCorpApi[0] = line.Substring(0, line.IndexOf(":"));
+                    empireCorpApi[1] = line.Substring(line.IndexOf(":") + 1);
+                }
+                else if (line.Substring(0, line.IndexOf(":")) == "empireDonkey")
+                {
+                    empireDonkey = new string[3];
+                    line = line.Substring(line.IndexOf(":") + 1);
+                    empireDonkey[0] = line.Substring(0, line.IndexOf(":"));
+                    line = line.Substring(line.IndexOf(":") + 1);
+                    empireDonkey[1] = line.Substring(0, line.IndexOf(":"));
+                    empireDonkey[2] = line.Substring(line.IndexOf(":") + 1);
                 }
             }
         }
