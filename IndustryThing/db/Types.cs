@@ -11,6 +11,11 @@ namespace IndustryThing.db
         static long highestExpectedTypeid = 500000;
         private bool[] typeId = new bool[highestExpectedTypeid];
         private int[] groupId = new int[highestExpectedTypeid];
+        /// <summary>
+        /// Finds an items group ID
+        /// </summary>
+        /// <param name="i">typeID</param>
+        /// <returns>GroupID</returns>
         public int GroupID(int i) { return groupId[i]; }
         private string[] typeName = new string[highestExpectedTypeid];
         public string TypeName(long id) { return typeName[id]; }
@@ -31,7 +36,7 @@ namespace IndustryThing.db
 
         public Types()
         {
-            StreamReader sr = new StreamReader(staticInfo.installDir+"\\files\\invTypes.txt");
+            StreamReader sr = new StreamReader(StaticInfo.installDir+"\\files\\invTypes.txt");
             string line = sr.ReadLine();
             line = sr.ReadLine();
             while (!sr.EndOfStream)
@@ -98,7 +103,7 @@ namespace IndustryThing.db
         {
             groupID = new int[100];
             volume = new decimal[100];
-            StreamReader sr = new StreamReader(staticInfo.installDir+"\\files\\ItemPackagedVolume.txt");
+            StreamReader sr = new StreamReader(StaticInfo.installDir+"\\files\\ItemPackagedVolume.txt");
             int i = 0;
             while (!sr.EndOfStream)
             {

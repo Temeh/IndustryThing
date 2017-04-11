@@ -10,10 +10,13 @@ namespace IndustryThing.Output
     {
         public MarketInfo(db.Db dataBase, calculator.T2Builder t2mods, ApiImport.MainImport import, Market.Market market)
         {
+          //  StreamWriter sw = new StreamWriter("C:\\Users\\PCPCPC\\Google Drive\\Eve\\marketInfo.txt"); // use this once i work out how to import a txt into a google spreadsheet
             StreamWriter sw = new StreamWriter("marketInfo.txt");
             ApiImport.ContainerII office = import.buildCorpAssets.assets.GetContainer("1022964286749");
             int i = 0;
 
+            sw.WriteLine("Name" + "\t" + "Buildcost" + "\t" + "Haulingcost" + "\t" + "Market sell" + "\t" + "Amount on market" + "\t" + "Stock in xanadu" + "\t" + "Stock in chanuur" 
+                + "\t" + "Order price"+ "\t" + "Avg daily volume"+"\t"+"Item category");
             while (i < t2mods.OutputName.Length)
             {
                 sw.WriteLine(
@@ -21,13 +24,19 @@ namespace IndustryThing.Output
                   + "\t" + t2mods.OutputTotalCost[i] / t2mods.Output[i, 1] //cost per item
                  + "\t" + dataBase.types.GetRepackagedVolume(t2mods.Output[i, 0]) * 800 // hauling cost per item (800 is ITL's price per m3 from delve to jita, hardcoding it because im lazy
                + "\t" + market.FindPrice(dataBase.settings.MarketRegion, "sell", t2mods.Output[i, 0]) // gets the sale value of the item
-               + "\t" + import.marketOrders.ItemsOnMarket(t2mods.Output[i,0])
-                + "\t" + import.empireDonkey.assets.FindItem(t2mods.Output[i,0])
-                   + "\t" + office.FindItem(t2mods.Output[i,0])
+               + "\t" + import.marketOrders.ItemsOnMarket(t2mods.Output[i,0]) //amount we have on the market
+                + "\t" + import.empireDonkey.assets.FindItem(t2mods.Output[i,0]) // amount on Reluah
+                   + "\t" + office.FindItem(t2mods.Output[i,0]) // ammount on chanuur
+                   + "\t" + import.marketOrders.SellOrderPrice(t2mods.Output[i, 0])
+                    + "\t" + market.FindAverageVolume(dataBase.settings.MarketRegion,t2mods.Output[i,0], 30)
+                    +"\t"+ dataBase.categoryIDs.GetName(dataBase.groupIDs.CategoryID(dataBase.types.GroupID(t2mods.Output[i,0])),0)
                     );
 
                 i++;
             }
+            sw.WriteLine("market orders cached until" + "\t" + import.marketOrders.CachedUntil);
+            sw.WriteLine("build corp assets cached until" + "\t" + import.buildCorpAssets.CachedUntil);
+            sw.WriteLine("empire donkey corp assets cached until" + "\t" + import.empireDonkey.CachedUntil);
             sw.Close();
             System.Diagnostics.Process.Start(@"marketInfo.txt");
 

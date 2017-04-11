@@ -16,7 +16,7 @@ namespace IndustryThing.db
 
         public T2ModBpoOwned()
         {
-            StreamReader sr = new StreamReader(staticInfo.installDir+"t2ModBpoOwned.txt");
+            StreamReader sr = new StreamReader(StaticInfo.installDir+"t2ModBpoOwned.txt");
             int i = 0;
             while (!sr.EndOfStream)
             {
@@ -26,7 +26,7 @@ namespace IndustryThing.db
             bpo = new int[i];
             name = new string[i];
             i = 0;
-            sr = new StreamReader(staticInfo.installDir+"t2ModBpoOwned.txt");
+            sr = new StreamReader(StaticInfo.installDir+"t2ModBpoOwned.txt");
             while (!sr.EndOfStream)
             {
                 string line = sr.ReadLine();

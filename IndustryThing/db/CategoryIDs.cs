@@ -9,16 +9,19 @@ namespace IndustryThing.db
     class CategoryIDs : Misc.UsefullMethods
     {
         private static int highestExpectedIDs = 500000;
+        private string[][] name = new string[highestExpectedIDs][];
         /// <summary>
         /// 0=en, 1=de, 2=fr, 3=ja, 4=ru, 5=zh
         /// </summary>
-        private string[][] name = new string[highestExpectedIDs][];
-        public string Name(int id, int language) { return name[id][language]; }
+        /// <param name="id">CategoryID</param>
+        /// <param name="language">Language</param>
+        /// <returns>Name</returns>
+        public string GetName(int id, int language) { return name[id][language]; }
         private bool[] published = new bool[highestExpectedIDs];
 
         public CategoryIDs()
         {
-            StreamReader sr = new StreamReader(staticInfo.installDir+"\\files\\categoryIDs.yaml");
+            StreamReader sr = new StreamReader(StaticInfo.installDir+"\\files\\categoryIDs.yaml");
             string line = sr.ReadLine();
             while (!sr.EndOfStream)
             {

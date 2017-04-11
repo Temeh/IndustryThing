@@ -7,23 +7,50 @@ namespace IndustryThing.Market
 {
     class Region
     {
-        ItemValues[] itemvalues;
-        int region;
-        int count;
+       private ItemValues[] itemValues;
+       private ItemHistory[] itemHistory;
+       private int region;
+       private int count;
 
         public Region(int reg)
         {
             region = reg;
-            itemvalues = new ItemValues[1000];
+            itemValues = new ItemValues[1000];
+            itemHistory = new ItemHistory[1000];
         }
-        public void TestMethod()
-        {
 
+        /// <summary>
+        /// Finds the location in the array of the item. Makes a new entry if item is not found
+        /// </summary>
+        /// <param name="typeID">the item's typeID</param>
+        /// <returns>location in the arrays</returns>
+        private int FindLocationOfType(int typeID)
+        {
+            int i = 0;
+            while (i < count)
+            {
+                if (itemValues[i].TypeID == typeID) return i;
+                i++;
+            }
+            count++;
+            itemValues[i] = new ItemValues(typeID, region);
+            itemHistory[i] = new ItemHistory(typeID, region);
+            return i;
+        }
+
+        public long GetAverageVolume(int typeID, int days)
+        {
+            return itemHistory[FindLocationOfType(typeID)].GetAverageVolume(days);
         }
 
         public decimal GetPrice(long typeID, string orderType)
         {
-            int i=0;
+            int location = FindLocationOfType(Convert.ToInt32(typeID));
+            if (orderType == "buy") return itemValues[location].BuyPrice;
+            else if (orderType == "sell") return itemValues[location].SellPrice;
+            else return 0;
+            /*
+            int i = 0;
             while (i < count)
             {
                 if (itemvalues[i].TypeID == typeID)
@@ -39,6 +66,7 @@ namespace IndustryThing.Market
             if (orderType == "buy") return itemvalues[i].BuyPrice;
             else if (orderType == "sell") return itemvalues[i].SellPrice;
             else return 0;
+             */
         }
 
     }

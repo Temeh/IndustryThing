@@ -32,11 +32,27 @@ namespace IndustryThing.Market
         /// <returns></returns>
         public decimal FindPrice(string regionName, string order_type, long typeID)
         {
-            if (regionName == "the forge") return region[0].GetPrice(typeID, order_type);
-            if (regionName == "delve") return region[1].GetPrice(typeID, order_type);
-
-            return 0;
+            int i=0;
+            if (regionName == "the forge") i = 0;
+            if (regionName == "delve") i = 1; 
+            return region[i].GetPrice(typeID, order_type);
         }
+
+        /// <summary>
+        /// Finds the average volume of items moved on the market each day
+        /// </summary>
+        /// <param name="regionName">Name of the region you want to look at</param>
+        /// <param name="typeID">The item's typeID</param>
+        /// <param name="days">How many days back you want to calculate the avg for</param>
+        /// <returns>The average volume per day</returns>
+        public long FindAverageVolume(string regionName, int typeID, int days)
+        {
+            int i = 0;
+            if (regionName == "the forge") i = 0;
+            if (regionName == "delve") i = 1;
+            return region[i].GetAverageVolume(typeID, days);
+        }
+
         /// <summary>
         /// Tells you the adjusted price of an item
         /// </summary>
@@ -46,7 +62,6 @@ namespace IndustryThing.Market
         {
             return marketStandardized.FindAdjustedPrice(typeID);
         }
-
 
         public decimal FindSystemIndexManufacturing()
         {

@@ -7,8 +7,9 @@ namespace IndustryThing.ApiImport
 {
     class Assets : Misc.UsefullMethods
     {
-        string currentTime;
-        string cachedUntil;
+     private   string currentTime;
+       private DateTime cachedUntil;
+       public DateTime CachedUntil { get { return cachedUntil; } }
         public ContainerII assets;
 
         public Assets(string api)
@@ -25,7 +26,7 @@ namespace IndustryThing.ApiImport
                 line = GetNextLine(api);
             }
             if (line.StartsWith("</result>")) { api = RemoveNextLine(api); line = GetNextLine(api); }
-            if (line.StartsWith("<cachedUntil>")) { cachedUntil = GetValue(line, "<cachedUntil>", "</cachedUntil>"); api = RemoveNextLine(api); line = GetNextLine(api); }
+            if (line.StartsWith("<cachedUntil>")) { cachedUntil = Convert.ToDateTime( GetValue(line, "<cachedUntil>", "</cachedUntil>")); api = RemoveNextLine(api); line = GetNextLine(api); }
             if (line.StartsWith("</eveapi>")) { } // makes sure its done reading 
         }
     }

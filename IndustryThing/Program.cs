@@ -20,7 +20,7 @@ namespace IndustryThing
         }
     }
 
-    public static class staticInfo
+    public static class StaticInfo
     {
        public const string installDir = "E:/C#/Industrything/";
     }

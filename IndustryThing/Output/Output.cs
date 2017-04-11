@@ -14,7 +14,7 @@ namespace IndustryThing.Output
 
 
             StreamWriter sw = new StreamWriter("moduleNumbers.html");
-            StreamReader sr = new StreamReader(staticInfo.installDir + "\\files\\htmloutputone.txt");
+            StreamReader sr = new StreamReader(StaticInfo.installDir + "\\files\\htmloutputone.txt");
             sw.WriteLine(sr.ReadToEnd());
             OutputTableBuilder otb = new OutputTableBuilder(dataBase, t2mods, sw, "T2Modules(and ships)");
             IntermediaryTableBuilder itb = new IntermediaryTableBuilder(dataBase, t2mods, sw, "T2Components", import, market);
@@ -26,7 +26,7 @@ namespace IndustryThing.Output
             rmtb = new RawMaterialTableBuilder(dataBase, t2mods, market, sw, "Planetary Interaction", import);
             rmtb = new RawMaterialTableBuilder(dataBase, t2mods, market, sw, "Advanced Materials", import);
 
-            sr = new StreamReader(staticInfo.installDir+"\\files\\htmloutputtwo.txt");
+            sr = new StreamReader(StaticInfo.installDir+"\\files\\htmloutputtwo.txt");
             sw.WriteLine(sr.ReadToEnd());
             sw.Close();
           

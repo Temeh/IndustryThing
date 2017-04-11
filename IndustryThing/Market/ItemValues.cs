@@ -9,7 +9,7 @@ namespace IndustryThing.Market
 {
     class ItemValues
     {
-        private long typeID;
+        private int typeID;
         public long TypeID { get { return typeID; } }
         private int regionID;
         private decimal sellPrice;
@@ -20,7 +20,7 @@ namespace IndustryThing.Market
         Orders orders;
 
 
-        public ItemValues(long id, int regionID)
+        public ItemValues(int id, int regionID)
         {
             typeID = id;
             this.regionID = regionID;
@@ -48,7 +48,7 @@ namespace IndustryThing.Market
         int regionID;
         int page = 1; // 1 is deafult value for now as its not really used yet!
 
-        public Orders(long typeID_, int regionID_)
+        public Orders(int typeID_, int regionID_)
         {
             regionID = regionID_;
 
@@ -101,14 +101,15 @@ namespace IndustryThing.Market
         }
 
         /// <summary>
-        /// Makes a url to lookup the orders of an item in this instance's region.
+        /// Makes a url to lookup the orders of an item in in the spesified region.
         /// </summary>
         /// <param name="ordertype">"buy"/"sell" string</param>
         /// <param name="typeID">the lookup's type ID</param>
         /// <returns>Full url for gathering market data of the item</returns>
         string BuildUrl(long typeID)
         {
-            return "https://esi.tech.ccp.is/latest/markets/" + regionID + "/orders/?type_id=" + typeID + "&page=" + page + "&datasource=tranquility";
+            string url="https://esi.tech.ccp.is/latest/markets/" + regionID + "/orders/?type_id=" + typeID + "&page=" + page + "&datasource=tranquility";
+            return url;
         }
 
         /// <summary>
