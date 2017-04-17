@@ -15,10 +15,11 @@ namespace IndustryThing
         [STAThread]
         static void Main()
         {
+            calculator.Calculator calc = new calculator.Calculator();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
-            calculator.Calculator calc = new calculator.Calculator();
+ 
         }
     }
 
