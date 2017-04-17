@@ -90,12 +90,13 @@ namespace IndustryThing.ApiImport
             string keyID = apiCode[0];
             string vCode = apiCode[1];
             string api;
-            WebRequest wrGetXml;
-            string temp = apiDomain + "corp/AssetList.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode;
-            wrGetXml = WebRequest.Create(apiDomain + "corp/AssetList.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode);
+
+            string url = apiDomain + "corp/AssetList.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode;
+         /*   wrGetXml = WebRequest.Create(apiDomain + "corp/AssetList.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode);
             Stream objStream;
             objStream = wrGetXml.GetResponse().GetResponseStream();
-            StreamReader objReader = new StreamReader(objStream);
+            StreamReader objReader = new StreamReader(objStream); */
+            StreamReader objReader = IndustryThing.StaticInfo.GetStream(url);
             api = objReader.ReadToEnd();
             buildCorpAssets = new Assets(api);
 
@@ -103,9 +104,12 @@ namespace IndustryThing.ApiImport
             keyID = apiCode[0];
             vCode = apiCode[1];
             int charID = Convert.ToInt32(apiCode[2]);
+            /*
             wrGetXml = WebRequest.Create(apiDomain + "char/AssetList.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode + "&characterID=" + charID);
             objStream = wrGetXml.GetResponse().GetResponseStream();
-            objReader = new StreamReader(objStream);
+            objReader = new StreamReader(objStream); */
+            url = apiDomain + "char/AssetList.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode + "&characterID=" + charID;
+            objReader = IndustryThing.StaticInfo.GetStream(url);
             api = objReader.ReadToEnd();
             empireDonkey = new Assets(api);
         }

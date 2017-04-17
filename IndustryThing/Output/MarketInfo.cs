@@ -15,8 +15,8 @@ namespace IndustryThing.Output
             ApiImport.ContainerII office = import.buildCorpAssets.assets.GetContainer("1022964286749");
             int i = 0;
 
-            sw.WriteLine("Name" + "\t" + "Buildcost" + "\t" + "Haulingcost" + "\t" + "Market sell" + "\t" + "Amount on market" + "\t" + "Stock in xanadu" + "\t" + "Stock in chanuur" 
-                + "\t" + "Order price"+ "\t" + "Avg daily volume"+"\t"+"Item category");
+            sw.WriteLine("Name" + "\t" + "Buildcost" + "\t" + "Haulingcost" + "\t" + "Market sell" + "\t" + "Amount on market" + "\t" + "Stock in xanadu" + "\t" + "Stock in chanuur"
+                + "\t" + "Order price" + "\t" + "Avg daily volume" + "\t" + "Item category" + "\t" + "Max output");
             while (i < t2mods.OutputName.Length)
             {
                 sw.WriteLine(
@@ -27,11 +27,11 @@ namespace IndustryThing.Output
                + "\t" + import.marketOrders.ItemsOnMarket(t2mods.Output[i,0]) //amount we have on the market
                 + "\t" + import.empireDonkey.assets.FindItem(t2mods.Output[i,0]) // amount on Reluah
                    + "\t" + office.FindItem(t2mods.Output[i,0]) // ammount on chanuur
-                   + "\t" + import.marketOrders.SellOrderPrice(t2mods.Output[i, 0])
-                    + "\t" + market.FindAverageVolume(dataBase.settings.MarketRegion,t2mods.Output[i,0], 30)
-                    +"\t"+ dataBase.categoryIDs.GetName(dataBase.groupIDs.CategoryID(dataBase.types.GroupID(t2mods.Output[i,0])),0)
+                   + "\t" + import.marketOrders.SellOrderPrice(t2mods.Output[i, 0]) // value of our sell order
+                    + "\t" + market.FindAverageVolume(dataBase.settings.MarketRegion,t2mods.Output[i,0], 30) // average volume sold per day(last 30 days)
+                    +"\t"+ dataBase.categoryIDs.GetName(dataBase.groupIDs.CategoryID(dataBase.types.GroupID(t2mods.Output[i,0])),0) // items category
+                    +"\t"+ t2mods.Output[i,1] //amount of items produce per cycle
                     );
-
                 i++;
             }
             sw.WriteLine("market orders cached until" + "\t" + import.marketOrders.CachedUntil);

@@ -14,9 +14,11 @@ namespace IndustryThing.Market
         decimal[] adjustedPrice = new decimal[11000];
         public MarketPrices()
         {
-            WebRequest getprices = WebRequest.Create("https://esi.tech.ccp.is/dev/markets/prices/?datasource=tranquility");
+            /* WebRequest getprices = WebRequest.Create("https://esi.tech.ccp.is/dev/markets/prices/?datasource=tranquility");
             Stream objStream = getprices.GetResponse().GetResponseStream();
-            StreamReader sr = new StreamReader(objStream);
+            StreamReader sr = new StreamReader(objStream); */
+            StreamReader sr = IndustryThing.StaticInfo.GetStream("https://esi.tech.ccp.is/dev/markets/prices/?datasource=tranquility");
+
             string text = sr.ReadToEnd();
             text = text.Substring(1);
             int i = 0;
@@ -84,24 +86,3 @@ namespace IndustryThing.Market
         }
     }
 }
-
-/*
- * Example to parse
-[
-  {
-    "type_id": 32772,
-    "average_price": 474686.06,
-    "adjusted_price": 475849.68
-  },
-  {
-    "type_id": 32774,
-    "average_price": 37162.26,
-    "adjusted_price": 38232.47
-  },
-  {
-    "type_id": 32780,
-    "average_price": 846478.2,
-    "adjusted_price": 906627.92
-  }
-] 
-*/
