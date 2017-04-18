@@ -31,7 +31,7 @@ namespace IndustryThing.db
 
         public GroupIDs()
         {
-            StreamReader sr = new StreamReader(StaticInfo.installDir+"\\files\\groupIDs.yaml");
+            StreamReader sr = new StreamReader("files\\groupIDs.yaml");
             string line = sr.ReadLine();
             while (!sr.EndOfStream)
             {

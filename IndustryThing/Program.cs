@@ -25,7 +25,7 @@ namespace IndustryThing
 
     public static class StaticInfo
     {
-       public const string installDir = "E:/C#/Industrything/";
+       public const string installDir = "";
 
         public static StreamReader GetStream(string url)
         {

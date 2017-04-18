@@ -21,7 +21,7 @@ namespace IndustryThing.db
 
         public CategoryIDs()
         {
-            StreamReader sr = new StreamReader(StaticInfo.installDir+"\\files\\categoryIDs.yaml");
+            StreamReader sr = new StreamReader("files\\categoryIDs.yaml");
             string line = sr.ReadLine();
             while (!sr.EndOfStream)
             {

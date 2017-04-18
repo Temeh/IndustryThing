@@ -47,7 +47,7 @@ namespace IndustryThing.db
 
         static private int[] maxProductionLimit = new int[highestItemId];
         private string line;
-        private StreamReader sr = new StreamReader(StaticInfo.installDir+"\\files\\blueprints.yaml");
+        private StreamReader sr = new StreamReader("files\\blueprints.yaml");
 
         public Bpo()
         {
