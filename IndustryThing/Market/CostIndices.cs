@@ -98,7 +98,7 @@ namespace IndustryThing.Market
 
         decimal GetValue(string text)
         {
-            return Convert.ToDecimal(text.Substring(0, text.IndexOf("}")));
+            return decimal.Parse(text.Substring(0, text.IndexOf("}")),StaticInfo.ci);
         }
     }
 }

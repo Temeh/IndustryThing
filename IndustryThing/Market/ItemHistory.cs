@@ -43,9 +43,9 @@ namespace IndustryThing.Market
                     date[count] = Convert.ToDateTime(segment.Substring(1, segment.IndexOf(",")-2)); segment = segment.Substring(segment.IndexOf(":") + 2);
                     orderCount[count] = Convert.ToInt32(segment.Substring(0, segment.IndexOf(","))); segment = segment.Substring(segment.IndexOf(":") + 2);
                     volume[count] = Convert.ToInt64(segment.Substring(0, segment.IndexOf(","))); segment = segment.Substring(segment.IndexOf(":") + 2);
-                    highest[count] = Convert.ToDecimal(segment.Substring(0, segment.IndexOf(","))); segment = segment.Substring(segment.IndexOf(":") + 2);
-                    average[count] = Convert.ToDecimal(segment.Substring(0, segment.IndexOf(","))); segment = segment.Substring(segment.IndexOf(":") + 2);
-                    lowest[count] = Convert.ToDecimal(segment); 
+                    highest[count] = decimal.Parse(segment.Substring(0, segment.IndexOf(",")),StaticInfo.ci); segment = segment.Substring(segment.IndexOf(":") + 2);
+                    average[count] = decimal.Parse(segment.Substring(0, segment.IndexOf(",")),StaticInfo.ci); segment = segment.Substring(segment.IndexOf(":") + 2);
+                    lowest[count] = decimal.Parse(segment,StaticInfo.ci); 
                     count++;
                 }
                 if (text.StartsWith(", ")) text = text.Substring(2);

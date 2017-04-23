@@ -41,7 +41,9 @@ namespace IndustryThing.db
             line = sr.ReadLine();
             while (!sr.EndOfStream)
             {
-                int id; id = Convert.ToInt32(line.Substring(0, line.IndexOf("	"))); line = line.Substring(line.IndexOf("	") + 1);
+                string test = line.Substring(0, line.IndexOf("	"));
+                int id = Convert.ToInt32(line.Substring(0, line.IndexOf("	")));
+                line = line.Substring(line.IndexOf("	") + 1);
                 typeId[id] = true;
                 groupId[id] = Convert.ToInt32(line.Substring(0, line.IndexOf("	"))); line = line.Substring(line.IndexOf("	") + 1);
                 typeName[id] = line.Substring(0, line.IndexOf("	")); line = line.Substring(line.IndexOf("	") + 1);
@@ -51,12 +53,12 @@ namespace IndustryThing.db
                     else line = line + sr.ReadLine();
                 }
                 mass[id] = line.Substring(0, line.IndexOf("	")); line = line.Substring(line.IndexOf("	") + 1);
-                volume[id] = Convert.ToDecimal(line.Substring(0, line.IndexOf("	"))); line = line.Substring(line.IndexOf("	") + 1);
-                capacity[id] = Convert.ToDecimal(line.Substring(0, line.IndexOf("	"))); line = line.Substring(line.IndexOf("	") + 1);
+                volume[id] = decimal.Parse(line.Substring(0, line.IndexOf("	")),StaticInfo.ci); line = line.Substring(line.IndexOf("	") + 1);
+                capacity[id] = decimal.Parse(line.Substring(0, line.IndexOf("	")), StaticInfo.ci); line = line.Substring(line.IndexOf("	") + 1);
                 PortionSize[id] = Convert.ToInt32(line.Substring(0, line.IndexOf("	"))); line = line.Substring(line.IndexOf("	") + 1);
                 if (line.IndexOf("	") > 0) raceId[id] = Convert.ToInt32(line.Substring(0, line.IndexOf("	")));
                 line = line.Substring(line.IndexOf("	") + 1);
-                if (line.IndexOf("	") > 0) basePrice[id] = Convert.ToDecimal((line.Substring(0, line.IndexOf("	"))));
+                if (line.IndexOf("	") > 0) basePrice[id] = decimal.Parse((line.Substring(0, line.IndexOf("	"))), StaticInfo.ci);
                 line = line.Substring(line.IndexOf("	") + 1);
                 if (line.IndexOf("	") > 0) published[id] = Convert.ToInt32(line.Substring(0, line.IndexOf("	")));
                 line = line.Substring(line.IndexOf("	") + 1);
@@ -109,7 +111,7 @@ namespace IndustryThing.db
             {
                 string line = sr.ReadLine();
                 groupID[i] = Convert.ToInt32(line.Substring(0, line.IndexOf("	")));
-                volume[i] = Convert.ToDecimal(line.Substring(line.IndexOf("	") + 1));
+                volume[i] = decimal.Parse(line.Substring(line.IndexOf("	") + 1), StaticInfo.ci);
                 i++; 
             }
 

@@ -38,13 +38,13 @@ namespace IndustryThing.Market
                         if (text.StartsWith("\"average_price\""))
                         {
                             text = text.Substring(text.IndexOf(":") + 2);
-                            averagePrice[i] = Convert.ToDecimal(text.Substring(0, text.IndexOf(",")));
+                            averagePrice[i] = decimal.Parse(text.Substring(0, text.IndexOf(",")),StaticInfo.ci);
                             text = text.Substring(text.IndexOf(",") + 2);
                         }
                         if (text.StartsWith("\"adjusted_price\""))
                         {
                             text = text.Substring(text.IndexOf(":") + 2);
-                            adjustedPrice[i] = Convert.ToDecimal(text.Substring(0, text.IndexOf("}")));
+                            adjustedPrice[i] = decimal.Parse(text.Substring(0, text.IndexOf("}")),StaticInfo.ci);
                             text = text.Substring(text.IndexOf("}"));
                         }
                     }

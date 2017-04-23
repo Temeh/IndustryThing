@@ -21,13 +21,21 @@ namespace IndustryThing.calculator
 
         public Calculator()
         {
+            Console.WriteLine("..Loading the database...");
             dataBase = new db.Db();
-
+            Console.WriteLine("..Done loading the database");
+            Console.WriteLine("..Importing API's...");
             apiImports = new ApiImport.MainImport(dataBase);
+            Console.WriteLine("..Done importing API's");
+            Console.WriteLine("..Generating the market Class...");
             market = new Market.Market(dataBase);
+            Console.WriteLine("..Done generating the market class");
+            Console.WriteLine("..Calculates t2 production...");
             T2Builder t2mods = new T2Builder(dataBase, market);
-
+            Console.WriteLine("..Done calculating t2 production");
+            Console.WriteLine("..Generates output files...");
             Output.Output output = new Output.Output(t2mods, dataBase, market,apiImports);
+            Console.WriteLine("..Done generating output files");
            
         }
         /// <summary>//this is on the way to removal?

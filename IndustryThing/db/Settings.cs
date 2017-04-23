@@ -124,7 +124,7 @@ namespace IndustryThing.db
                 else if (line.Substring(0, line.IndexOf(":")) == "bpoTE") timeEfficiency = Convert.ToInt32(line.Substring(line.IndexOf(":") + 1));
                 else if (line.Substring(0, line.IndexOf(":")) == "marketRegion") marketRegion = line.Substring(line.IndexOf(":") + 1);
                 else if (line.Substring(0, line.IndexOf(":")) == "productionSystem") productionSystem = Convert.ToInt32(line.Substring(line.IndexOf(":") + 1));
-                else if (line.Substring(0, line.IndexOf(":")) == "facilityTax") facilityTax = Convert.ToDecimal(line.Substring(line.IndexOf(":") + 1));
+                else if (line.Substring(0, line.IndexOf(":")) == "facilityTax") facilityTax = decimal.Parse(line.Substring(line.IndexOf(":") + 1),StaticInfo.ci);
                 else if (line.Substring(0, line.IndexOf(":")) == "buildCorpApi")
                 {
                     buildCorpApi = new string[2];

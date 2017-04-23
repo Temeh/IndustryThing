@@ -99,7 +99,7 @@ namespace IndustryThing.ApiImport
                     runs[i] = Convert.ToInt32(line.Substring(0, line.IndexOf("\""))); line = line.Substring(line.IndexOf("\"") + 1);
 
                     line = line.Substring(line.IndexOf("\"") + 1); //cost
-                    cost[i] = Convert.ToDecimal(line.Substring(0, line.IndexOf("\""))); line = line.Substring(line.IndexOf("\"") + 1);
+                    cost[i] = decimal.Parse(line.Substring(0, line.IndexOf("\"")),StaticInfo.ci); line = line.Substring(line.IndexOf("\"") + 1);
 
                     line = line.Substring(line.IndexOf("\"") + 1); //teamID
                     teamID[i] = Convert.ToInt32(line.Substring(0, line.IndexOf("\""))); line = line.Substring(line.IndexOf("\"") + 1);
@@ -108,7 +108,7 @@ namespace IndustryThing.ApiImport
                     licensedRuns[i] = Convert.ToInt32(line.Substring(0, line.IndexOf("\""))); line = line.Substring(line.IndexOf("\"") + 1);
 
                     line = line.Substring(line.IndexOf("\"") + 1); //probability
-                    probability[i] = Convert.ToDecimal(line.Substring(0, line.IndexOf("\""))); line = line.Substring(line.IndexOf("\"") + 1);
+                    probability[i] = decimal.Parse(line.Substring(0, line.IndexOf("\"")),StaticInfo.ci); line = line.Substring(line.IndexOf("\"") + 1);
 
                     line = line.Substring(line.IndexOf("\"") + 1); //productTypeID
                     productTypeID[i] = Convert.ToInt32(line.Substring(0, line.IndexOf("\""))); line = line.Substring(line.IndexOf("\"") + 1);

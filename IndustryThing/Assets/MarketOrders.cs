@@ -60,9 +60,9 @@ namespace IndustryThing.ApiImport
                     line = line.Substring(line.IndexOf("\"") + 1); line = line.Substring(line.IndexOf("\"") + 1);//Gets duration
                     duration[i] = Convert.ToInt32(line.Substring(0, line.IndexOf("\"")));
                     line = line.Substring(line.IndexOf("\"") + 1); line = line.Substring(line.IndexOf("\"") + 1);//Gets escrow
-                    escrow[i] = Convert.ToDecimal(line.Substring(0, line.IndexOf("\"")));
+                    escrow[i] = decimal.Parse(line.Substring(0, line.IndexOf("\"")),StaticInfo.ci);
                     line = line.Substring(line.IndexOf("\"") + 1); line = line.Substring(line.IndexOf("\"") + 1);//Gets price
-                    price[i] = Convert.ToDecimal(line.Substring(0, line.IndexOf("\"")));
+                    price[i] = decimal.Parse(line.Substring(0, line.IndexOf("\"")),StaticInfo.ci);
                     line = line.Substring(line.IndexOf("\"") + 1); line = line.Substring(line.IndexOf("\"") + 1);//Gets ordertype
                     bid[i] = Convert.ToInt32(line.Substring(0, line.IndexOf("\"")));
                     line = line.Substring(line.IndexOf("\"") + 1); line = line.Substring(line.IndexOf("\"") + 1);//Gets issued time

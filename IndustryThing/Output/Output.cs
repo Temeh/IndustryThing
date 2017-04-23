@@ -8,12 +8,9 @@ namespace IndustryThing.Output
 {
     class Output
     {
-
         public Output(calculator.T2Builder t2mods, db.Db dataBase, Market.Market market, ApiImport.MainImport import)
-        {
-
-
-            StreamWriter sw = new StreamWriter("moduleNumbers.html");
+        {            
+            StreamWriter sw = new StreamWriter("moduleNumbers.html");              // This is replaced by the MarketInfo class
             StreamReader sr = new StreamReader("files\\htmloutputone.txt");
             sw.WriteLine(sr.ReadToEnd());
             OutputTableBuilder otb = new OutputTableBuilder(dataBase, t2mods, sw, "T2Modules(and ships)");
@@ -30,8 +27,8 @@ namespace IndustryThing.Output
             sw.WriteLine(sr.ReadToEnd());
             sw.Close();
           
-            System.Diagnostics.Process.Start(@"moduleNumbers.html");
-
+            System.Diagnostics.Process.Start(@"moduleNumbers.html"); 
+            
             new MarketInfo(dataBase, t2mods, import, market);
         }
     }

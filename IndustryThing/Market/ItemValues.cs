@@ -52,9 +52,10 @@ namespace IndustryThing.Market
         {
             regionID = regionID_;
 
-            WebRequest getprices = WebRequest.Create(BuildUrl(typeID_));
+       /*     WebRequest getprices = WebRequest.Create(BuildUrl(typeID_));
             Stream objStream = getprices.GetResponse().GetResponseStream();
-            StreamReader objReader = new StreamReader(objStream);
+            StreamReader objReader = new StreamReader(objStream);  */
+            StreamReader objReader = IndustryThing.StaticInfo.GetStream(BuildUrl(typeID_));
             string text = objReader.ReadLine();
             int i = text.Count(f => f == '{');
             orderId = new long[i];
@@ -83,7 +84,7 @@ namespace IndustryThing.Market
                     volumeTotal[count] = Convert.ToInt32(segment.Substring(0, segment.IndexOf(","))); segment = segment.Substring(segment.IndexOf(":") + 2);
                     volumeRemain[count] = Convert.ToInt32(segment.Substring(0, segment.IndexOf(","))); segment = segment.Substring(segment.IndexOf(":") + 2);
                     minVolume[count] = Convert.ToInt32(segment.Substring(0, segment.IndexOf(","))); segment = segment.Substring(segment.IndexOf(":") + 2);
-                    price[count] = Convert.ToDecimal(segment.Substring(0, segment.IndexOf(","))); segment = segment.Substring(segment.IndexOf(":") + 2);
+                    price[count] = decimal.Parse(segment.Substring(0, segment.IndexOf(",")),StaticInfo.ci); segment = segment.Substring(segment.IndexOf(":") + 2);
                     {
                         if (segment.Substring(0, segment.IndexOf(",")) == "true") isBuyOrder[count] = true;
                         else isBuyOrder[count] = false;
