@@ -19,9 +19,7 @@ namespace IndustryThing.Market
 
         public ItemHistory(int typeID, int regionID)
         {
-            WebRequest getprices = WebRequest.Create(BuildUrl(typeID, regionID));
-            Stream objStream = getprices.GetResponse().GetResponseStream();
-            StreamReader objReader = new StreamReader(objStream);
+            StreamReader objReader = StaticInfo.GetStream(BuildUrl(typeID, regionID));
             string text = objReader.ReadToEnd();
             int i = text.Count(f => f == '{');
             date = new DateTime[i];

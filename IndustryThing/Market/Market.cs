@@ -18,10 +18,11 @@ namespace IndustryThing.Market
         {
             this.dataBase = dataBase;
             region[0] = new Region(10000002); // the forge/jita
-            region[1] = new Region(10000060); // delve
+          //region[1] = new Region(10000060); // delve
             costIndices = new CostIndices(dataBase);
             marketStandardized = new MarketPrices();
         }
+
 
         /// <summary>
         /// Tells you the value of an item
@@ -32,9 +33,9 @@ namespace IndustryThing.Market
         /// <returns></returns>
         public decimal FindPrice(string regionName, string order_type, long typeID)
         {
-            int i=0;
+            int i = 0;
             if (regionName == "the forge") i = 0;
-            if (regionName == "delve") i = 1; 
+            //if (regionName == "delve") i = 1;
             return region[i].GetPrice(typeID, order_type);
         }
 
@@ -49,7 +50,7 @@ namespace IndustryThing.Market
         {
             int i = 0;
             if (regionName == "the forge") i = 0;
-            if (regionName == "delve") i = 1;
+            //if (regionName == "delve") i = 1;
             return region[i].GetAverageVolume(typeID, days);
         }
 

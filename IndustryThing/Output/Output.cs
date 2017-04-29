@@ -10,7 +10,7 @@ namespace IndustryThing.Output
     {
         public Output(calculator.T2Builder t2mods, db.Db dataBase, Market.Market market, ApiImport.MainImport import)
         {            
-            StreamWriter sw = new StreamWriter("moduleNumbers.html");              // This is replaced by the MarketInfo class
+            StreamWriter sw = new StreamWriter("moduleNumbers.html");              
             StreamReader sr = new StreamReader("files\\htmloutputone.txt");
             sw.WriteLine(sr.ReadToEnd());
             OutputTableBuilder otb = new OutputTableBuilder(dataBase, t2mods, sw, "T2Modules(and ships)");

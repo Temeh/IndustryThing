@@ -49,24 +49,6 @@ namespace IndustryThing.Market
             if (orderType == "buy") return itemValues[location].BuyPrice;
             else if (orderType == "sell") return itemValues[location].SellPrice;
             else return 0;
-            /*
-            int i = 0;
-            while (i < count)
-            {
-                if (itemvalues[i].TypeID == typeID)
-                {
-                    if (orderType == "buy") return itemvalues[i].BuyPrice;
-                    else if (orderType == "sell") return itemvalues[i].SellPrice;
-                    else return 0;
-                }
-                i++;
-            }
-            count++;
-            itemvalues[i] = new ItemValues(typeID, region);
-            if (orderType == "buy") return itemvalues[i].BuyPrice;
-            else if (orderType == "sell") return itemvalues[i].SellPrice;
-            else return 0;
-             */
         }
 
     }

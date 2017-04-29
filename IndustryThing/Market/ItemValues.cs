@@ -52,10 +52,7 @@ namespace IndustryThing.Market
         {
             regionID = regionID_;
 
-       /*     WebRequest getprices = WebRequest.Create(BuildUrl(typeID_));
-            Stream objStream = getprices.GetResponse().GetResponseStream();
-            StreamReader objReader = new StreamReader(objStream);  */
-            StreamReader objReader = IndustryThing.StaticInfo.GetStream(BuildUrl(typeID_));
+            StreamReader objReader = StaticInfo.GetStream(BuildUrl(typeID_));
             string text = objReader.ReadLine();
             int i = text.Count(f => f == '{');
             orderId = new long[i];
@@ -120,10 +117,11 @@ namespace IndustryThing.Market
         /// <returns></returns>
         public decimal FindHighBuyPrize()
         {
-            int i = 0; decimal high = 0;
+            int i = 0; decimal high = 0; int jitaStationID = 60003760;
             while (i < price.Length)
             {
-                if ((price[i] > high) && (isBuyOrder[i] == true)) high = price[i];
+                if ((price[i] > high) && (isBuyOrder[i] == true))
+                    if (locationId[i] == jitaStationID) high = price[i];
                 i++;
             }
             return high;
@@ -135,10 +133,10 @@ namespace IndustryThing.Market
         /// <returns></returns>
         public decimal FindLowSellPrize()
         {
-            decimal low = price[0]; int i = 1;
+            decimal low = price[0]; int i = 1;int jitaStationID = 60003760;
             while (i < price.Length)
             {
-                if (isBuyOrder[i] == false) if (price[i] < low) low = price[i];
+                if (isBuyOrder[i] == false) if (price[i] < low) if (locationId[i] == jitaStationID) low = price[i];
                 i++;
             }
             return low;
