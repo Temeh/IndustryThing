@@ -71,6 +71,9 @@
     <Compile Include="calculator\ProductionMethods.cs" />
     <Compile Include="calculator\IntermediateBuilder.cs" />
     <Compile Include="calculator\T2Builder.cs" />
+    <Compile Include="ESI\HttpServer.cs" />
+    <Compile Include="ESI\Login.cs" />
+    <Compile Include="ESI\TokenHandler.cs" />
     <Compile Include="Market\CostIndices.cs" />
     <Compile Include="Market\ItemHistory.cs" />
     <Compile Include="Market\ItemValues.cs" />

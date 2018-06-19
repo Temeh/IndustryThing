@@ -27,8 +27,30 @@ namespace IndustryThing
         }
     }
 
+    public class AuthToken
+    {
+        public int CharacterID { get; set; }
+        public string CharacterName { get; set; }
+        public string CharacterOwnerHash { get; set; }
+
+        public string AuthorizationToken { get; set; }
+        public string AccessToken { get; set; }
+        public string RefreshToken { get; set; }
+        public int Expires { get; set; }
+
+        public string Scopes { get; set; }
+    }
+
     public static class StaticInfo
     {
+        public delegate void AuthCompletedDelegate(AuthToken token);
+        public static event AuthCompletedDelegate AuthCompleted;
+
+        public static void Completed(AuthToken token)
+        {
+            AuthCompleted?.Invoke(token);
+        }
+
         public const string installDir = "";
         public static CultureInfo ci = CultureInfo.InvariantCulture.Clone() as CultureInfo;
         public static StreamReader GetStream(string url)

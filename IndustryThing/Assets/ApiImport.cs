@@ -24,6 +24,11 @@ namespace IndustryThing.ApiImport
 
             apiDomain = "https://api.eveonline.com//";
 
+            new ESI.Login(ESI.typeenum.BuildCorp);
+            new ESI.Login(ESI.typeenum.EmpireDonkey);
+
+            Console.ReadKey();
+
             //  StarbaseListImport();
             AssetImport();
             IndustryJobsImport();
