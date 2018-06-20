@@ -18,14 +18,19 @@ namespace IndustryThing.ApiImport
         public MarketOrders marketOrders;
         public IndustryJobs jobs;
 
+        public ESIResponse<ESI.Asset[]> ESIbuildCorpAssets;
+        public ESIResponse<ESI.Asset[]> ESIempireDonkey;
+
         public MainImport(db.Db dataBase)
         {
             this.dataBase = dataBase;
 
             apiDomain = "https://api.eveonline.com//";
 
-            new ESI.Login(ESI.typeenum.BuildCorp);
-            new ESI.Login(ESI.typeenum.EmpireDonkey);
+            new ESI.Login(ESI.CharacterEnum.BuildCorp);
+            new ESI.Login(ESI.CharacterEnum.EmpireDonkey);
+
+            ESIAssetImport();
 
             Console.ReadKey();
 
@@ -88,6 +93,12 @@ namespace IndustryThing.ApiImport
 
           }
        */
+
+        void ESIAssetImport()
+        {
+            //ESIbuildCorpAssets = StaticInfo.GetESIResponse<ESI.Asset[]>("/characters/{corporation_id}/assets/", ESI.CharacterEnum.BuildCorp);
+            ESIempireDonkey = StaticInfo.GetESIResponse<ESI.Asset[]>("/characters/{character_id}/assets/", ESI.CharacterEnum.EmpireDonkey);
+        }
 
         void AssetImport()
         {

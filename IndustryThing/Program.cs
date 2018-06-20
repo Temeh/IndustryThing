@@ -1,10 +1,15 @@
-﻿using System;
+﻿using Flurl;
+using Flurl.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Net;
 using System.Diagnostics;
 using System.Globalization;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace IndustryThing
 {
@@ -39,6 +44,12 @@ namespace IndustryThing
         public int Expires { get; set; }
 
         public string Scopes { get; set; }
+    }
+
+    public class ESIResponse<T>
+    {
+        public DateTime? CachedUntil { get; set; }
+        public T Result { get; set; }
     }
 
     public static class StaticInfo
@@ -76,6 +87,82 @@ namespace IndustryThing
             return null; // this is just here to make the error checker shut up, it should never run
         }
 
+        public static ESIResponse<T> GetESIResponse<T>(string route, ESI.CharacterEnum typeenum, string version = null)
+        {
+            if (version == null)
+                version = "latest";
+
+            route = SetRouteParameters(route, typeenum);
+
+            string token = null;
+
+            switch (typeenum)
+            {
+                case ESI.CharacterEnum.BuildCorp:
+                    token = db.Settings.BuildCorpAccessToken;
+                    break;
+                case ESI.CharacterEnum.EmpireDonkey:
+                    token = db.Settings.EmpireDonkeyAccessToken;
+                    break;
+            }
+
+            var url = db.Settings.ESIURL
+                .AppendPathSegments(version, route);
+
+            var request = url.WithOAuthBearerToken(token);
+
+            int retry = 0;
+            while (retry < 3)
+            {
+                try
+                {
+                    var result = request.GetAsync().Result;
+                    var json = result.Content.ReadAsStringAsync().Result;
+
+                    var response = new ESIResponse<T>()
+                    {
+                        CachedUntil = result.Content.Headers?.Expires?.UtcDateTime,
+                        Result = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(json)
+                    };
+
+                    return response;
+                }
+                catch (Exception ex)
+                {
+                    if (ex is AggregateException e)
+                        ex = e.InnerException;
+
+                    retry++;
+                    Console.WriteLine("Caught an error accesing (#" + retry + ")" + url);
+                    Console.WriteLine("Exception: " + ex.GetType().Name + " - " + ex.Message);
+                }
+            }
+            Console.WriteLine("Failed to call ESI");
+            Console.ReadKey();
+            throw new Exception("Dead");
+        }
+
+        static string SetRouteParameters(string route, ESI.CharacterEnum e)
+        {
+            int character_id = 0, corporation_id = 0;
+
+            switch(e)
+            {
+                case ESI.CharacterEnum.BuildCorp:
+                    character_id = db.Settings.BuildCorpCharacterId;
+                    corporation_id = db.Settings.BuildCorpCorporationId;
+                    break;
+                case ESI.CharacterEnum.EmpireDonkey:
+                    character_id = db.Settings.EmpireDonkeyCharacterId;
+                    corporation_id = db.Settings.EmpireDonkeyCorporationId;
+                    break;
+            }
+
+            route = route.Replace("{character_id}", character_id.ToString());
+            route = route.Replace("{corporation_id}", corporation_id.ToString());
+
+            return route;
+        }
     }
 
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace IndustryThing.ESI
 {
-    public enum typeenum
+    public enum CharacterEnum
     {
         BuildCorp,
         EmpireDonkey
@@ -17,7 +17,7 @@ namespace IndustryThing.ESI
 
     public class Login
     {
-        typeenum typeenum;
+        CharacterEnum typeenum;
 
         HttpServer httpServer;
 
@@ -25,16 +25,16 @@ namespace IndustryThing.ESI
         AuthToken token;
         string refreshToken;
 
-        public Login(typeenum e)
+        public Login(CharacterEnum e)
         {
             typeenum = e;
 
             switch(typeenum)
             {
-                case typeenum.BuildCorp:
+                case CharacterEnum.BuildCorp:
                     refreshToken = db.Settings.BuildCorpRefreshToken;
                     break;
-                case typeenum.EmpireDonkey:
+                case CharacterEnum.EmpireDonkey:
                     refreshToken = db.Settings.EmpireDonkeyRefreshToken;
                     break;
             }
@@ -94,7 +94,7 @@ namespace IndustryThing.ESI
             authed = true;
             this.token = token;
             Console.WriteLine("Authentication of " + typeenum.ToString() + " successful");
-            setAccessToken();
+            SetTokenStuff();
         }
 
         void loop()
@@ -125,30 +125,34 @@ namespace IndustryThing.ESI
             {
                 switch (typeenum)
                 {
-                    case typeenum.BuildCorp:
+                    case CharacterEnum.BuildCorp:
                         db.Settings.BuildCorpRefreshToken = token.RefreshToken;
-                        db.Settings.BuildCorpAccessToken = token.AccessToken;
                         break;
-                    case typeenum.EmpireDonkey:
+                    case CharacterEnum.EmpireDonkey:
                         db.Settings.EmpireDonkeyRefreshToken = token.RefreshToken;
-                        db.Settings.EmpireDonkeyAccessToken = token.AccessToken;
                         break;
                 }
                 db.Settings.SaveRefreshTokens();
             }
         }
 
-        void setAccessToken()
+        void SetTokenStuff()
         {
             if (token != null && !string.IsNullOrEmpty(token.AccessToken))
             {
+                var characterResponse = StaticInfo.GetESIResponse<Character>("characters/" + token.CharacterID + "/", typeenum);
+
                 switch (typeenum)
                 {
-                    case typeenum.BuildCorp:
+                    case CharacterEnum.BuildCorp:
                         db.Settings.BuildCorpAccessToken = token.AccessToken;
+                        db.Settings.BuildCorpCharacterId = token.CharacterID;
+                        db.Settings.BuildCorpCorporationId = characterResponse.Result.corporation_id;
                         break;
-                    case typeenum.EmpireDonkey:
+                    case CharacterEnum.EmpireDonkey:
                         db.Settings.EmpireDonkeyAccessToken = token.AccessToken;
+                        db.Settings.EmpireDonkeyCharacterId = token.CharacterID;
+                        db.Settings.EmpireDonkeyCorporationId = characterResponse.Result.corporation_id;
                         break;
                 }
             }

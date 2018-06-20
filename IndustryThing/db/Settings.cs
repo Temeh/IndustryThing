@@ -100,7 +100,11 @@ namespace IndustryThing.db
         public static string EmpireDonkeyRefreshToken;
         // Used for ESI calls
         public static string BuildCorpAccessToken;
+        public static int BuildCorpCharacterId;
+        public static int BuildCorpCorporationId;
         public static string EmpireDonkeyAccessToken;
+        public static int EmpireDonkeyCharacterId;
+        public static int EmpireDonkeyCorporationId;
 
         public static void SaveRefreshTokens()
         {
