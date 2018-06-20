@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using IndustryThing.ESI;
 
 namespace IndustryThing.Output
 {
@@ -12,7 +13,8 @@ namespace IndustryThing.Output
         {
             //  StreamWriter sw = new StreamWriter("C:\\Users\\PCPCPC\\Google Drive\\Eve\\marketInfo.txt"); // use this once i work out how to import a txt into a google spreadsheet
             StreamWriter sw = new StreamWriter("marketInfo.txt");
-            ApiImport.ContainerII office = import.buildCorpAssets.assets.GetContainer("1022964286749");
+            var office = import.ESIbuildCorpAssets.GetContainer(1022964286749);
+            //ApiImport.ContainerII office = import.buildCorpAssets.assets.GetContainer("1022964286749");
             int i = 0;
 
             sw.WriteLine("Name" + "\t" + "Buildcost" + "\t" + "Haulingcost" + "\t" + "Market sell" + "\t" + "Amount on market" + "\t" + "Stock in xanadu" + "\t" + "Stock in chanuur"
@@ -29,7 +31,8 @@ namespace IndustryThing.Output
                  + "\t" + haulingCost.ToString(StaticInfo.ci)// hauling cost per item (800 is ITL's price per m3 from delve to jita, hardcoding it because im lazy
                   + "\t" + marketSell.ToString(StaticInfo.ci) // gets the sale value of the item
                + "\t" + import.marketOrders.ItemsOnMarket(t2mods.Output[i, 0]) //amount we have on the market
-                + "\t" + import.empireDonkey.assets.FindItem(t2mods.Output[i, 0]) // amount on Reluah
+                //+ "\t" + import.empireDonkey.assets.FindItem(t2mods.Output[i, 0]) // amount on Reluah
+                + "\t" + import.ESIempireDonkey.FindItem(t2mods.Output[i, 0]) // amount on Reluah
                    + "\t" + office.FindItem(t2mods.Output[i, 0]) // ammount on chanuur
                    + "\t" + sellOrderPrize.ToString(StaticInfo.ci)// value of our sell order
                     + "\t" + market.FindAverageVolume(dataBase.settings.MarketRegion, t2mods.Output[i, 0], 30) // average volume sold per day(last 30 days)
@@ -39,8 +42,10 @@ namespace IndustryThing.Output
                 i++;
             }
             sw.WriteLine("market orders cached until" + "\t" + import.marketOrders.CachedUntil);
-            sw.WriteLine("build corp assets cached until" + "\t" + import.buildCorpAssets.CachedUntil);
-            sw.WriteLine("empire donkey corp assets cached until" + "\t" + import.empireDonkey.CachedUntil);
+            //sw.WriteLine("build corp assets cached until" + "\t" + import.buildCorpAssets.CachedUntil);
+            sw.WriteLine("build corp assets cached until" + "\t" + import.ESIbuildCorpAssets.CachedUntil);
+            //sw.WriteLine("empire donkey corp assets cached until" + "\t" + import.empireDonkey.CachedUntil);
+            sw.WriteLine("empire donkey corp assets cached until" + "\t" + import.ESIempireDonkey.CachedUntil);
             sw.Close();
             System.Diagnostics.Process.Start(@"marketInfo.txt");
 

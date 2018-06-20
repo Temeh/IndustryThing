@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using IndustryThing.ESI;
 
 namespace IndustryThing.Output
 {
@@ -11,7 +12,8 @@ namespace IndustryThing.Output
 
         public IntermediaryTableBuilder(db.Db dataBase, calculator.T2Builder t2builder, StreamWriter sw, string tableName, ApiImport.MainImport import, Market.Market market)
         {
-            ApiImport.ContainerII office = import.buildCorpAssets.assets.GetContainer("1022964286749");
+            var office = import.ESIbuildCorpAssets.GetContainer(1022964286749);
+            //ApiImport.ContainerII office = import.buildCorpAssets.assets.GetContainer("1022964286749");
 
             long[,] materials = new long[1, 1];
             if (tableName == "T2Components") materials = t2builder.GetGroup(5);

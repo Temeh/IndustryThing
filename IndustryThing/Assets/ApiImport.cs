@@ -13,8 +13,8 @@ namespace IndustryThing.ApiImport
         db.Db dataBase;
         public POS pos;
         public POSDetail posDetail;
-        public Assets buildCorpAssets;
-        public Assets empireDonkey;
+        //public Assets buildCorpAssets;
+        //public Assets empireDonkey;
         public MarketOrders marketOrders;
         public IndustryJobs jobs;
 
@@ -35,7 +35,7 @@ namespace IndustryThing.ApiImport
             Console.ReadKey();
 
             //  StarbaseListImport();
-            AssetImport();
+            //AssetImport();
             IndustryJobsImport();
             MarketOrdersImport();
         }
@@ -100,35 +100,35 @@ namespace IndustryThing.ApiImport
             ESIempireDonkey = StaticInfo.GetESIResponse<ESI.Asset[]>("/characters/{character_id}/assets/", ESI.CharacterEnum.EmpireDonkey);
         }
 
-        void AssetImport()
-        {
-            string[] apiCode = dataBase.settings.BuildCorpApi;
-            string keyID = apiCode[0];
-            string vCode = apiCode[1];
-            string api;
+        //void AssetImport()
+        //{
+        //    string[] apiCode = dataBase.settings.BuildCorpApi;
+        //    string keyID = apiCode[0];
+        //    string vCode = apiCode[1];
+        //    string api;
 
-            string url = apiDomain + "corp/AssetList.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode;
-         /*   wrGetXml = WebRequest.Create(apiDomain + "corp/AssetList.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode);
-            Stream objStream;
-            objStream = wrGetXml.GetResponse().GetResponseStream();
-            StreamReader objReader = new StreamReader(objStream); */
-            StreamReader objReader = IndustryThing.StaticInfo.GetStream(url);
-            api = objReader.ReadToEnd();
-            buildCorpAssets = new Assets(api);
+        //    string url = apiDomain + "corp/AssetList.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode;
+        // /*   wrGetXml = WebRequest.Create(apiDomain + "corp/AssetList.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode);
+        //    Stream objStream;
+        //    objStream = wrGetXml.GetResponse().GetResponseStream();
+        //    StreamReader objReader = new StreamReader(objStream); */
+        //    StreamReader objReader = IndustryThing.StaticInfo.GetStream(url);
+        //    api = objReader.ReadToEnd();
+        //    buildCorpAssets = new Assets(api);
 
-            apiCode = dataBase.settings.EmpireDonkey;
-            keyID = apiCode[0];
-            vCode = apiCode[1];
-            int charID = Convert.ToInt32(apiCode[2]);
-            /*
-            wrGetXml = WebRequest.Create(apiDomain + "char/AssetList.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode + "&characterID=" + charID);
-            objStream = wrGetXml.GetResponse().GetResponseStream();
-            objReader = new StreamReader(objStream); */
-            url = apiDomain + "char/AssetList.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode + "&characterID=" + charID;
-            objReader = IndustryThing.StaticInfo.GetStream(url);
-            api = objReader.ReadToEnd();
-            empireDonkey = new Assets(api);
-        }
+        //    apiCode = dataBase.settings.EmpireDonkey;
+        //    keyID = apiCode[0];
+        //    vCode = apiCode[1];
+        //    int charID = Convert.ToInt32(apiCode[2]);
+        //    /*
+        //    wrGetXml = WebRequest.Create(apiDomain + "char/AssetList.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode + "&characterID=" + charID);
+        //    objStream = wrGetXml.GetResponse().GetResponseStream();
+        //    objReader = new StreamReader(objStream); */
+        //    url = apiDomain + "char/AssetList.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode + "&characterID=" + charID;
+        //    objReader = IndustryThing.StaticInfo.GetStream(url);
+        //    api = objReader.ReadToEnd();
+        //    empireDonkey = new Assets(api);
+        //}
 
         void IndustryJobsImport()
         {
