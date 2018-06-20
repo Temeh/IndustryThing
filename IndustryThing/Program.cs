@@ -87,12 +87,12 @@ namespace IndustryThing
             return null; // this is just here to make the error checker shut up, it should never run
         }
 
-        public static ESIResponse<T> GetESIResponse<T>(string route, ESI.CharacterEnum typeenum, string version = null)
+        public static ESIResponse<T> GetESIResponse<T>(string route, ESI.CharacterEnum typeenum, Dictionary<string, object> parms = null, string version = null)
         {
             if (version == null)
                 version = "latest";
 
-            route = SetRouteParameters(route, typeenum);
+            route = SetPathParameters(route, typeenum);
 
             string token = null;
 
@@ -109,6 +109,9 @@ namespace IndustryThing
             var url = db.Settings.ESIURL
                 .AppendPathSegments(version, route);
 
+            if (parms != null && parms.Count > 0)
+                url.SetQueryParams(parms);
+
             var request = url.WithOAuthBearerToken(token);
 
             int retry = 0;
@@ -121,7 +124,7 @@ namespace IndustryThing
 
                     var response = new ESIResponse<T>()
                     {
-                        CachedUntil = result.Content.Headers?.Expires?.UtcDateTime,
+                        CachedUntil = result.Content.Headers?.Expires?.UtcDateTime.AddSeconds(10),
                         Result = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(json)
                     };
 
@@ -142,7 +145,7 @@ namespace IndustryThing
             throw new Exception("Dead");
         }
 
-        static string SetRouteParameters(string route, ESI.CharacterEnum e)
+        static string SetPathParameters(string route, ESI.CharacterEnum e)
         {
             int character_id = 0, corporation_id = 0;
 

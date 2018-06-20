@@ -18,8 +18,8 @@ namespace IndustryThing.ApiImport
         public MarketOrders marketOrders;
         public IndustryJobs jobs;
 
-        public ESIResponse<ESI.Asset[]> ESIbuildCorpAssets;
-        public ESIResponse<ESI.Asset[]> ESIempireDonkey;
+        public ESIResponse<List<ESI.Asset>> ESIbuildCorpAssets;
+        public ESIResponse<List<ESI.Asset>> ESIempireDonkey;
 
         public MainImport(db.Db dataBase)
         {
@@ -96,8 +96,29 @@ namespace IndustryThing.ApiImport
 
         void ESIAssetImport()
         {
-            //ESIbuildCorpAssets = StaticInfo.GetESIResponse<ESI.Asset[]>("/characters/{corporation_id}/assets/", ESI.CharacterEnum.BuildCorp);
-            ESIempireDonkey = StaticInfo.GetESIResponse<ESI.Asset[]>("/characters/{character_id}/assets/", ESI.CharacterEnum.EmpireDonkey);
+            ESIbuildCorpAssets = ESIAssetImport("/characters/{corporation_id}/assets/", ESI.CharacterEnum.BuildCorp);
+            ESIempireDonkey =  ESIAssetImport("/characters/{character_id}/assets/", ESI.CharacterEnum.EmpireDonkey);
+        }
+
+        ESIResponse<List<ESI.Asset>> ESIAssetImport(string route, ESI.CharacterEnum type)
+        {
+            int page = 1;
+            ESIResponse<List<ESI.Asset>> response = null, result = null;
+            do
+            {
+                var parms = new Dictionary<string, object>() { { "page", page } };
+                response = StaticInfo.GetESIResponse<List<ESI.Asset>>(route, type, parms);
+
+                if (result == null)
+                    result = response;
+                else
+                    result.Result.AddRange(response.Result);
+
+                page++;
+            }
+            while (response.Result.Count >= 1000);
+
+            return result;
         }
 
         //void AssetImport()
