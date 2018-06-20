@@ -166,6 +166,31 @@ namespace IndustryThing
 
             return route;
         }
+
+        public static ESIResponse<List<T>> ESIImportCrawl<T>(string route, ESI.CharacterEnum type, Dictionary<string, object> parms = null)
+        {
+            if (parms == null)
+                parms = new Dictionary<string, object>();
+
+            int page = 1;
+            ESIResponse<List<T>> response = null, result = null;
+            do
+            {
+                var myparms = new Dictionary<string, object>(parms);
+                myparms.Add("page", page);
+                response = StaticInfo.GetESIResponse<List<T>>(route, type, parms);
+
+                if (result == null)
+                    result = response;
+                else
+                    result.Result.AddRange(response.Result);
+
+                page++;
+            }
+            while (response.Result.Count >= 1000);
+
+            return result;
+        }
     }
 
 }

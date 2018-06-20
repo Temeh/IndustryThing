@@ -75,6 +75,7 @@
     <Compile Include="ESI\Character.cs" />
     <Compile Include="ESI\Extensions.cs" />
     <Compile Include="ESI\HttpServer.cs" />
+    <Compile Include="ESI\IndustryJobs.cs" />
     <Compile Include="ESI\Login.cs" />
     <Compile Include="ESI\TokenHandler.cs" />
     <Compile Include="Market\CostIndices.cs" />
