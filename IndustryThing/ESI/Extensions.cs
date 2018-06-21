@@ -70,5 +70,69 @@ namespace IndustryThing.ESI
             return totalRuns * bpoOutput[0, 1];
         }
         #endregion
+
+        #region Market orders
+        internal static int FindOrder(this ESIResponse<List<MarketOrder>> response, int typeID)
+        {
+            return response.Result.FindOrder(typeID);
+        }
+
+        /// <summary>
+        /// finds witch order holds a spesific type
+        /// </summary>
+        /// <param name="typeID">typeid</param>
+        /// <returns>position in array(int) of the spesified item. Returns -1 if it cant find the item in question</returns>
+        internal static int FindOrder(this List<MarketOrder> orders, int typeID)
+        {
+            for (int i = 0; i < orders.Count; i++)
+            {
+                var order = orders[i];
+                if (order.type_id == typeID && order.is_buy_order != true)
+                    return i;
+            }
+
+            return -1;
+        }
+
+        internal static decimal SellOrderPrice(this ESIResponse<List<MarketOrder>> response, int typeID)
+        {
+            return response.Result.SellOrderPrice(typeID);
+        }
+
+        /// <summary>
+        /// Finds the current price of a market order
+        /// </summary>
+        /// <param name="typeID">typeid</param>
+        /// <returns>current order price</returns>
+        internal static decimal SellOrderPrice(this List<MarketOrder> orders, int typeID)
+        {
+            int i = orders.FindOrder(typeID);
+
+            if (i >= 0)
+                return orders[i].price;
+
+            return 0;
+        }
+
+        internal static int ItemsOnMarket(this ESIResponse<List<MarketOrder>> response, int typeID)
+        {
+            return response.Result.ItemsOnMarket(typeID);
+        }
+
+        /// <summary>
+        /// Takes a typeID and check how many items of it is on sell orders(currently only shows the first order it finds)
+        /// </summary>
+        /// <param name="typeID">the typeID you are looking up</param>
+        /// <returns></returns>
+        internal static int ItemsOnMarket(this List<MarketOrder> orders, int typeID)
+        {
+            int i = orders.FindOrder(typeID);
+
+            if (i >= 0)
+                return orders[i].volume_remain;
+
+            else return 0;
+        }
+        #endregion
     }
 }

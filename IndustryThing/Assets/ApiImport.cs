@@ -15,12 +15,13 @@ namespace IndustryThing.ApiImport
         public POSDetail posDetail;
         //public Assets buildCorpAssets;
         //public Assets empireDonkey;
-        public MarketOrders marketOrders;
+        //public MarketOrders marketOrders;
         //public IndustryJobs jobs;
 
         public ESIResponse<List<ESI.Asset>> ESIbuildCorpAssets;
         public ESIResponse<List<ESI.Asset>> ESIempireDonkey;
         public ESIResponse<List<ESI.IndustryJob>> ESIjobs;
+        public ESIResponse<List<ESI.MarketOrder>> ESImarketOrders;
 
         public MainImport(db.Db dataBase)
         {
@@ -33,13 +34,14 @@ namespace IndustryThing.ApiImport
 
             ESIAssetImport();
             ESIIndustryJobsImport();
+            ESIMarketOrdersImport();
 
             Console.ReadKey();
 
             //  StarbaseListImport();
             //AssetImport();
             //IndustryJobsImport();
-            MarketOrdersImport();
+            //MarketOrdersImport();
         }
 
         /* void StarbaseListImport()///Gets The StarbaseList xml details
@@ -151,19 +153,24 @@ namespace IndustryThing.ApiImport
         //    jobs = new IndustryJobs(objReader, dataBase);
         //}
 
-        void MarketOrdersImport()
+        void ESIMarketOrdersImport()
         {
-            string[] apiCode = dataBase.settings.EmpireCorpApi;
-            string keyID = apiCode[0];
-            string vCode = apiCode[1];
-            WebRequest wrGetXml;
-            string temp = apiDomain + "corp/MarketOrders.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode;
-            wrGetXml = WebRequest.Create(apiDomain + "corp/MarketOrders.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode);
-            Stream objStream;
-            objStream = wrGetXml.GetResponse().GetResponseStream();
-            StreamReader objReader = new StreamReader(objStream);
-            marketOrders = new MarketOrders(objReader);
+            ESImarketOrders = StaticInfo.ESIImportCrawl<ESI.MarketOrder>("corporations/{corporation_id}/orders/", ESI.CharacterEnum.EmpireDonkey);
         }
+
+        //void MarketOrdersImport()
+        //{
+        //    string[] apiCode = dataBase.settings.EmpireCorpApi;
+        //    string keyID = apiCode[0];
+        //    string vCode = apiCode[1];
+        //    WebRequest wrGetXml;
+        //    string temp = apiDomain + "corp/MarketOrders.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode;
+        //    wrGetXml = WebRequest.Create(apiDomain + "corp/MarketOrders.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode);
+        //    Stream objStream;
+        //    objStream = wrGetXml.GetResponse().GetResponseStream();
+        //    StreamReader objReader = new StreamReader(objStream);
+        //    marketOrders = new MarketOrders(objReader);
+        //}
 
         string RemoveSpaceFromStartOfLine(string line) // Clears the start of a line of empty spaces to make it easier to read
         {
