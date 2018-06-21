@@ -28,7 +28,7 @@ namespace IndustryThing.ESI
 
         public static List<Asset> GetContainer(this ESIResponse<List<Asset>> assets, long containerID)
         {
-            return assets.GetContainer(containerID);
+            return assets.Result.GetContainer(containerID);
         }
 
         public static List<Asset> GetContainer(this List<Asset> assets, long containerID)
