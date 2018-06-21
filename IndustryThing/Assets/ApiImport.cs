@@ -97,7 +97,7 @@ namespace IndustryThing.ApiImport
 
         void ESIAssetImport()
         {
-            ESIbuildCorpAssets = StaticInfo.ESIImportCrawl<ESI.Asset>("/characters/{corporation_id}/assets/", ESI.CharacterEnum.BuildCorp);
+            ESIbuildCorpAssets = StaticInfo.ESIImportCrawl<ESI.Asset>("/corporations/{corporation_id}/assets/", ESI.CharacterEnum.BuildCorp);
             ESIempireDonkey = StaticInfo.ESIImportCrawl<ESI.Asset>("/characters/{character_id}/assets/", ESI.CharacterEnum.EmpireDonkey);
         }
 
