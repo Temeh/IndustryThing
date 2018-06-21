@@ -24,6 +24,8 @@ namespace IndustryThing.ESI
         bool authed = false;
         AuthToken token;
         string refreshToken;
+        Thread inputThread;
+        AutoResetEvent getAuth, gotAuth;
 
         public Login(CharacterEnum e)
         {
@@ -55,37 +57,51 @@ namespace IndustryThing.ESI
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error using refresh token, trying auth instead");
+                Console.WriteLine("....Error using refresh token for " + typeenum.ToString() + ", trying auth instead");
                 auth();
             }
         }
 
         void auth()
         {
-            Console.WriteLine("SSO Authentication for: " + typeenum.ToString());
-            Console.WriteLine("Press any key to open auth window");
+            Console.WriteLine("....Press any key to open auth window for: " + typeenum.ToString());
 
             Console.ReadKey();
 
             using (httpServer = new HttpServer(db.Settings.GetScopes(typeenum)))
             {
                 System.Threading.Tasks.Task.Run(() => httpServer.Start(new CancellationToken()));
+                getAuth = new AutoResetEvent(false);
+                gotAuth = new AutoResetEvent(false);
+                inputThread = new Thread(backgroundThread);
+                inputThread.IsBackground = true;
+                inputThread.Start();
 
                 var url = db.Settings.URL.AppendPathSegment("auth");
                 try
                 {
                     Process.Start(url);
+                    Console.WriteLine("....Please log in via the browser window");
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Failed to open browser window for authentication.");
-                    Console.WriteLine("Please navigate to " + url + " manually");
+                    Console.WriteLine("....Failed to open browser window for authentication.");
+                    Console.WriteLine("....Please navigate to " + url + " manually");
                 }
 
-                loop();
+                // Wait for background thread
+                gotAuth.WaitOne();
             }
 
             saveRefreshToken();
+        }
+
+        void backgroundThread()
+        {
+            // Wait for the callback
+            getAuth.WaitOne();
+            // Callback received, allow main thread to continue
+            gotAuth.Set();
         }
 
         private void StaticInfo_AuthCompleted(AuthToken token)
@@ -93,30 +109,10 @@ namespace IndustryThing.ESI
             StaticInfo.AuthCompleted -= StaticInfo_AuthCompleted;
             authed = true;
             this.token = token;
-            Console.WriteLine("Authentication of " + typeenum.ToString() + " successful");
+            Console.WriteLine("....Authentication of " + typeenum.ToString() + " successful");
             SetTokenStuff();
-        }
-
-        void loop()
-        {
-            Console.WriteLine("Press any key when auth is successful");
-            Console.ReadKey();
-
-            if (!authed)
-            {
-                Console.WriteLine("Authentication callback not yet registered. Keep waiting? Y/N");
-
-                var k = Console.ReadLine();
-
-                if (k == "N")
-                {
-                    Console.WriteLine("Application terminating!");
-                    Console.ReadKey();
-                    Environment.Exit(0);
-                }
-                else
-                    loop();
-            }
+            // Tell background thread we got callbac
+            getAuth?.Set();
         }
 
         void saveRefreshToken()

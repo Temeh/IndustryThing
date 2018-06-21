@@ -29,9 +29,6 @@ namespace IndustryThing.ApiImport
 
             //apiDomain = "https://api.eveonline.com//";
 
-            new ESI.Login(ESI.CharacterEnum.BuildCorp);
-            new ESI.Login(ESI.CharacterEnum.EmpireDonkey);
-
             ESIAssetImport();
             ESIIndustryJobsImport();
             ESIMarketOrdersImport();
