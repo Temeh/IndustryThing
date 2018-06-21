@@ -16,7 +16,7 @@ namespace IndustryThing.ApiImport
         //public Assets buildCorpAssets;
         //public Assets empireDonkey;
         public MarketOrders marketOrders;
-        public IndustryJobs jobs;
+        //public IndustryJobs jobs;
 
         public ESIResponse<List<ESI.Asset>> ESIbuildCorpAssets;
         public ESIResponse<List<ESI.Asset>> ESIempireDonkey;
@@ -32,12 +32,13 @@ namespace IndustryThing.ApiImport
             new ESI.Login(ESI.CharacterEnum.EmpireDonkey);
 
             ESIAssetImport();
+            ESIIndustryJobsImport();
 
             Console.ReadKey();
 
             //  StarbaseListImport();
             //AssetImport();
-            IndustryJobsImport();
+            //IndustryJobsImport();
             MarketOrdersImport();
         }
 
@@ -136,19 +137,19 @@ namespace IndustryThing.ApiImport
             ESIjobs = StaticInfo.ESIImportCrawl<ESI.IndustryJob>("corporations/{corporation_id}/industry/jobs/", ESI.CharacterEnum.BuildCorp);
         }
 
-        void IndustryJobsImport()
-        {
-            string[] apiCode = dataBase.settings.BuildCorpApi;
-            string keyID = apiCode[0];
-            string vCode = apiCode[1];
-            WebRequest wrGetXml;
-            string temp = apiDomain + "corp/IndustryJobs.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode;
-            wrGetXml = WebRequest.Create(apiDomain + "corp/IndustryJobs.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode);
-            Stream objStream;
-            objStream = wrGetXml.GetResponse().GetResponseStream();
-            StreamReader objReader = new StreamReader(objStream);
-            jobs = new IndustryJobs(objReader, dataBase);
-        }
+        //void IndustryJobsImport()
+        //{
+        //    string[] apiCode = dataBase.settings.BuildCorpApi;
+        //    string keyID = apiCode[0];
+        //    string vCode = apiCode[1];
+        //    WebRequest wrGetXml;
+        //    string temp = apiDomain + "corp/IndustryJobs.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode;
+        //    wrGetXml = WebRequest.Create(apiDomain + "corp/IndustryJobs.xml.aspx?" + "KeyID=" + keyID + "&vCode=" + vCode);
+        //    Stream objStream;
+        //    objStream = wrGetXml.GetResponse().GetResponseStream();
+        //    StreamReader objReader = new StreamReader(objStream);
+        //    jobs = new IndustryJobs(objReader, dataBase);
+        //}
 
         void MarketOrdersImport()
         {

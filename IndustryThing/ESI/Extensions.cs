@@ -8,12 +8,13 @@ namespace IndustryThing.ESI
 {
     public static class Extensions
     {
-        public static long FindItem(this ESIResponse<List<Asset>> response, int typeID)
+        #region Asset
+        internal static long FindItem(this ESIResponse<List<Asset>> response, int typeID)
         {
             return response.Result.FindItem(typeID);
         }
 
-        public static long FindItem(this List<Asset> assets, int typeID)
+        internal static long FindItem(this List<Asset> assets, int typeID)
         {
             int itemsCount = 0;
 
@@ -26,12 +27,12 @@ namespace IndustryThing.ESI
             return itemsCount;
         }
 
-        public static List<Asset> GetContainer(this ESIResponse<List<Asset>> assets, long containerID)
+        internal static List<Asset> GetContainer(this ESIResponse<List<Asset>> assets, long containerID)
         {
             return assets.Result.GetContainer(containerID);
         }
 
-        public static List<Asset> GetContainer(this List<Asset> assets, long containerID)
+        internal static List<Asset> GetContainer(this List<Asset> assets, long containerID)
         {
             var containerAssets = new List<Asset>();
 
@@ -43,5 +44,31 @@ namespace IndustryThing.ESI
 
             return containerAssets;
         }
+        #endregion
+
+        #region Industry jobs
+        internal static int GetJobs(this ESIResponse<List<IndustryJob>> response, int typeID, db.Db dataBase)
+        {
+            return response.Result.GetJobs(typeID, dataBase);
+        }
+        /// <summary>
+        /// takes a typeID and returns the amount of items being produced currently
+        /// </summary>
+        /// <param name="typeID"></param>
+        /// <returns></returns>
+        internal static int GetJobs(this List<IndustryJob> jobs, int typeID, db.Db dataBase)
+        {
+            int totalRuns = 0;
+
+            foreach(var job in jobs)
+            {
+                if (job.product_type_id == typeID)
+                    totalRuns += job.runs;
+            }
+
+            int[,] bpoOutput = dataBase.bpo.ManufacturingOutput(dataBase.bpo.FindBpoTypeIdForItem(typeID));
+            return totalRuns * bpoOutput[0, 1];
+        }
+        #endregion
     }
 }

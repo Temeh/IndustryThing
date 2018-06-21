@@ -37,7 +37,7 @@ namespace IndustryThing.Output
             {
                 long need = materials[i, 1];
                 long have = office.FindItem(Convert.ToInt32(materials[i, 0]));
-                long building = import.jobs.GetJobs(Convert.ToInt32(materials[i, 0]));
+                long building = import.ESIjobs.GetJobs(Convert.ToInt32(materials[i, 0]), dataBase);
                 long lacking;
                 if ((have + building) - need >= 0) lacking = 0;
                 else lacking = need - building - have;
