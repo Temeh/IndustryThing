@@ -79,6 +79,8 @@ namespace IndustryThing.ESI
             }
             catch (Exception ex)
             {
+                if (ex is AggregateException e)
+                    ex = e.InnerException;
                 Console.WriteLine("HttpServer HandleRequest exception: " + ex.Message);
             }
         }

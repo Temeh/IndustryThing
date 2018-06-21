@@ -106,11 +106,9 @@ namespace IndustryThing.db
         /// </summary>
         public string[] EmpireDonkey { get { return empireDonkey; } }
 
-        private static string esiClientId;
-        public static string ESIClientId { get { return esiClientId; } }
+        public static string ESIClientId;
 
-        private static string esiSecret;
-        public static string ESISecret { get { return esiSecret; } }
+        public static string ESISecret;
 
         // Used to get access tokens
         public static string BuildCorpRefreshToken;
@@ -123,7 +121,7 @@ namespace IndustryThing.db
         public static int EmpireDonkeyCharacterId;
         public static int EmpireDonkeyCorporationId;
 
-        public static void SaveRefreshTokens()
+        public static void SaveSettings()
         {
             using (var stream = new MemoryStream())
             {
@@ -132,11 +130,22 @@ namespace IndustryThing.db
                     using (StreamReader sr = new StreamReader(StaticInfo.installDir + "settings.txt"))
                     {
                         // Read settings
-                        bool buildCorpFound = false, empireDonkeyFound = false;
+                        bool buildCorpFound = false, empireDonkeyFound = false,
+                            clientIdFound = false, clientSecretFound = false;
                         while (!sr.EndOfStream)
                         {
                             string line = sr.ReadLine();
-                            if (line.StartsWith("BuildCorpRefreshToken:"))
+                            if (line.StartsWith("esiClientID:"))
+                            {
+                                clientIdFound = true;
+                                line = "esiClientID:" + ESIClientId;
+                            }
+                            else if (line.StartsWith("esiClientSecret:"))
+                            {
+                                clientSecretFound = true;
+                                line = "esiClientSecret:" + ESISecret;
+                            }
+                            else if (line.StartsWith("BuildCorpRefreshToken:"))
                             {
                                 buildCorpFound = true;
                                 line = "BuildCorpRefreshToken:" + BuildCorpRefreshToken;
@@ -150,6 +159,10 @@ namespace IndustryThing.db
                             sw.WriteLine(line);
                         }
 
+                        if (!clientIdFound)
+                            sw.WriteLine("esiClientID:" + ESIClientId);
+                        if (!clientSecretFound)
+                            sw.WriteLine("esiClientSecret:" + ESISecret);
                         if (!buildCorpFound)
                             sw.WriteLine("BuildCorpRefreshToken:" + BuildCorpRefreshToken);
                         if (!empireDonkeyFound)
@@ -245,11 +258,11 @@ namespace IndustryThing.db
                 }
                 else if (line.StartsWith("esiClientID:"))
                 {
-                    esiClientId = line.Substring("esiClientID:".Length, line.Length - "esiClientID:".Length);
+                    ESIClientId = line.Substring("esiClientID:".Length, line.Length - "esiClientID:".Length);
                 }
                 else if (line.StartsWith("esiClientSecret:"))
                 {
-                    esiSecret = line.Substring("esiClientSecret:".Length, line.Length - "esiClientSecret:".Length);
+                    ESISecret = line.Substring("esiClientSecret:".Length, line.Length - "esiClientSecret:".Length);
                 }
                 else if (line.StartsWith("BuildCorpRefreshToken:"))
                 {
