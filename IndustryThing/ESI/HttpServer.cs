@@ -12,7 +12,8 @@ namespace IndustryThing.ESI
         public bool IsDisposed { get; private set; }
         HttpListener listener;
         CancellationToken ct;
-        public HttpServer()
+        string scopes;
+        public HttpServer(string scopes)
         {
             StaticInfo.AuthCompleted += (token) =>
             {
@@ -20,6 +21,7 @@ namespace IndustryThing.ESI
             };
             listener = new HttpListener();
             listener.Prefixes.Add(db.Settings.URL);
+            this.scopes = scopes;
         }
 
         public void Start(CancellationToken token)
@@ -101,7 +103,7 @@ namespace IndustryThing.ESI
                 .SetQueryParam("redirect_uri", callback)
                 .SetQueryParam("client_id", db.Settings.ESIClientId)
                 .SetQueryParam("state", state)
-                .SetQueryParam("scope", db.Settings.GetScopes());
+                .SetQueryParam("scope", scopes);
 
             response.Redirect(redirect);
             response.Close();

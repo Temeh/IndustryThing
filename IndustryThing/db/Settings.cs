@@ -11,14 +11,31 @@ namespace IndustryThing.db
         public const string URL = "http://localhost:8081/";
         public const string ESIURL = "https://esi.evetech.net/";
         public const string AuthURL = "https://login.eveonline.com/oauth";
-        static readonly string[] scopes = new string[]
+
+        public static string GetScopes(ESI.CharacterEnum e)
         {
-            "esi-assets.read_assets.v1", // Char assets
-            "esi-assets.read_corporation_assets.v1", // Corp assets
-            "esi-industry.read_corporation_jobs.v1", // Corp industry jobs
-            "esi-markets.read_corporation_orders.v1" // Corp market orders
-        };
-        public static string GetScopes() { return string.Join(" ", scopes); }
+            var scopes = new string[0];
+
+            switch (e)
+            {
+                case ESI.CharacterEnum.BuildCorp:
+                    scopes = new string[]
+                    {
+                        "esi-assets.read_corporation_assets.v1", // Corp assets
+                        "esi-industry.read_corporation_jobs.v1", // Corp industry jobs
+                    };
+                    break;
+                case ESI.CharacterEnum.EmpireDonkey:
+                    scopes = new string[]
+                    {
+                        "esi-assets.read_assets.v1", // Char assets
+                        "esi-markets.read_corporation_orders.v1" // Corp market orders
+                    };
+                    break;
+            }
+
+            return string.Join(" ", scopes);
+        }
 
         private int industryLevel;
         public int IndustryLevel { get { return industryLevel; } }

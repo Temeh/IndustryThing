@@ -67,7 +67,7 @@ namespace IndustryThing.ESI
 
             Console.ReadKey();
 
-            using (httpServer = new HttpServer())
+            using (httpServer = new HttpServer(db.Settings.GetScopes(typeenum)))
             {
                 System.Threading.Tasks.Task.Run(() => httpServer.Start(new CancellationToken()));
 
