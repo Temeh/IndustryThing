@@ -25,7 +25,7 @@ namespace IndustryThing.calculator
             dataBase = new db.Db();
             Console.WriteLine("..Done loading the database");
             Console.WriteLine("..Importing API's...");
-            apiImports = new ApiImport.MainImport(dataBase);
+            apiImports = new ApiImport.MainImport();
             Console.WriteLine("..Done importing API's");
             Console.WriteLine("..Generating the market Class...");
             market = new Market.Market(dataBase);

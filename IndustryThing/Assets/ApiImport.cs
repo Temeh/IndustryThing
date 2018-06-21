@@ -9,10 +9,10 @@ namespace IndustryThing.ApiImport
 {
     class MainImport
     {
-        string apiDomain;
-        db.Db dataBase;
-        public POS pos;
-        public POSDetail posDetail;
+        //string apiDomain;
+        //db.Db dataBase;
+        //public POS pos;
+        //public POSDetail posDetail;
         //public Assets buildCorpAssets;
         //public Assets empireDonkey;
         //public MarketOrders marketOrders;
@@ -23,11 +23,11 @@ namespace IndustryThing.ApiImport
         public ESIResponse<List<ESI.IndustryJob>> ESIjobs;
         public ESIResponse<List<ESI.MarketOrder>> ESImarketOrders;
 
-        public MainImport(db.Db dataBase)
+        public MainImport()
         {
-            this.dataBase = dataBase;
+            //this.dataBase = dataBase;
 
-            apiDomain = "https://api.eveonline.com//";
+            //apiDomain = "https://api.eveonline.com//";
 
             new ESI.Login(ESI.CharacterEnum.BuildCorp);
             new ESI.Login(ESI.CharacterEnum.EmpireDonkey);
@@ -102,6 +102,8 @@ namespace IndustryThing.ApiImport
         {
             ESIbuildCorpAssets = StaticInfo.ESIImportCrawl<ESI.Asset>("/corporations/{corporation_id}/assets/", ESI.CharacterEnum.BuildCorp);
             ESIempireDonkey = StaticInfo.ESIImportCrawl<ESI.Asset>("/characters/{character_id}/assets/", ESI.CharacterEnum.EmpireDonkey);
+
+            Console.WriteLine("....Done loading assets");
         }
 
         //void AssetImport()
@@ -137,6 +139,7 @@ namespace IndustryThing.ApiImport
         void ESIIndustryJobsImport()
         {
             ESIjobs = StaticInfo.ESIImportCrawl<ESI.IndustryJob>("corporations/{corporation_id}/industry/jobs/", ESI.CharacterEnum.BuildCorp);
+            Console.WriteLine("....Done loading industry jobs");
         }
 
         //void IndustryJobsImport()
@@ -156,6 +159,7 @@ namespace IndustryThing.ApiImport
         void ESIMarketOrdersImport()
         {
             ESImarketOrders = StaticInfo.ESIImportCrawl<ESI.MarketOrder>("corporations/{corporation_id}/orders/", ESI.CharacterEnum.EmpireDonkey);
+            Console.WriteLine("....Done loading market orders");
         }
 
         //void MarketOrdersImport()
@@ -172,249 +176,249 @@ namespace IndustryThing.ApiImport
         //    marketOrders = new MarketOrders(objReader);
         //}
 
-        string RemoveSpaceFromStartOfLine(string line) // Clears the start of a line of empty spaces to make it easier to read
-        {
-            bool hasSpaces = true;
-            while (hasSpaces == true) { if (line.StartsWith(" ")) { line = line.Remove(0, 1); } else { hasSpaces = false; } }
-            return line;
-        }
+        //string RemoveSpaceFromStartOfLine(string line) // Clears the start of a line of empty spaces to make it easier to read
+        //{
+        //    bool hasSpaces = true;
+        //    while (hasSpaces == true) { if (line.StartsWith(" ")) { line = line.Remove(0, 1); } else { hasSpaces = false; } }
+        //    return line;
+        //}
     }
 
-    class POS // class to hold pos info
-    {
+    //class POS // class to hold pos info
+    //{
 
-        public string apiVersion;
-        public string eveTimeOfApi;
-        public string cachedUntil;
-        public string name;
-        public string key;
-        public POSDetails[] posDetails = new POSDetails[100];
-        public int posCount = 0;
+    //    public string apiVersion;
+    //    public string eveTimeOfApi;
+    //    public string cachedUntil;
+    //    public string name;
+    //    public string key;
+    //    public POSDetails[] posDetails = new POSDetails[100];
+    //    public int posCount = 0;
 
-        public POS() { }
+    //    public POS() { }
 
-        List<string> columns = new List<string>();//Does not actually serve a purpose atm.
-        public void SetColums(string line)
-        {
-            line = line.Substring(line.IndexOf("name=\"") + 6);
-            name = line.Substring(0, line.IndexOf("\""));
+    //    List<string> columns = new List<string>();//Does not actually serve a purpose atm.
+    //    public void SetColums(string line)
+    //    {
+    //        line = line.Substring(line.IndexOf("name=\"") + 6);
+    //        name = line.Substring(0, line.IndexOf("\""));
 
-            line = line.Substring(line.IndexOf("key=\"") + 5);
-            key = line.Substring(0, line.IndexOf("\""));
+    //        line = line.Substring(line.IndexOf("key=\"") + 5);
+    //        key = line.Substring(0, line.IndexOf("\""));
 
-            line = line.Substring(line.IndexOf("columns=\"") + 9);
-            line = line.Substring(0, line.IndexOf("\""));
-            while (line != "done")
-            {
-                int j = line.IndexOf(",");
-                if (j != -1)
-                {
-                    columns.Add(line.Substring(0, j));
-                    line = line.Remove(0, j + 1);
+    //        line = line.Substring(line.IndexOf("columns=\"") + 9);
+    //        line = line.Substring(0, line.IndexOf("\""));
+    //        while (line != "done")
+    //        {
+    //            int j = line.IndexOf(",");
+    //            if (j != -1)
+    //            {
+    //                columns.Add(line.Substring(0, j));
+    //                line = line.Remove(0, j + 1);
 
-                }
-                else { columns.Add(line); line = "done"; }
-            }
-        }
+    //            }
+    //            else { columns.Add(line); line = "done"; }
+    //        }
+    //    }
 
-        public void AddPOS(string line)
-        {
-            posDetails[posCount] = new POSDetails();
-            string findValue;
-            findValue = line.Substring(line.IndexOf("itemID") + 8);
-            posDetails[posCount].itemID = findValue.Substring(0, findValue.IndexOf("\""));
+    //    public void AddPOS(string line)
+    //    {
+    //        posDetails[posCount] = new POSDetails();
+    //        string findValue;
+    //        findValue = line.Substring(line.IndexOf("itemID") + 8);
+    //        posDetails[posCount].itemID = findValue.Substring(0, findValue.IndexOf("\""));
 
-            findValue = line.Substring(line.IndexOf("typeID") + 8);
-            posDetails[posCount].typeID = findValue.Substring(0, findValue.IndexOf("\""));
+    //        findValue = line.Substring(line.IndexOf("typeID") + 8);
+    //        posDetails[posCount].typeID = findValue.Substring(0, findValue.IndexOf("\""));
 
-            findValue = line.Substring(line.IndexOf("locationID") + 12);
-            posDetails[posCount].locationID = findValue.Substring(0, findValue.IndexOf("\""));
+    //        findValue = line.Substring(line.IndexOf("locationID") + 12);
+    //        posDetails[posCount].locationID = findValue.Substring(0, findValue.IndexOf("\""));
 
-            findValue = line.Substring(line.IndexOf("moonID") + 8);
-            posDetails[posCount].moonID = findValue.Substring(0, findValue.IndexOf("\""));
+    //        findValue = line.Substring(line.IndexOf("moonID") + 8);
+    //        posDetails[posCount].moonID = findValue.Substring(0, findValue.IndexOf("\""));
 
-            findValue = line.Substring(line.IndexOf("state") + 7);
-            posDetails[posCount].state = findValue.Substring(0, findValue.IndexOf("\""));
+    //        findValue = line.Substring(line.IndexOf("state") + 7);
+    //        posDetails[posCount].state = findValue.Substring(0, findValue.IndexOf("\""));
 
-            findValue = line.Substring(line.IndexOf("stateTimestamp") + 16);
-            posDetails[posCount].stateTimestamp = findValue.Substring(0, findValue.IndexOf("\""));
+    //        findValue = line.Substring(line.IndexOf("stateTimestamp") + 16);
+    //        posDetails[posCount].stateTimestamp = findValue.Substring(0, findValue.IndexOf("\""));
 
-            findValue = line.Substring(line.IndexOf("onlineTimestamp") + 17);
-            posDetails[posCount].onlineTimestamp = findValue.Substring(0, findValue.IndexOf("\""));
+    //        findValue = line.Substring(line.IndexOf("onlineTimestamp") + 17);
+    //        posDetails[posCount].onlineTimestamp = findValue.Substring(0, findValue.IndexOf("\""));
 
-            findValue = line.Substring(line.IndexOf("standingOwnerID") + 17);
-            posDetails[posCount].standingOwnerID = findValue.Substring(0, findValue.IndexOf("\""));
+    //        findValue = line.Substring(line.IndexOf("standingOwnerID") + 17);
+    //        posDetails[posCount].standingOwnerID = findValue.Substring(0, findValue.IndexOf("\""));
 
-            posCount++;
-        }
-    }
+    //        posCount++;
+    //    }
+    //}
 
-    class POSDetails
-    {
-        public string itemID;
-        public string typeID;
-        public string locationID;
-        public string moonID;
-        public string state;
-        public string stateTimestamp;
-        public string onlineTimestamp;
-        public string standingOwnerID;
-    }
+    //class POSDetails
+    //{
+    //    public string itemID;
+    //    public string typeID;
+    //    public string locationID;
+    //    public string moonID;
+    //    public string state;
+    //    public string stateTimestamp;
+    //    public string onlineTimestamp;
+    //    public string standingOwnerID;
+    //}
 
-    class POSDetail : Misc.UsefullMethods
-    {
-        string[] version;
-        string[] currentTime;
-        string[] cachedUntil;
-        string[] state;
-        string[] stateTimestamp;
-        string[] onlineTimestamp;
-        string[] usageFlags;
-        string[] deployFlags;
-        string[] allowCorporationMembers;
-        string[] allowAllianceMembers;
-        string[] useStandingsFrom;
-        string[] onStandingDrop;
-        string[] onAggression;
-        string[] onCorprationWar;
-        string api;
-        Container[] container;
-        int containerCount;
+    //class POSDetail : Misc.UsefullMethods
+    //{
+    //    string[] version;
+    //    string[] currentTime;
+    //    string[] cachedUntil;
+    //    string[] state;
+    //    string[] stateTimestamp;
+    //    string[] onlineTimestamp;
+    //    string[] usageFlags;
+    //    string[] deployFlags;
+    //    string[] allowCorporationMembers;
+    //    string[] allowAllianceMembers;
+    //    string[] useStandingsFrom;
+    //    string[] onStandingDrop;
+    //    string[] onAggression;
+    //    string[] onCorprationWar;
+    //    string api;
+    //    Container[] container;
+    //    int containerCount;
 
-        public POSDetail(int posCount)
-        {
-            version = new string[posCount];
-            currentTime = new string[posCount];
-            cachedUntil = new string[posCount];
-            state = new string[posCount];
-            stateTimestamp = new string[posCount];
-            onlineTimestamp = new string[posCount];
-            usageFlags = new string[posCount];
-            deployFlags = new string[posCount];
-            allowCorporationMembers = new string[posCount];
-            allowAllianceMembers = new string[posCount];
-            useStandingsFrom = new string[posCount];
-            onStandingDrop = new string[posCount];
-            onAggression = new string[posCount];
-            onCorprationWar = new string[posCount];
-            container = new Container[posCount];
-            containerCount = 0;
-        }
+    //    public POSDetail(int posCount)
+    //    {
+    //        version = new string[posCount];
+    //        currentTime = new string[posCount];
+    //        cachedUntil = new string[posCount];
+    //        state = new string[posCount];
+    //        stateTimestamp = new string[posCount];
+    //        onlineTimestamp = new string[posCount];
+    //        usageFlags = new string[posCount];
+    //        deployFlags = new string[posCount];
+    //        allowCorporationMembers = new string[posCount];
+    //        allowAllianceMembers = new string[posCount];
+    //        useStandingsFrom = new string[posCount];
+    //        onStandingDrop = new string[posCount];
+    //        onAggression = new string[posCount];
+    //        onCorprationWar = new string[posCount];
+    //        container = new Container[posCount];
+    //        containerCount = 0;
+    //    }
 
-        public void GetPOSDetail(string url, int pos)
-        {
-            WebRequest wrGetXml;
-            wrGetXml = WebRequest.Create(url);
-            Stream objStream;
-            objStream = wrGetXml.GetResponse().GetResponseStream();
-            StreamReader objReader = new StreamReader(objStream);
-            api = objReader.ReadToEnd();
+    //    public void GetPOSDetail(string url, int pos)
+    //    {
+    //        WebRequest wrGetXml;
+    //        wrGetXml = WebRequest.Create(url);
+    //        Stream objStream;
+    //        objStream = wrGetXml.GetResponse().GetResponseStream();
+    //        StreamReader objReader = new StreamReader(objStream);
+    //        api = objReader.ReadToEnd();
 
-            string line = GetNextLine(api); api = RemoveNextLine(api);
-            while (line != "")
-            {
-                if (line.StartsWith("<eveapi"))
-                {
-                    version[pos] = GetValue(line, "version=\"", "\"");
-                    while (true)
-                    {
-                        line = GetNextLine(api);
-                        if (line.StartsWith("<currentTime>")) currentTime[pos] = GetValue(line, "<currentTime>", "</currentTime>");
-                        if (line.StartsWith("<state>")) state[pos] = GetValue(line, "<state>", "</state>");
-                        if (line.StartsWith("<stateTimestamp>")) stateTimestamp[pos] = GetValue(line, "<stateTimestamp>", "</stateTimestamp>");
-                        if (line.StartsWith("<onlineTimestamp>")) onlineTimestamp[pos] = GetValue(line, "<onlineTimestamp>", "</onlineTimestamp>");
-                        if (line.StartsWith("<usageFlags>")) usageFlags[pos] = GetValue(line, "<usageFlags>", "</usageFlags>");
-                        if (line.StartsWith("<deployFlags>")) deployFlags[pos] = GetValue(line, "<deployFlags>", "</deployFlags>");
-                        if (line.StartsWith("<allowCorporationMembers>")) allowCorporationMembers[pos] = GetValue(line, "<allowCorporationMembers>", "</allowCorporationMembers>");
-                        if (line.StartsWith("<allowAllianceMembers>")) allowAllianceMembers[pos] = GetValue(line, "<allowAllianceMembers>", "</allowAllianceMembers>");
-                        if (line.StartsWith("<useStandingsFrom ")) useStandingsFrom[pos] = GetValue(line, "ownerID=\"", "\"");
-                        if (line.StartsWith("<onStandingDrop ")) onStandingDrop[pos] = GetValue(line, "standing=\"", "\"");
-                        if (line.StartsWith("<onStatusDrop ")) { } //not saved atm
-                        if (line.StartsWith("<onAggression ")) { } //not saved atm
-                        if (line.StartsWith("<onCorporationWar ")) { } //not saved atm
-                        if (line.StartsWith("<cachedUntil>")) cachedUntil[pos] = GetValue(line, "<cachedUntil>", "</cachedUntil>");
-                        if (line.StartsWith("<rowset"))
-                        {
-                            container[containerCount] = new Container(); containerCount++;
-                            container[pos].AddContainer(api);
-                        }
-                        if (line.StartsWith("</eveapi>")) { api = ""; break; }
-                        api = RemoveNextLine(api);
-                    }
-                }
-                line = GetNextLine(api); api = RemoveNextLine(api);
-            }
-        }
-    }
+    //        string line = GetNextLine(api); api = RemoveNextLine(api);
+    //        while (line != "")
+    //        {
+    //            if (line.StartsWith("<eveapi"))
+    //            {
+    //                version[pos] = GetValue(line, "version=\"", "\"");
+    //                while (true)
+    //                {
+    //                    line = GetNextLine(api);
+    //                    if (line.StartsWith("<currentTime>")) currentTime[pos] = GetValue(line, "<currentTime>", "</currentTime>");
+    //                    if (line.StartsWith("<state>")) state[pos] = GetValue(line, "<state>", "</state>");
+    //                    if (line.StartsWith("<stateTimestamp>")) stateTimestamp[pos] = GetValue(line, "<stateTimestamp>", "</stateTimestamp>");
+    //                    if (line.StartsWith("<onlineTimestamp>")) onlineTimestamp[pos] = GetValue(line, "<onlineTimestamp>", "</onlineTimestamp>");
+    //                    if (line.StartsWith("<usageFlags>")) usageFlags[pos] = GetValue(line, "<usageFlags>", "</usageFlags>");
+    //                    if (line.StartsWith("<deployFlags>")) deployFlags[pos] = GetValue(line, "<deployFlags>", "</deployFlags>");
+    //                    if (line.StartsWith("<allowCorporationMembers>")) allowCorporationMembers[pos] = GetValue(line, "<allowCorporationMembers>", "</allowCorporationMembers>");
+    //                    if (line.StartsWith("<allowAllianceMembers>")) allowAllianceMembers[pos] = GetValue(line, "<allowAllianceMembers>", "</allowAllianceMembers>");
+    //                    if (line.StartsWith("<useStandingsFrom ")) useStandingsFrom[pos] = GetValue(line, "ownerID=\"", "\"");
+    //                    if (line.StartsWith("<onStandingDrop ")) onStandingDrop[pos] = GetValue(line, "standing=\"", "\"");
+    //                    if (line.StartsWith("<onStatusDrop ")) { } //not saved atm
+    //                    if (line.StartsWith("<onAggression ")) { } //not saved atm
+    //                    if (line.StartsWith("<onCorporationWar ")) { } //not saved atm
+    //                    if (line.StartsWith("<cachedUntil>")) cachedUntil[pos] = GetValue(line, "<cachedUntil>", "</cachedUntil>");
+    //                    if (line.StartsWith("<rowset"))
+    //                    {
+    //                        container[containerCount] = new Container(); containerCount++;
+    //                        container[pos].AddContainer(api);
+    //                    }
+    //                    if (line.StartsWith("</eveapi>")) { api = ""; break; }
+    //                    api = RemoveNextLine(api);
+    //                }
+    //            }
+    //            line = GetNextLine(api); api = RemoveNextLine(api);
+    //        }
+    //    }
+    //}
 
-    /// <summary>
-    /// Simple class that holds information about containers. Holds a maximum of 1000 containers.
-    /// </summary>
-    class Container : Misc.UsefullMethods
-    {
-        ContainerContents[] contents;
-        int containerCount;
+    ///// <summary>
+    ///// Simple class that holds information about containers. Holds a maximum of 1000 containers.
+    ///// </summary>
+    //class Container : Misc.UsefullMethods
+    //{
+    //    ContainerContents[] contents;
+    //    int containerCount;
 
-        public Container()
-        {
-            contents = new ContainerContents[1000];
-            containerCount = 0;
-        }
+    //    public Container()
+    //    {
+    //        contents = new ContainerContents[1000];
+    //        containerCount = 0;
+    //    }
 
-        public void AddContainer(string api)
-        {
-            contents[containerCount] = new ContainerContents(api);
-        }
-    }
-    /// <summary>
-    /// Holds information about an item's contents.
-    /// Might break if the container is empty.
-    /// </summary>
-    class ContainerContents : Misc.UsefullMethods
-    {
-        string name;
-        string key;
-        List<string> columnList = new List<string>();
-        string[][] contents;
+    //    public void AddContainer(string api)
+    //    {
+    //        contents[containerCount] = new ContainerContents(api);
+    //    }
+    //}
+    ///// <summary>
+    ///// Holds information about an item's contents.
+    ///// Might break if the container is empty.
+    ///// </summary>
+    //class ContainerContents : Misc.UsefullMethods
+    //{
+    //    string name;
+    //    string key;
+    //    List<string> columnList = new List<string>();
+    //    string[][] contents;
 
-        public ContainerContents(string api)
-        {
-            string line = GetNextLine(api); api = RemoveNextLine(api);
-            name = GetValue(line, "name=\"", "\"");
-            key = GetValue(line, "key=\"", "\"");
+    //    public ContainerContents(string api)
+    //    {
+    //        string line = GetNextLine(api); api = RemoveNextLine(api);
+    //        name = GetValue(line, "name=\"", "\"");
+    //        key = GetValue(line, "key=\"", "\"");
 
-            string columns = GetValue(line, "columns=\"", "\">");
-            while (true)
-            {
-                if (columns.IndexOf(",") != -1) columnList.Add(columns.Substring(0, columns.IndexOf(",")));
-                else { columnList.Add(columns); break; }
-                columns = columns.Substring(columns.IndexOf(",") + 1);
-            }
+    //        string columns = GetValue(line, "columns=\"", "\">");
+    //        while (true)
+    //        {
+    //            if (columns.IndexOf(",") != -1) columnList.Add(columns.Substring(0, columns.IndexOf(",")));
+    //            else { columnList.Add(columns); break; }
+    //            columns = columns.Substring(columns.IndexOf(",") + 1);
+    //        }
 
-            string findNumberOfItems = api;
-            int counter = 0;
-            while (true)
-            {
-                line = GetNextLine(findNumberOfItems); findNumberOfItems = RemoveNextLine(findNumberOfItems);
-                if (line.StartsWith("<row ")) counter++;
-                else { contents = new string[counter][]; break; }
-            }
+    //        string findNumberOfItems = api;
+    //        int counter = 0;
+    //        while (true)
+    //        {
+    //            line = GetNextLine(findNumberOfItems); findNumberOfItems = RemoveNextLine(findNumberOfItems);
+    //            if (line.StartsWith("<row ")) counter++;
+    //            else { contents = new string[counter][]; break; }
+    //        }
 
-            int i = 0;
-            while (i < counter)
-            {
-                line = GetNextLine(api); api = RemoveNextLine(api);
-                contents[i] = new string[columnList.Count];
-                int j = 0;
-                while (j < columnList.Count)
-                {
-                    contents[i][j] = GetValue(line, columnList[j] + "=\"", "\"");
-                    j++;
-                }
-                i++;
-            }
+    //        int i = 0;
+    //        while (i < counter)
+    //        {
+    //            line = GetNextLine(api); api = RemoveNextLine(api);
+    //            contents[i] = new string[columnList.Count];
+    //            int j = 0;
+    //            while (j < columnList.Count)
+    //            {
+    //                contents[i][j] = GetValue(line, columnList[j] + "=\"", "\"");
+    //                j++;
+    //            }
+    //            i++;
+    //        }
 
-        }
+    //    }
 
-    }
+    //}
 }
