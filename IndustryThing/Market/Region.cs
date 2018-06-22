@@ -19,10 +19,32 @@ namespace IndustryThing.Market
 
         public Region(int reg)
         {
+            regionID = reg;
+
             ESIregionMarketOrdersDictionary = new Dictionary<long, ESIResponse<List<RegionMarketOrder>>>();
             ESIregionMarketHistoryDictionary = new Dictionary<int, ESIResponse<List<RegionMarketHistory>>>();
 
-            regionID = reg;
+            LoadRegionMarketOrders();
+        }
+
+        void LoadRegionMarketOrders()
+        {
+            var parms = new Dictionary<string, object>();
+            parms.Add("order_type", "all");
+            parms.Add("region_id", regionID);
+            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
+            Console.WriteLine("....Start getting all market orders for region " + regionID);
+            var all = StaticInfo.ESIImportCrawl<RegionMarketOrder>("/markets/{region_id}/orders/", CharacterEnum.EmpireDonkey, parms);
+            sw.Stop();
+            Console.WriteLine("....Done getting all market orders for region " + regionID);
+            Console.WriteLine(sw.Elapsed.ToString());
+
+            ESIregionMarketOrdersDictionary = all.Result.GroupBy(x => x.type_id).ToDictionary(x => (long)x.Key, y => new ESIResponse<List<RegionMarketOrder>>()
+            {
+                CachedUntil = all.CachedUntil,
+                Result = y.ToList()
+            });
         }
 
         List<RegionMarketOrder> GetRegionPriceForType(long typeID)
