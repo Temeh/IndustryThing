@@ -81,9 +81,6 @@
     <Compile Include="ESI\MarketOrder.cs" />
     <Compile Include="ESI\MarketPrice.cs" />
     <Compile Include="ESI\TokenHandler.cs" />
-    <Compile Include="Market\CostIndices.cs" />
-    <Compile Include="Market\ItemHistory.cs" />
-    <Compile Include="Market\ItemValues.cs" />
     <Compile Include="Market\Market.cs" />
     <Compile Include="db\Bpo.cs" />
     <Compile Include="db\CategoryIDs.cs" />
@@ -93,7 +90,6 @@
     <Compile Include="db\Settings.cs" />
     <Compile Include="db\T2ModBpoOwned.cs" />
     <Compile Include="db\Types.cs" />
-    <Compile Include="Market\MarketPrices.cs" />
     <Compile Include="Market\Region.cs" />
     <Compile Include="Misc\UsefullMethods.cs" />
     <Compile Include="Form1.cs">
