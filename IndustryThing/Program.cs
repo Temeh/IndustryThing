@@ -64,28 +64,6 @@ namespace IndustryThing
 
         public const string installDir = "";
         public static CultureInfo ci = CultureInfo.InvariantCulture.Clone() as CultureInfo;
-        public static StreamReader GetStream(string url)
-        {
-            int failedAttempts = 0;
-            while (failedAttempts < 10)
-            {
-                try
-                {
-                    WebRequest wrGetXml;
-                    wrGetXml = WebRequest.Create(url);
-                    return new StreamReader(wrGetXml.GetResponse().GetResponseStream());
-                }
-                catch (Exception)
-                {
-                    failedAttempts++;
-                    Console.WriteLine("Caught an error accesing (#" + failedAttempts + ")" + url);
-                }
-            }
-            Console.WriteLine("Program gave up accessing " + url);
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
-            return null; // this is just here to make the error checker shut up, it should never run
-        }
 
         public static ESIResponse<T> GetESIResponse<T>(string route, ESI.CharacterEnum typeenum = ESI.CharacterEnum.None, Dictionary<string, object> parms = null, string version = null)
         {

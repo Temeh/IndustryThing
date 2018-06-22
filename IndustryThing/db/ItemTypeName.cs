@@ -20,21 +20,23 @@ namespace IndustryThing.db
         {
             try
             {
-                StreamReader sr = new StreamReader("ItemTypeName.xml");
-                while (!sr.EndOfStream)
+                using (StreamReader sr = new StreamReader("ItemTypeName.xml"))
                 {
-                    string line = RemoveSpaceFromStartOfLine(sr.ReadLine());
-                    if (line.StartsWith("<Item>"))
+                    while (!sr.EndOfStream)
                     {
-                        line = RemoveSpaceFromStartOfLine(sr.ReadLine());
-                        while (!line.StartsWith("</Item>"))
-                        {                       
-                            int index = Convert.ToInt32(GetValue(line, "<id", ">"));
-                            itemTypeName[index] = GetValue(line, ">", "<");
+                        string line = RemoveSpaceFromStartOfLine(sr.ReadLine());
+                        if (line.StartsWith("<Item>"))
+                        {
                             line = RemoveSpaceFromStartOfLine(sr.ReadLine());
+                            while (!line.StartsWith("</Item>"))
+                            {
+                                int index = Convert.ToInt32(GetValue(line, "<id", ">"));
+                                itemTypeName[index] = GetValue(line, ">", "<");
+                                line = RemoveSpaceFromStartOfLine(sr.ReadLine());
+                            }
                         }
-                    }
 
+                    }
                 }
             }
             catch (Exception)
@@ -59,17 +61,21 @@ namespace IndustryThing.db
             {
                 string deletethisstring = "https://api.eveonline.com/" + "Eve/TypeName.xml.aspx?" + "ids=" + id; // only for debugging
                 WebRequest wrGetXml = WebRequest.Create("https://api.eveonline.com/" + "Eve/TypeName.xml.aspx?" + "ids=" + id);
-                Stream objStream = wrGetXml.GetResponse().GetResponseStream();
-                StreamReader objReader = new StreamReader(objStream);
-                while (!objReader.EndOfStream)
+                using (Stream objStream = wrGetXml.GetResponse().GetResponseStream())
                 {
-                    string line = RemoveSpaceFromStartOfLine(objReader.ReadLine());
-                    if (line.StartsWith("<row "))
+                    using (StreamReader objReader = new StreamReader(objStream))
                     {
-                        itemTypeName[id] = GetValue(line, "typeName=\"", "\"");
+                        while (!objReader.EndOfStream)
+                        {
+                            string line = RemoveSpaceFromStartOfLine(objReader.ReadLine());
+                            if (line.StartsWith("<row "))
+                            {
+                                itemTypeName[id] = GetValue(line, "typeName=\"", "\"");
+                            }
+                        }
+                        return itemTypeName[id];
                     }
                 }
-                return itemTypeName[id];
             }
 
         }

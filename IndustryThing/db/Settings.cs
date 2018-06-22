@@ -187,92 +187,94 @@ namespace IndustryThing.db
 
         public Settings()
         {
-            StreamReader sr = new StreamReader(StaticInfo.installDir+"settings.txt");
-            while (!sr.EndOfStream)
+            using (StreamReader sr = new StreamReader(StaticInfo.installDir + "settings.txt"))
             {
-                string line = sr.ReadLine();
-                if (line.Substring(0, line.IndexOf(":")) == "Industry") industryLevel = Convert.ToInt32(line.Substring(line.IndexOf(":") + 1));
-                else if (line.Substring(0, line.IndexOf(":")) == "AdvancedIndustry") advancedIndustryLevel = Convert.ToInt32(line.Substring(line.IndexOf(":") + 1));
-                else if (line.Substring(0, line.IndexOf(":")) == "ScienceSkillOne") scienceSkillOneLevel = Convert.ToInt32(line.Substring(line.IndexOf(":") + 1));
-                else if (line.Substring(0, line.IndexOf(":")) == "ScienceSkillTwo") scienceSkillTwoLevel = Convert.ToInt32(line.Substring(line.IndexOf(":") + 1));
-                else if (line.Substring(0, line.IndexOf(":")) == "buildtime") buildCycle = Convert.ToInt32(line.Substring(line.IndexOf(":") + 1));
-                else if (line.Substring(0, line.IndexOf(":")) == "facility")
+                while (!sr.EndOfStream)
                 {
-                    if (line.Substring(line.IndexOf(":") + 1) == "Sotiyo") { facilitySpeedModifier = Convert.ToDecimal(0.7); facilityMaterialModifier = Convert.ToDecimal(.99); }
-                    else { facilitySpeedModifier = 1; facilityMaterialModifier = 1; }
-                }
-                else if (line.Substring(0, line.IndexOf(":")) == "location")
-                {
-                    if ((line.Substring(line.IndexOf(":") + 1) == "null") || (line.Substring(line.IndexOf(":") + 1) == "worm")) locationModifier = Convert.ToDecimal(2.1);
-                    else if (line.Substring(line.IndexOf(":") + 1) == "low") locationModifier = Convert.ToDecimal(1.9);
-                    else locationModifier = 1;
-                }
-                else if (line.Substring(0, line.IndexOf(":")) == "moduleRig")
-                {
-                    int tech = Convert.ToInt32(line.Substring(line.IndexOf(":") + 1));
-                    if (tech == 1) { moduleRigSpeedBonus = Convert.ToDecimal(.2); moduleRigMaterialBonus = Convert.ToDecimal(.02); }
-                    else if (tech == 2) { moduleRigSpeedBonus = Convert.ToDecimal(.24); moduleRigMaterialBonus = Convert.ToDecimal(.024); }
-                    else { moduleRigSpeedBonus = Convert.ToDecimal(0); moduleRigMaterialBonus = Convert.ToDecimal(0); }
-                }
-                else if (line.Substring(0, line.IndexOf(":")) == "componentRig")
-                {
-                    int tech = Convert.ToInt32(line.Substring(line.IndexOf(":") + 1));
-                    if (tech == 1) { componentRigSpeedBonus = Convert.ToDecimal(.2); componentRigMaterialBonus = Convert.ToDecimal(.02); }
-                    else if (tech == 2) { componentRigSpeedBonus = Convert.ToDecimal(.24); componentRigMaterialBonus = Convert.ToDecimal(.024); }
-                    else { componentRigSpeedBonus = Convert.ToDecimal(0); componentRigMaterialBonus = Convert.ToDecimal(0); }
-                }
-                else if (line.Substring(0, line.IndexOf(":")) == "shipRig")
-                {
-                    int tech = Convert.ToInt32(line.Substring(line.IndexOf(":") + 1));
-                    if (tech == 1) { shipRigSpeedBonus = Convert.ToDecimal(.2); shipRigMaterialBonus = Convert.ToDecimal(.02); }
-                    else if (tech == 2) { shipRigSpeedBonus = Convert.ToDecimal(.24); shipRigMaterialBonus = Convert.ToDecimal(.024); }
-                    else { shipRigSpeedBonus = Convert.ToDecimal(0); shipRigMaterialBonus = Convert.ToDecimal(0); }
-                }
-                else if (line.Substring(0, line.IndexOf(":")) == "bpoME") materialEfficiency = Convert.ToInt32(line.Substring(line.IndexOf(":") + 1));
-                else if (line.Substring(0, line.IndexOf(":")) == "bpoTE") timeEfficiency = Convert.ToInt32(line.Substring(line.IndexOf(":") + 1));
-                else if (line.Substring(0, line.IndexOf(":")) == "marketRegion") marketRegion = line.Substring(line.IndexOf(":") + 1);
-                else if (line.Substring(0, line.IndexOf(":")) == "productionSystem") productionSystem = Convert.ToInt32(line.Substring(line.IndexOf(":") + 1));
-                else if (line.Substring(0, line.IndexOf(":")) == "facilityTax") facilityTax = decimal.Parse(line.Substring(line.IndexOf(":") + 1), StaticInfo.ci);
-                else if (line.Substring(0, line.IndexOf(":")) == "buildCorpApi")
-                {
-                    buildCorpApi = new string[2];
-                    line = line.Substring(line.IndexOf(":") + 1);
-                    buildCorpApi[0] = line.Substring(0, line.IndexOf(":"));
-                    buildCorpApi[1] = line.Substring(line.IndexOf(":") + 1);
-                }
-                else if (line.Substring(0, line.IndexOf(":")) == "empireCorpApi")
-                {
-                    empireCorpApi = new string[2];
-                    line = line.Substring(line.IndexOf(":") + 1);
-                    empireCorpApi[0] = line.Substring(0, line.IndexOf(":"));
-                    empireCorpApi[1] = line.Substring(line.IndexOf(":") + 1);
-                }
-                else if (line.Substring(0, line.IndexOf(":")) == "empireDonkey")
-                {
-                    empireDonkey = new string[3];
-                    line = line.Substring(line.IndexOf(":") + 1);
-                    empireDonkey[0] = line.Substring(0, line.IndexOf(":"));
-                    line = line.Substring(line.IndexOf(":") + 1);
-                    empireDonkey[1] = line.Substring(0, line.IndexOf(":"));
-                    empireDonkey[2] = line.Substring(line.IndexOf(":") + 1);
-                }
-                else if (line.StartsWith("esiClientID:"))
-                {
-                    ESIClientId = line.Substring("esiClientID:".Length, line.Length - "esiClientID:".Length);
-                }
-                else if (line.StartsWith("esiClientSecret:"))
-                {
-                    ESISecret = line.Substring("esiClientSecret:".Length, line.Length - "esiClientSecret:".Length);
-                }
-                else if (line.StartsWith("BuildCorpRefreshToken:"))
-                {
-                    BuildCorpRefreshToken = line.Substring("BuildCorpRefreshToken:".Length, line.Length - "BuildCorpRefreshToken:".Length);
-                }
-                else if (line.StartsWith("EmpireDonkeyRefreshToken:"))
-                {
-                    EmpireDonkeyRefreshToken = line.Substring("EmpireDonkeyRefreshToken:".Length, line.Length - "EmpireDonkeyRefreshToken:".Length);
-                }
+                    string line = sr.ReadLine();
+                    if (line.Substring(0, line.IndexOf(":")) == "Industry") industryLevel = Convert.ToInt32(line.Substring(line.IndexOf(":") + 1));
+                    else if (line.Substring(0, line.IndexOf(":")) == "AdvancedIndustry") advancedIndustryLevel = Convert.ToInt32(line.Substring(line.IndexOf(":") + 1));
+                    else if (line.Substring(0, line.IndexOf(":")) == "ScienceSkillOne") scienceSkillOneLevel = Convert.ToInt32(line.Substring(line.IndexOf(":") + 1));
+                    else if (line.Substring(0, line.IndexOf(":")) == "ScienceSkillTwo") scienceSkillTwoLevel = Convert.ToInt32(line.Substring(line.IndexOf(":") + 1));
+                    else if (line.Substring(0, line.IndexOf(":")) == "buildtime") buildCycle = Convert.ToInt32(line.Substring(line.IndexOf(":") + 1));
+                    else if (line.Substring(0, line.IndexOf(":")) == "facility")
+                    {
+                        if (line.Substring(line.IndexOf(":") + 1) == "Sotiyo") { facilitySpeedModifier = Convert.ToDecimal(0.7); facilityMaterialModifier = Convert.ToDecimal(.99); }
+                        else { facilitySpeedModifier = 1; facilityMaterialModifier = 1; }
+                    }
+                    else if (line.Substring(0, line.IndexOf(":")) == "location")
+                    {
+                        if ((line.Substring(line.IndexOf(":") + 1) == "null") || (line.Substring(line.IndexOf(":") + 1) == "worm")) locationModifier = Convert.ToDecimal(2.1);
+                        else if (line.Substring(line.IndexOf(":") + 1) == "low") locationModifier = Convert.ToDecimal(1.9);
+                        else locationModifier = 1;
+                    }
+                    else if (line.Substring(0, line.IndexOf(":")) == "moduleRig")
+                    {
+                        int tech = Convert.ToInt32(line.Substring(line.IndexOf(":") + 1));
+                        if (tech == 1) { moduleRigSpeedBonus = Convert.ToDecimal(.2); moduleRigMaterialBonus = Convert.ToDecimal(.02); }
+                        else if (tech == 2) { moduleRigSpeedBonus = Convert.ToDecimal(.24); moduleRigMaterialBonus = Convert.ToDecimal(.024); }
+                        else { moduleRigSpeedBonus = Convert.ToDecimal(0); moduleRigMaterialBonus = Convert.ToDecimal(0); }
+                    }
+                    else if (line.Substring(0, line.IndexOf(":")) == "componentRig")
+                    {
+                        int tech = Convert.ToInt32(line.Substring(line.IndexOf(":") + 1));
+                        if (tech == 1) { componentRigSpeedBonus = Convert.ToDecimal(.2); componentRigMaterialBonus = Convert.ToDecimal(.02); }
+                        else if (tech == 2) { componentRigSpeedBonus = Convert.ToDecimal(.24); componentRigMaterialBonus = Convert.ToDecimal(.024); }
+                        else { componentRigSpeedBonus = Convert.ToDecimal(0); componentRigMaterialBonus = Convert.ToDecimal(0); }
+                    }
+                    else if (line.Substring(0, line.IndexOf(":")) == "shipRig")
+                    {
+                        int tech = Convert.ToInt32(line.Substring(line.IndexOf(":") + 1));
+                        if (tech == 1) { shipRigSpeedBonus = Convert.ToDecimal(.2); shipRigMaterialBonus = Convert.ToDecimal(.02); }
+                        else if (tech == 2) { shipRigSpeedBonus = Convert.ToDecimal(.24); shipRigMaterialBonus = Convert.ToDecimal(.024); }
+                        else { shipRigSpeedBonus = Convert.ToDecimal(0); shipRigMaterialBonus = Convert.ToDecimal(0); }
+                    }
+                    else if (line.Substring(0, line.IndexOf(":")) == "bpoME") materialEfficiency = Convert.ToInt32(line.Substring(line.IndexOf(":") + 1));
+                    else if (line.Substring(0, line.IndexOf(":")) == "bpoTE") timeEfficiency = Convert.ToInt32(line.Substring(line.IndexOf(":") + 1));
+                    else if (line.Substring(0, line.IndexOf(":")) == "marketRegion") marketRegion = line.Substring(line.IndexOf(":") + 1);
+                    else if (line.Substring(0, line.IndexOf(":")) == "productionSystem") productionSystem = Convert.ToInt32(line.Substring(line.IndexOf(":") + 1));
+                    else if (line.Substring(0, line.IndexOf(":")) == "facilityTax") facilityTax = decimal.Parse(line.Substring(line.IndexOf(":") + 1), StaticInfo.ci);
+                    else if (line.Substring(0, line.IndexOf(":")) == "buildCorpApi")
+                    {
+                        buildCorpApi = new string[2];
+                        line = line.Substring(line.IndexOf(":") + 1);
+                        buildCorpApi[0] = line.Substring(0, line.IndexOf(":"));
+                        buildCorpApi[1] = line.Substring(line.IndexOf(":") + 1);
+                    }
+                    else if (line.Substring(0, line.IndexOf(":")) == "empireCorpApi")
+                    {
+                        empireCorpApi = new string[2];
+                        line = line.Substring(line.IndexOf(":") + 1);
+                        empireCorpApi[0] = line.Substring(0, line.IndexOf(":"));
+                        empireCorpApi[1] = line.Substring(line.IndexOf(":") + 1);
+                    }
+                    else if (line.Substring(0, line.IndexOf(":")) == "empireDonkey")
+                    {
+                        empireDonkey = new string[3];
+                        line = line.Substring(line.IndexOf(":") + 1);
+                        empireDonkey[0] = line.Substring(0, line.IndexOf(":"));
+                        line = line.Substring(line.IndexOf(":") + 1);
+                        empireDonkey[1] = line.Substring(0, line.IndexOf(":"));
+                        empireDonkey[2] = line.Substring(line.IndexOf(":") + 1);
+                    }
+                    else if (line.StartsWith("esiClientID:"))
+                    {
+                        ESIClientId = line.Substring("esiClientID:".Length, line.Length - "esiClientID:".Length);
+                    }
+                    else if (line.StartsWith("esiClientSecret:"))
+                    {
+                        ESISecret = line.Substring("esiClientSecret:".Length, line.Length - "esiClientSecret:".Length);
+                    }
+                    else if (line.StartsWith("BuildCorpRefreshToken:"))
+                    {
+                        BuildCorpRefreshToken = line.Substring("BuildCorpRefreshToken:".Length, line.Length - "BuildCorpRefreshToken:".Length);
+                    }
+                    else if (line.StartsWith("EmpireDonkeyRefreshToken:"))
+                    {
+                        EmpireDonkeyRefreshToken = line.Substring("EmpireDonkeyRefreshToken:".Length, line.Length - "EmpireDonkeyRefreshToken:".Length);
+                    }
 
+                }
             }
         }
     }

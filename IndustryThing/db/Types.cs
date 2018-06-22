@@ -36,41 +36,43 @@ namespace IndustryThing.db
 
         public Types()
         {
-            StreamReader sr = new StreamReader("files\\invTypes.txt");
-            string line = sr.ReadLine();
-            line = sr.ReadLine();
-            while (!sr.EndOfStream)
+            using (StreamReader sr = new StreamReader("files\\invTypes.txt"))
             {
-                string test = line.Substring(0, line.IndexOf("	"));
-                int id = Convert.ToInt32(line.Substring(0, line.IndexOf("	")));
-                line = line.Substring(line.IndexOf("	") + 1);
-                typeId[id] = true;
-                groupId[id] = Convert.ToInt32(line.Substring(0, line.IndexOf("	"))); line = line.Substring(line.IndexOf("	") + 1);
-                typeName[id] = line.Substring(0, line.IndexOf("	")); line = line.Substring(line.IndexOf("	") + 1);
-                while (true)
-                {
-                    if (line.Contains("	")) { description[id] = line.Substring(0, line.IndexOf("	")); line = line.Substring(line.IndexOf("	") + 1); break; }
-                    else line = line + sr.ReadLine();
-                }
-                mass[id] = line.Substring(0, line.IndexOf("	")); line = line.Substring(line.IndexOf("	") + 1);
-                volume[id] = decimal.Parse(line.Substring(0, line.IndexOf("	")),StaticInfo.ci); line = line.Substring(line.IndexOf("	") + 1);
-                capacity[id] = decimal.Parse(line.Substring(0, line.IndexOf("	")), StaticInfo.ci); line = line.Substring(line.IndexOf("	") + 1);
-                PortionSize[id] = Convert.ToInt32(line.Substring(0, line.IndexOf("	"))); line = line.Substring(line.IndexOf("	") + 1);
-                if (line.IndexOf("	") > 0) raceId[id] = Convert.ToInt32(line.Substring(0, line.IndexOf("	")));
-                line = line.Substring(line.IndexOf("	") + 1);
-                if (line.IndexOf("	") > 0) basePrice[id] = decimal.Parse((line.Substring(0, line.IndexOf("	"))), StaticInfo.ci);
-                line = line.Substring(line.IndexOf("	") + 1);
-                if (line.IndexOf("	") > 0) published[id] = Convert.ToInt32(line.Substring(0, line.IndexOf("	")));
-                line = line.Substring(line.IndexOf("	") + 1);
-                if (line.IndexOf("	") > 0) marketGroupId[id] = Convert.ToInt32(line.Substring(0, line.IndexOf("	")));
-                line = line.Substring(line.IndexOf("	") + 1);
-                if (line.IndexOf("	") > 0) iconId[id] = Convert.ToInt32(line.Substring(0, line.IndexOf("	")));
-                line = line.Substring(line.IndexOf("	") + 1);
-                if (line.IndexOf("	") > 0) soundId[id] = Convert.ToInt32(line.Substring(0, line.IndexOf("	")));
-                line = line.Substring(line.IndexOf("	") + 1);
-                if (line.IndexOf("	") > 0) graphicId[id] = Convert.ToInt32(line.Substring(0, line.IndexOf("	")));
-                line = line.Substring(line.IndexOf("	") + 1);
+                string line = sr.ReadLine();
                 line = sr.ReadLine();
+                while (!sr.EndOfStream)
+                {
+                    string test = line.Substring(0, line.IndexOf("	"));
+                    int id = Convert.ToInt32(line.Substring(0, line.IndexOf("	")));
+                    line = line.Substring(line.IndexOf("	") + 1);
+                    typeId[id] = true;
+                    groupId[id] = Convert.ToInt32(line.Substring(0, line.IndexOf("	"))); line = line.Substring(line.IndexOf("	") + 1);
+                    typeName[id] = line.Substring(0, line.IndexOf("	")); line = line.Substring(line.IndexOf("	") + 1);
+                    while (true)
+                    {
+                        if (line.Contains("	")) { description[id] = line.Substring(0, line.IndexOf("	")); line = line.Substring(line.IndexOf("	") + 1); break; }
+                        else line = line + sr.ReadLine();
+                    }
+                    mass[id] = line.Substring(0, line.IndexOf("	")); line = line.Substring(line.IndexOf("	") + 1);
+                    volume[id] = decimal.Parse(line.Substring(0, line.IndexOf("	")), StaticInfo.ci); line = line.Substring(line.IndexOf("	") + 1);
+                    capacity[id] = decimal.Parse(line.Substring(0, line.IndexOf("	")), StaticInfo.ci); line = line.Substring(line.IndexOf("	") + 1);
+                    PortionSize[id] = Convert.ToInt32(line.Substring(0, line.IndexOf("	"))); line = line.Substring(line.IndexOf("	") + 1);
+                    if (line.IndexOf("	") > 0) raceId[id] = Convert.ToInt32(line.Substring(0, line.IndexOf("	")));
+                    line = line.Substring(line.IndexOf("	") + 1);
+                    if (line.IndexOf("	") > 0) basePrice[id] = decimal.Parse((line.Substring(0, line.IndexOf("	"))), StaticInfo.ci);
+                    line = line.Substring(line.IndexOf("	") + 1);
+                    if (line.IndexOf("	") > 0) published[id] = Convert.ToInt32(line.Substring(0, line.IndexOf("	")));
+                    line = line.Substring(line.IndexOf("	") + 1);
+                    if (line.IndexOf("	") > 0) marketGroupId[id] = Convert.ToInt32(line.Substring(0, line.IndexOf("	")));
+                    line = line.Substring(line.IndexOf("	") + 1);
+                    if (line.IndexOf("	") > 0) iconId[id] = Convert.ToInt32(line.Substring(0, line.IndexOf("	")));
+                    line = line.Substring(line.IndexOf("	") + 1);
+                    if (line.IndexOf("	") > 0) soundId[id] = Convert.ToInt32(line.Substring(0, line.IndexOf("	")));
+                    line = line.Substring(line.IndexOf("	") + 1);
+                    if (line.IndexOf("	") > 0) graphicId[id] = Convert.ToInt32(line.Substring(0, line.IndexOf("	")));
+                    line = line.Substring(line.IndexOf("	") + 1);
+                    line = sr.ReadLine();
+                }
             }
             volumeOverride = new VolumeOverrideByGroupID();
         }
@@ -105,14 +107,16 @@ namespace IndustryThing.db
         {
             groupID = new int[100];
             volume = new decimal[100];
-            StreamReader sr = new StreamReader("files\\ItemPackagedVolume.txt");
             int i = 0;
-            while (!sr.EndOfStream)
+            using (StreamReader sr = new StreamReader("files\\ItemPackagedVolume.txt"))
             {
-                string line = sr.ReadLine();
-                groupID[i] = Convert.ToInt32(line.Substring(0, line.IndexOf("	")));
-                volume[i] = decimal.Parse(line.Substring(line.IndexOf("	") + 1), StaticInfo.ci);
-                i++; 
+                while (!sr.EndOfStream)
+                {
+                    string line = sr.ReadLine();
+                    groupID[i] = Convert.ToInt32(line.Substring(0, line.IndexOf("	")));
+                    volume[i] = decimal.Parse(line.Substring(line.IndexOf("	") + 1), StaticInfo.ci);
+                    i++;
+                }
             }
 
             //just fixes the size of the arrays

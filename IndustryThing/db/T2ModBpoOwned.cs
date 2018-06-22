@@ -16,23 +16,29 @@ namespace IndustryThing.db
 
         public T2ModBpoOwned()
         {
-            StreamReader sr = new StreamReader(StaticInfo.installDir+"t2ModBpoOwned.txt");
+            StreamReader sr;
             int i = 0;
-            while (!sr.EndOfStream)
+            using (sr = new StreamReader(StaticInfo.installDir + "t2ModBpoOwned.txt"))
             {
-                i++;
-                string line = sr.ReadLine();
+                while (!sr.EndOfStream)
+                {
+                    i++;
+                    string line = sr.ReadLine();
+                }
+                bpo = new int[i];
+                name = new string[i];
+
             }
-            bpo = new int[i];
-            name = new string[i];
             i = 0;
-            sr = new StreamReader(StaticInfo.installDir+"t2ModBpoOwned.txt");
-            while (!sr.EndOfStream)
+            using (sr = new StreamReader(StaticInfo.installDir + "t2ModBpoOwned.txt"))
             {
-                string line = sr.ReadLine();
-                bpo[i] = Convert.ToInt32(line.Substring(0, line.IndexOf("	")));
-                name[i] = line.Substring(line.IndexOf("	") + 1);
-                i++;
+                while (!sr.EndOfStream)
+                {
+                    string line = sr.ReadLine();
+                    bpo[i] = Convert.ToInt32(line.Substring(0, line.IndexOf("	")));
+                    name[i] = line.Substring(line.IndexOf("	") + 1);
+                    i++;
+                }
             }
         }
     }

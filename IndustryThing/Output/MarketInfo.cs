@@ -11,37 +11,39 @@ namespace IndustryThing.Output
     {
         public MarketInfo(db.Db dataBase, calculator.T2Builder t2mods, ApiImport.MainImport import, Market.Market market)
         {
-            StreamWriter sw = new StreamWriter("marketInfo.txt");
-            var office = import.ESIbuildCorpAssets.GetContainer(1022964286749);
-            int i = 0;
-
-            sw.WriteLine("Name" + "\t" + "Buildcost" + "\t" + "Haulingcost" + "\t" + "Market sell" + "\t" + "Amount on market" + "\t" + "Stock in xanadu" + "\t" + "Stock in chanuur"
-                + "\t" + "Order price" + "\t" + "Avg daily volume" + "\t" + "Item category" + "\t" + "Max output");
-            while (i < t2mods.OutputName.Length)
+            using (StreamWriter sw = new StreamWriter("marketInfo.txt"))
             {
-                decimal itemCost = t2mods.OutputTotalCost[i] / t2mods.Output[i, 1];
-                decimal haulingCost = dataBase.types.GetRepackagedVolume(t2mods.Output[i, 0]) * 800;
-                decimal marketSell = market.FindPrice(dataBase.settings.MarketRegion, "sell", t2mods.Output[i, 0]);
-                decimal sellOrderPrize = import.ESIcorpMarketOrders.SellOrderPrice(t2mods.Output[i, 0]);
-                sw.WriteLine(
-                    t2mods.OutputName[i] //name
-                  + "\t" + itemCost.ToString(StaticInfo.ci) //cost per item
-                 + "\t" + haulingCost.ToString(StaticInfo.ci)// hauling cost per item (800 is ITL's price per m3 from delve to jita, hardcoding it because im lazy
-                  + "\t" + marketSell.ToString(StaticInfo.ci) // gets the sale value of the item
-               + "\t" + import.ESIcorpMarketOrders.ItemsOnMarket(t2mods.Output[i, 0]) //amount we have on the market
-                + "\t" + import.ESIempireDonkey.FindItem(t2mods.Output[i, 0]) // amount on Reluah
-                   + "\t" + office.FindItem(t2mods.Output[i, 0]) // ammount on chanuur
-                   + "\t" + sellOrderPrize.ToString(StaticInfo.ci)// value of our sell order
-                    + "\t" + market.FindAverageVolume(dataBase.settings.MarketRegion, t2mods.Output[i, 0], 30) // average volume sold per day(last 30 days)
-                    + "\t" + dataBase.categoryIDs.GetName(dataBase.groupIDs.CategoryID(dataBase.types.GroupID(t2mods.Output[i, 0])), 0) // items category
-                    + "\t" + t2mods.Output[i, 1] //amount of items produced per cycle
-                    );
-                i++;
+                var office = import.ESIbuildCorpAssets.GetContainer(1022964286749);
+                int i = 0;
+
+                sw.WriteLine("Name" + "\t" + "Buildcost" + "\t" + "Haulingcost" + "\t" + "Market sell" + "\t" + "Amount on market" + "\t" + "Stock in xanadu" + "\t" + "Stock in chanuur"
+                    + "\t" + "Order price" + "\t" + "Avg daily volume" + "\t" + "Item category" + "\t" + "Max output");
+                while (i < t2mods.OutputName.Length)
+                {
+                    decimal itemCost = t2mods.OutputTotalCost[i] / t2mods.Output[i, 1];
+                    decimal haulingCost = dataBase.types.GetRepackagedVolume(t2mods.Output[i, 0]) * 800;
+                    decimal marketSell = market.FindPrice(dataBase.settings.MarketRegion, "sell", t2mods.Output[i, 0]);
+                    decimal sellOrderPrize = import.ESIcorpMarketOrders.SellOrderPrice(t2mods.Output[i, 0]);
+                    sw.WriteLine(
+                        t2mods.OutputName[i] //name
+                      + "\t" + itemCost.ToString(StaticInfo.ci) //cost per item
+                     + "\t" + haulingCost.ToString(StaticInfo.ci)// hauling cost per item (800 is ITL's price per m3 from delve to jita, hardcoding it because im lazy
+                      + "\t" + marketSell.ToString(StaticInfo.ci) // gets the sale value of the item
+                   + "\t" + import.ESIcorpMarketOrders.ItemsOnMarket(t2mods.Output[i, 0]) //amount we have on the market
+                    + "\t" + import.ESIempireDonkey.FindItem(t2mods.Output[i, 0]) // amount on Reluah
+                       + "\t" + office.FindItem(t2mods.Output[i, 0]) // ammount on chanuur
+                       + "\t" + sellOrderPrize.ToString(StaticInfo.ci)// value of our sell order
+                        + "\t" + market.FindAverageVolume(dataBase.settings.MarketRegion, t2mods.Output[i, 0], 30) // average volume sold per day(last 30 days)
+                        + "\t" + dataBase.categoryIDs.GetName(dataBase.groupIDs.CategoryID(dataBase.types.GroupID(t2mods.Output[i, 0])), 0) // items category
+                        + "\t" + t2mods.Output[i, 1] //amount of items produced per cycle
+                        );
+                    i++;
+                }
+                sw.WriteLine("market orders cached until" + "\t" + import.ESIcorpMarketOrders.CachedUntil);
+                sw.WriteLine("build corp assets cached until" + "\t" + import.ESIbuildCorpAssets.CachedUntil);
+                sw.WriteLine("empire donkey corp assets cached until" + "\t" + import.ESIempireDonkey.CachedUntil);
+                sw.Close();
             }
-            sw.WriteLine("market orders cached until" + "\t" + import.ESIcorpMarketOrders.CachedUntil);
-            sw.WriteLine("build corp assets cached until" + "\t" + import.ESIbuildCorpAssets.CachedUntil);
-            sw.WriteLine("empire donkey corp assets cached until" + "\t" + import.ESIempireDonkey.CachedUntil);
-            sw.Close();
             System.Diagnostics.Process.Start(@"marketInfo.txt");
 
         }
