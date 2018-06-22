@@ -197,7 +197,7 @@ namespace IndustryThing
             {
                 var myparms = new Dictionary<string, object>(parms);
                 myparms.Add("page", page);
-                response = StaticInfo.GetESIResponse<List<T>>(route, type, parms);
+                response = StaticInfo.GetESIResponse<List<T>>(route, type, myparms);
 
                 if (result == null)
                     result = response;
