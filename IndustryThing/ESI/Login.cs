@@ -11,6 +11,7 @@ namespace IndustryThing.ESI
 {
     public enum CharacterEnum
     {
+        None,
         BuildCorp,
         EmpireDonkey
     }

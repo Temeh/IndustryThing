@@ -14,8 +14,12 @@ namespace IndustryThing.Market
         CostIndices costIndices;
         MarketPrices marketStandardized;
 
+        ESIResponse<List<ESI.CostIndice>> ESIcostIndices;
+
         public Market(db.Db dataBase)
         {
+            ESIcostIndices = StaticInfo.GetESIResponse<List<ESI.CostIndice>>("/industry/systems/");
+
             this.dataBase = dataBase;
             region[0] = new Region(10000002); // the forge/jita
           //region[1] = new Region(10000060); // delve

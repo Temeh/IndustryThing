@@ -87,7 +87,7 @@ namespace IndustryThing
             return null; // this is just here to make the error checker shut up, it should never run
         }
 
-        public static ESIResponse<T> GetESIResponse<T>(string route, ESI.CharacterEnum typeenum, Dictionary<string, object> parms = null, string version = null)
+        public static ESIResponse<T> GetESIResponse<T>(string route, ESI.CharacterEnum typeenum = ESI.CharacterEnum.None, Dictionary<string, object> parms = null, string version = null)
         {
             if (version == null)
                 version = "latest";
@@ -112,14 +112,18 @@ namespace IndustryThing
             if (parms != null && parms.Count > 0)
                 url.SetQueryParams(parms);
 
-            var request = url.WithOAuthBearerToken(token);
-
             int retry = 0;
             while (retry < 3)
             {
                 try
                 {
-                    var result = request.GetAsync().Result;
+                    HttpResponseMessage result;
+                    // If we got a token, use it
+                    if (!string.IsNullOrEmpty(token))
+                        result = url.WithOAuthBearerToken(token).GetAsync().Result;
+                    else // Otherwise just query directly
+                        result = url.GetAsync().Result;
+
                     var json = result.Content.ReadAsStringAsync().Result;
 
                     var response = new ESIResponse<T>()

@@ -73,6 +73,7 @@
     <Compile Include="calculator\T2Builder.cs" />
     <Compile Include="ESI\Asset.cs" />
     <Compile Include="ESI\Character.cs" />
+    <Compile Include="ESI\CostIndice.cs" />
     <Compile Include="ESI\Extensions.cs" />
     <Compile Include="ESI\HttpServer.cs" />
     <Compile Include="ESI\IndustryJobs.cs" />

@@ -33,8 +33,6 @@ namespace IndustryThing.ApiImport
             ESIIndustryJobsImport();
             ESIMarketOrdersImport();
 
-            Console.ReadKey();
-
             //  StarbaseListImport();
             //AssetImport();
             //IndustryJobsImport();
