@@ -1,4 +1,4 @@
-﻿using IndustryThing.ESI;
+﻿using IndustryThing.Misc;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using IndustryThing.ESI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IndustryThing.ESI
+namespace IndustryThing.Misc
 {
     public static class Extensions
     {

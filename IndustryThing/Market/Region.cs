@@ -1,4 +1,5 @@
 ﻿using IndustryThing.ESI;
+using IndustryThing.Misc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +9,7 @@ namespace IndustryThing.Market
 {
     class Region
     {
-       //private ItemValues[] itemValues;
-       //private ItemHistory[] itemHistory;
        private int regionID;
-       //private int count;
 
         // Key is typeID
         // TODO: This should be int - can of worms
@@ -25,8 +23,6 @@ namespace IndustryThing.Market
             ESIregionMarketHistoryDictionary = new Dictionary<int, ESIResponse<List<RegionMarketHistory>>>();
 
             regionID = reg;
-            //itemValues = new ItemValues[1000];
-            //itemHistory = new ItemHistory[1000];
         }
 
         List<RegionMarketOrder> GetRegionPriceForType(long typeID)
@@ -66,30 +62,6 @@ namespace IndustryThing.Market
             return ESIregionMarketHistoryDictionary[typeID].Result;
         }
 
-        /// <summary>
-        /// Finds the location in the array of the item. Makes a new entry if item is not found
-        /// </summary>
-        /// <param name="typeID">the item's typeID</param>
-        /// <returns>location in the arrays</returns>
-        //private int FindLocationOfType(int typeID)
-        //{
-        //    int i = 0;
-        //    while (i < count)
-        //    {
-        //        if (itemValues[i].TypeID == typeID) return i;
-        //        i++;
-        //    }
-        //    count++;
-        //    itemValues[i] = new ItemValues(typeID, regionID);
-        //    itemHistory[i] = new ItemHistory(typeID, regionID);
-        //    return i;
-        //}
-
-        //public long GetAverageVolume(int typeID, int days)
-        //{
-        //    return itemHistory[FindLocationOfType(typeID)].GetAverageVolume(days);
-        //}
-
         public long GetAverageVolume(int typeID, int days)
         {
             return GetRegionHistoryForType(typeID).GetAverageVolume(days);
@@ -107,14 +79,5 @@ namespace IndustryThing.Market
                     return 0;
             }
         }
-
-        //public decimal GetPrice(long typeID, string orderType)
-        //{
-        //    int location = FindLocationOfType(Convert.ToInt32(typeID));
-        //    if (orderType == "buy") return itemValues[location].BuyPrice;
-        //    else if (orderType == "sell") return itemValues[location].SellPrice;
-        //    else return 0;
-        //}
-
     }
 }
