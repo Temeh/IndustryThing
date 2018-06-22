@@ -20,9 +20,11 @@ namespace IndustryThing.Market
 
         public Market(db.Db dataBase)
         {
-            ESIcostIndices = StaticInfo.GetESIResponse<List<ESI.CostIndice>>("/industry/systems/");
+            ESIcostIndices = StaticInfo.ESIImportCrawl<ESI.CostIndice>("/industry/systems/", pageSize: 10000);
+            Console.WriteLine("....Done getting cost indices");
 
-            ESImarketPrices = StaticInfo.GetESIResponse<List<ESI.MarketPrice>>("/markets/prices/");
+            ESImarketPrices = StaticInfo.ESIImportCrawl<ESI.MarketPrice>("/markets/prices/", pageSize: 20000);
+            Console.WriteLine("....Done getting estimated prices");
 
             this.dataBase = dataBase;
             region[0] = new Region(10000002); // the forge/jita

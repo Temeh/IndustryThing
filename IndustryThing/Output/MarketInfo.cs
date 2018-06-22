@@ -25,14 +25,14 @@ namespace IndustryThing.Output
                 decimal haulingCost = dataBase.types.GetRepackagedVolume(t2mods.Output[i, 0]) * 800;
                 decimal marketSell = market.FindPrice(dataBase.settings.MarketRegion, "sell", t2mods.Output[i, 0]);
                 //decimal sellOrderPrize = import.marketOrders.SellOrderPrice(t2mods.Output[i, 0]);
-                decimal sellOrderPrize = import.ESImarketOrders.SellOrderPrice(t2mods.Output[i, 0]);
+                decimal sellOrderPrize = import.ESIcorpMarketOrders.SellOrderPrice(t2mods.Output[i, 0]);
                 sw.WriteLine(
                     t2mods.OutputName[i] //name
                   + "\t" + itemCost.ToString(StaticInfo.ci) //cost per item
                  + "\t" + haulingCost.ToString(StaticInfo.ci)// hauling cost per item (800 is ITL's price per m3 from delve to jita, hardcoding it because im lazy
                   + "\t" + marketSell.ToString(StaticInfo.ci) // gets the sale value of the item
                //+ "\t" + import.marketOrders.ItemsOnMarket(t2mods.Output[i, 0]) //amount we have on the market
-               + "\t" + import.ESImarketOrders.ItemsOnMarket(t2mods.Output[i, 0]) //amount we have on the market
+               + "\t" + import.ESIcorpMarketOrders.ItemsOnMarket(t2mods.Output[i, 0]) //amount we have on the market
                 //+ "\t" + import.empireDonkey.assets.FindItem(t2mods.Output[i, 0]) // amount on Reluah
                 + "\t" + import.ESIempireDonkey.FindItem(t2mods.Output[i, 0]) // amount on Reluah
                    + "\t" + office.FindItem(t2mods.Output[i, 0]) // ammount on chanuur
@@ -44,7 +44,7 @@ namespace IndustryThing.Output
                 i++;
             }
             //sw.WriteLine("market orders cached until" + "\t" + import.marketOrders.CachedUntil);
-            sw.WriteLine("market orders cached until" + "\t" + import.ESImarketOrders.CachedUntil);
+            sw.WriteLine("market orders cached until" + "\t" + import.ESIcorpMarketOrders.CachedUntil);
             //sw.WriteLine("build corp assets cached until" + "\t" + import.buildCorpAssets.CachedUntil);
             sw.WriteLine("build corp assets cached until" + "\t" + import.ESIbuildCorpAssets.CachedUntil);
             //sw.WriteLine("empire donkey corp assets cached until" + "\t" + import.empireDonkey.CachedUntil);

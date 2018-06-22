@@ -21,7 +21,7 @@ namespace IndustryThing.ApiImport
         public ESIResponse<List<ESI.Asset>> ESIbuildCorpAssets;
         public ESIResponse<List<ESI.Asset>> ESIempireDonkey;
         public ESIResponse<List<ESI.IndustryJob>> ESIjobs;
-        public ESIResponse<List<ESI.MarketOrder>> ESImarketOrders;
+        public ESIResponse<List<ESI.CorporationMarketOrder>> ESIcorpMarketOrders;
 
         public MainImport()
         {
@@ -153,7 +153,7 @@ namespace IndustryThing.ApiImport
 
         void ESIMarketOrdersImport()
         {
-            ESImarketOrders = StaticInfo.ESIImportCrawl<ESI.MarketOrder>("corporations/{corporation_id}/orders/", ESI.CharacterEnum.EmpireDonkey);
+            ESIcorpMarketOrders = StaticInfo.ESIImportCrawl<ESI.CorporationMarketOrder>("corporations/{corporation_id}/orders/", ESI.CharacterEnum.EmpireDonkey);
             Console.WriteLine("....Done loading market orders");
         }
 

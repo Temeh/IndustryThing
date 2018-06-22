@@ -92,7 +92,7 @@ namespace IndustryThing
             if (version == null)
                 version = "latest";
 
-            route = SetPathParameters(route, typeenum);
+            route = SetPathParameters(route, typeenum, parms);
 
             string token = null;
 
@@ -149,7 +149,7 @@ namespace IndustryThing
             throw new Exception("Dead");
         }
 
-        static string SetPathParameters(string route, ESI.CharacterEnum e)
+        static string SetPathParameters(string route, ESI.CharacterEnum e, Dictionary<string, object> parms)
         {
             int character_id = 0, corporation_id = 0;
 
@@ -168,10 +168,25 @@ namespace IndustryThing
             route = route.Replace("{character_id}", character_id.ToString());
             route = route.Replace("{corporation_id}", corporation_id.ToString());
 
+            if (parms != null)
+            {
+                var parmkeys = parms.Keys.ToList();
+
+                foreach (var key in parmkeys)
+                {
+                    var parm = "{" + key + "}";
+                    if (route.Contains(parm))
+                    {
+                        route = route.Replace(parm, parms[key].ToString());
+                        parms.Remove(key);
+                    }
+                }
+            }
+
             return route;
         }
 
-        public static ESIResponse<List<T>> ESIImportCrawl<T>(string route, ESI.CharacterEnum type, Dictionary<string, object> parms = null)
+        public static ESIResponse<List<T>> ESIImportCrawl<T>(string route, ESI.CharacterEnum type = ESI.CharacterEnum.None, Dictionary<string, object> parms = null, int pageSize = 1000)
         {
             if (parms == null)
                 parms = new Dictionary<string, object>();
@@ -191,7 +206,7 @@ namespace IndustryThing
 
                 page++;
             }
-            while (response.Result.Count >= 1000);
+            while (response.Result.Count >= pageSize);
 
             return result;
         }

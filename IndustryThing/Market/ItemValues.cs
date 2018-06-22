@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Net;
 using System.IO;
+using IndustryThing.ESI;
 
 namespace IndustryThing.Market
 {
