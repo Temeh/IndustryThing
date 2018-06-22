@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IndustryThing.ESI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,20 +12,23 @@ namespace IndustryThing.Market
         // https://esi.tech.ccp.is/latest/markets/10000060/orders/?type_id=2183&order_type=sell&page=1&datasource=tranquility
         db.Db dataBase;
         Region[] region = new Region[2];
-        CostIndices costIndices;
-        MarketPrices marketStandardized;
+        //CostIndices costIndices;
+        //MarketPrices marketStandardized;
 
         ESIResponse<List<ESI.CostIndice>> ESIcostIndices;
+        ESIResponse<List<ESI.MarketPrice>> ESImarketPrices;
 
         public Market(db.Db dataBase)
         {
             ESIcostIndices = StaticInfo.GetESIResponse<List<ESI.CostIndice>>("/industry/systems/");
 
+            ESImarketPrices = StaticInfo.GetESIResponse<List<ESI.MarketPrice>>("/markets/prices/");
+
             this.dataBase = dataBase;
             region[0] = new Region(10000002); // the forge/jita
           //region[1] = new Region(10000060); // delve
-            costIndices = new CostIndices(dataBase);
-            marketStandardized = new MarketPrices();
+            //costIndices = new CostIndices(dataBase);
+            //marketStandardized = new MarketPrices();
         }
 
 
@@ -65,12 +69,12 @@ namespace IndustryThing.Market
         /// <returns>adjusted price</returns>
         public decimal FindAdjustedPrice(int typeID)
         {
-            return marketStandardized.FindAdjustedPrice(typeID);
+            return ESImarketPrices.FindAdjustedPrice(typeID);
         }
 
         public decimal FindSystemIndexManufacturing()
         {
-           return costIndices.GetBuildCostIndex();
+           return ESIcostIndices.GetBuildCostIndex(dataBase);
         }
     }
 }

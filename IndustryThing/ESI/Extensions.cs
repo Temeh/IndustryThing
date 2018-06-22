@@ -134,5 +134,37 @@ namespace IndustryThing.ESI
             else return 0;
         }
         #endregion
+
+        #region Cost indices
+        internal static decimal GetBuildCostIndex(this ESIResponse<List<CostIndice>> response, db.Db dataBase)
+        {
+            return response.Result.GetBuildCostIndex(dataBase);
+        }
+
+        internal static decimal GetBuildCostIndex(this List<CostIndice> indices, db.Db dataBase)
+        {
+            foreach (var indice in indices)
+                if (indice.solar_system_id == dataBase.settings.ProductionSystem)
+                    return indice.manufacturing;
+
+            return 0;
+        }
+        #endregion
+
+        #region Market price
+        public static decimal FindAdjustedPrice(this ESIResponse<List<MarketPrice>> response, int typeID)
+        {
+            return response.Result.FindAdjustedPrice(typeID);
+        }
+
+        public static decimal FindAdjustedPrice(this List<MarketPrice> prices, int typeID)
+        {
+            foreach (var price in prices)
+                if (price.type_id == typeID)
+                    return price.adjusted_price ?? 0;
+
+            return 0;
+        }
+        #endregion
     }
 }

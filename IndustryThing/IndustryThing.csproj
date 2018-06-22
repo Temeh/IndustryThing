@@ -79,6 +79,7 @@
     <Compile Include="ESI\IndustryJobs.cs" />
     <Compile Include="ESI\Login.cs" />
     <Compile Include="ESI\MarketOrder.cs" />
+    <Compile Include="ESI\MarketPrice.cs" />
     <Compile Include="ESI\TokenHandler.cs" />
     <Compile Include="Market\CostIndices.cs" />
     <Compile Include="Market\ItemHistory.cs" />
