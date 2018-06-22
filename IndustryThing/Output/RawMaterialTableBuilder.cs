@@ -13,7 +13,6 @@ namespace IndustryThing.Output
         public RawMaterialTableBuilder(db.Db dataBase, calculator.T2Builder t2builder, Market.Market market, StreamWriter sw, string tableName, ApiImport.MainImport import)
         {
             var office = import.ESIbuildCorpAssets.GetContainer(1022964286749);
-            //ApiImport.ContainerII office = import.buildCorpAssets.assets.GetContainer("1022964286749");
             long[,] materials = new long[1, 1];
             if (tableName == "Minerals") materials = t2builder.GetGroup(4);
             else if (tableName == "Planetary Interaction") materials = t2builder.GetGroup(2);
