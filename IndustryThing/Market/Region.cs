@@ -1,4 +1,6 @@
-﻿using System;
+﻿using IndustryThing.ESI;
+using IndustryThing.Misc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,49 +9,97 @@ namespace IndustryThing.Market
 {
     class Region
     {
-       private ItemValues[] itemValues;
-       private ItemHistory[] itemHistory;
-       private int region;
-       private int count;
+       private int regionID;
+
+        // Key is typeID
+        // TODO: This should be int - can of worms
+        Dictionary<long, ESIResponse<List<ESI.RegionMarketOrder>>> ESIregionMarketOrdersDictionary;
+        // Key is typeID
+        Dictionary<int, ESIResponse<List<ESI.RegionMarketHistory>>> ESIregionMarketHistoryDictionary;
 
         public Region(int reg)
         {
-            region = reg;
-            itemValues = new ItemValues[1000];
-            itemHistory = new ItemHistory[1000];
+            regionID = reg;
+
+            ESIregionMarketOrdersDictionary = new Dictionary<long, ESIResponse<List<RegionMarketOrder>>>();
+            ESIregionMarketHistoryDictionary = new Dictionary<int, ESIResponse<List<RegionMarketHistory>>>();
+
+            LoadRegionMarketOrders();
         }
 
-        /// <summary>
-        /// Finds the location in the array of the item. Makes a new entry if item is not found
-        /// </summary>
-        /// <param name="typeID">the item's typeID</param>
-        /// <returns>location in the arrays</returns>
-        private int FindLocationOfType(int typeID)
+        void LoadRegionMarketOrders()
         {
-            int i = 0;
-            while (i < count)
+            var parms = new Dictionary<string, object>();
+            parms.Add("order_type", "all");
+            parms.Add("region_id", regionID);
+            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
+            Console.WriteLine("....Start getting all market orders for region " + regionID);
+            var all = StaticInfo.ESIImportCrawl<RegionMarketOrder>("/markets/{region_id}/orders/", CharacterEnum.EmpireDonkey, parms);
+            sw.Stop();
+            Console.WriteLine("....Done getting all market orders for region " + regionID);
+            Console.WriteLine(sw.Elapsed.ToString());
+
+            ESIregionMarketOrdersDictionary = all.Result.GroupBy(x => x.type_id).ToDictionary(x => (long)x.Key, y => new ESIResponse<List<RegionMarketOrder>>()
             {
-                if (itemValues[i].TypeID == typeID) return i;
-                i++;
+                CachedUntil = all.CachedUntil,
+                Result = y.ToList()
+            });
+        }
+
+        List<RegionMarketOrder> GetRegionPriceForType(long typeID)
+        {
+            // If we don't have the data, get it from ESI
+            if (!ESIregionMarketOrdersDictionary.ContainsKey(typeID))
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("type_id", typeID);
+                parms.Add("order_type", "all");
+                parms.Add("region_id", regionID);
+
+                var data = StaticInfo.ESIImportCrawl<RegionMarketOrder>("/markets/{region_id}/orders/", CharacterEnum.EmpireDonkey, parms);
+                ESIregionMarketOrdersDictionary.Add(typeID, data);
+
+                Console.WriteLine("....Done getting market orders for region " + regionID + " and type " + typeID);
             }
-            count++;
-            itemValues[i] = new ItemValues(typeID, region);
-            itemHistory[i] = new ItemHistory(typeID, region);
-            return i;
+
+            return ESIregionMarketOrdersDictionary[typeID].Result;
+        }
+
+        List<RegionMarketHistory> GetRegionHistoryForType(int typeID)
+        {
+            // If we don't have the data, get it from ESI
+            if (!ESIregionMarketHistoryDictionary.ContainsKey(typeID))
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("type_id", typeID);
+                parms.Add("region_id", regionID);
+
+                var data = StaticInfo.GetESIResponse<List<RegionMarketHistory>>("/markets/{region_id}/history/", CharacterEnum.EmpireDonkey, parms);
+                ESIregionMarketHistoryDictionary.Add(typeID, data);
+
+                Console.WriteLine("....Done getting market history for region " + regionID + " and type " + typeID);
+            }
+
+            return ESIregionMarketHistoryDictionary[typeID].Result;
         }
 
         public long GetAverageVolume(int typeID, int days)
         {
-            return itemHistory[FindLocationOfType(typeID)].GetAverageVolume(days);
+            return GetRegionHistoryForType(typeID).GetAverageVolume(days);
         }
 
         public decimal GetPrice(long typeID, string orderType)
         {
-            int location = FindLocationOfType(Convert.ToInt32(typeID));
-            if (orderType == "buy") return itemValues[location].BuyPrice;
-            else if (orderType == "sell") return itemValues[location].SellPrice;
-            else return 0;
+            switch (orderType)
+            {
+                case "buy":
+                    return GetRegionPriceForType(typeID).FindHighBuyPrice();
+                case "sell":
+                    return GetRegionPriceForType(typeID).FindLowSellPrice();
+                default:
+                    return 0;
+            }
         }
-
     }
 }

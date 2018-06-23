@@ -40,9 +40,19 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Flurl, Version=2.7.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flurl.2.7.1\lib\net40\Flurl.dll</HintPath>
+    </Reference>
+    <Reference Include="Flurl.Http, Version=2.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flurl.Http.2.3.1\lib\net45\Flurl.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,16 +64,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\ApiImport.cs" />
-    <Compile Include="Assets\Assets.cs" />
-    <Compile Include="Assets\IndustryJobs.cs" />
-    <Compile Include="Assets\MarketOrders.cs" />
     <Compile Include="calculator\Calculator.cs" />
     <Compile Include="calculator\ProductionMethods.cs" />
     <Compile Include="calculator\IntermediateBuilder.cs" />
     <Compile Include="calculator\T2Builder.cs" />
-    <Compile Include="Market\CostIndices.cs" />
-    <Compile Include="Market\ItemHistory.cs" />
-    <Compile Include="Market\ItemValues.cs" />
+    <Compile Include="ESI\Asset.cs" />
+    <Compile Include="ESI\Character.cs" />
+    <Compile Include="ESI\CostIndice.cs" />
+    <Compile Include="Misc\Extensions.cs" />
+    <Compile Include="ESI\HttpServer.cs" />
+    <Compile Include="ESI\IndustryJobs.cs" />
+    <Compile Include="ESI\Login.cs" />
+    <Compile Include="ESI\MarketOrder.cs" />
+    <Compile Include="ESI\MarketPrice.cs" />
+    <Compile Include="ESI\TokenHandler.cs" />
     <Compile Include="Market\Market.cs" />
     <Compile Include="db\Bpo.cs" />
     <Compile Include="db\CategoryIDs.cs" />
@@ -73,7 +87,6 @@
     <Compile Include="db\Settings.cs" />
     <Compile Include="db\T2ModBpoOwned.cs" />
     <Compile Include="db\Types.cs" />
-    <Compile Include="Market\MarketPrices.cs" />
     <Compile Include="Market\Region.cs" />
     <Compile Include="Misc\UsefullMethods.cs" />
     <Compile Include="Form1.cs">
@@ -100,6 +113,22 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.config" />
+    <None Include="files\blueprints.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="files\categoryIDs.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="files\groupIDs.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="files\invTypeMaterials.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="files\invTypes.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -115,10 +144,35 @@
     <None Include="db\Resources\invTypeMaterials.yaml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="files\bughunt.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="files\htmloutputone.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="files\htmloutputtwo.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="files\invTypes.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="files\ItemPackagedVolume.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="files\moduleNumbers.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="t2ModBpoOwned.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="t2ShipBpoOwned.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="db\Resources\invTypes.txt" />
     <Content Include="db\Resources\settings.txt" />
     <Content Include="db\Resources\t2ModBpoOwned.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

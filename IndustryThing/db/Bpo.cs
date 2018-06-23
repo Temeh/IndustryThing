@@ -47,36 +47,39 @@ namespace IndustryThing.db
 
         static private int[] maxProductionLimit = new int[highestItemId];
         private string line;
-        private StreamReader sr = new StreamReader("files\\blueprints.yaml");
+        private StreamReader sr;
 
         public Bpo()
         {
-            line = sr.ReadLine();
-            while (!sr.EndOfStream)
+            using (sr = new StreamReader("files\\blueprints.yaml"))
             {
-                if (!line.StartsWith(" "))
+                line = sr.ReadLine();
+                while (!sr.EndOfStream)
                 {
-                    int itemId = Convert.ToInt32(line.Substring(0, line.Length - 1));
-                    line = RemoveSpaceFromStartOfLine(sr.ReadLine());
-                    while (true)
+                    if (!line.StartsWith(" "))
                     {
+                        int itemId = Convert.ToInt32(line.Substring(0, line.Length - 1));
+                        line = RemoveSpaceFromStartOfLine(sr.ReadLine());
+                        while (true)
+                        {
 
-                        if (line == "activities:")
-                        {
-                            line = RemoveSpaceFromStartOfLine(sr.ReadLine());
-                            if (line == "copying:") { line = Reader(itemId, "copy"); }
-                            if (line == "invention:") { line = Reader(itemId, "invent"); }
-                            if (line == "manufacturing:") { line = Reader(itemId, "build"); }
-                            if (line == "research_material:") { line = Reader(itemId, "ME"); }
-                            if (line == "research_time:") { line = Reader(itemId, "TE"); }
-                        }
-                        else if (line.StartsWith("blueprintTypeID:")) { line = RemoveSpaceFromStartOfLine(sr.ReadLine()); }
-                        else if (line.StartsWith("maxProductionLimit:"))
-                        {
-                            if (!sr.EndOfStream) line = RemoveSpaceFromStartOfLine(sr.ReadLine());
+                            if (line == "activities:")
+                            {
+                                line = RemoveSpaceFromStartOfLine(sr.ReadLine());
+                                if (line == "copying:") { line = Reader(itemId, "copy"); }
+                                if (line == "invention:") { line = Reader(itemId, "invent"); }
+                                if (line == "manufacturing:") { line = Reader(itemId, "build"); }
+                                if (line == "research_material:") { line = Reader(itemId, "ME"); }
+                                if (line == "research_time:") { line = Reader(itemId, "TE"); }
+                            }
+                            else if (line.StartsWith("blueprintTypeID:")) { line = RemoveSpaceFromStartOfLine(sr.ReadLine()); }
+                            else if (line.StartsWith("maxProductionLimit:"))
+                            {
+                                if (!sr.EndOfStream) line = RemoveSpaceFromStartOfLine(sr.ReadLine());
+                                else break;
+                            }
                             else break;
                         }
-                        else break;
                     }
                 }
             }

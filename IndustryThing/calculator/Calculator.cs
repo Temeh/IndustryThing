@@ -24,8 +24,12 @@ namespace IndustryThing.calculator
             Console.WriteLine("..Loading the database...");
             dataBase = new db.Db();
             Console.WriteLine("..Done loading the database");
+            Console.WriteLine("..Authenticating with SSO...");
+            new ESI.Login(ESI.CharacterEnum.BuildCorp);
+            new ESI.Login(ESI.CharacterEnum.EmpireDonkey);
+            Console.WriteLine("..Done authenticating");
             Console.WriteLine("..Importing API's...");
-            apiImports = new ApiImport.MainImport(dataBase);
+            apiImports = new ApiImport.MainImport();
             Console.WriteLine("..Done importing API's");
             Console.WriteLine("..Generating the market Class...");
             market = new Market.Market(dataBase);
