@@ -40,7 +40,10 @@ namespace IndustryThing.Misc
             foreach (var asset in assets)
             {
                 if (asset.location_id == containerID)
+                {
                     containerAssets.Add(asset);
+                    containerAssets.AddRange(assets.GetContainer(asset.item_id));
+                }
             }
 
             return containerAssets;
