@@ -17,7 +17,7 @@ namespace IndustryThing.Misc
 
         internal static long FindItem(this List<Asset> assets, int typeID)
         {
-            int itemsCount = 0;
+            long itemsCount = 0;
 
             foreach (var asset in assets)
             {
@@ -40,7 +40,10 @@ namespace IndustryThing.Misc
             foreach (var asset in assets)
             {
                 if (asset.location_id == containerID)
+                {
                     containerAssets.Add(asset);
+                    containerAssets.AddRange(assets.GetContainer(asset.item_id));
+                }
             }
 
             return containerAssets;
