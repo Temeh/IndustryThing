@@ -11,7 +11,7 @@ namespace IndustryThing.ESI
         public int job_id { get; set; }
         public int installer_id { get; set; }
         public string installer_name { get; set; } // nope
-        public int facility_id { get; set; }
+        public long facility_id { get; set; }
         public int soler_system_id { get; set; } // nope
         public string solar_sysetm_name { get; set; } // nope
         public long station_id { get; set; } // nope
